@@ -164,12 +164,17 @@ body {
 	overflow: hidden;
 	margin: 2%;
 	min-height: 300px;
-
 }
+
 .profilePicture img{
+	min-height: 200px;
+	min-width: 200px;
+	height: 100%;
+	width: 100%;
 	object-fit: contain;
 	border: 15px solid white;
 	border-radius: 50%;
+	margin-top: 15%;
 }
 .educationalQualification{
 	/*border: 2px solid red;*/
