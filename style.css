@@ -1,0 +1,99 @@
+*{
+	box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+header{
+	height: 50px;
+	width: 100%;
+	position: fixed;
+	padding: 50 0;
+	font-family: sans-serif;
+	font-size: 25px;
+	font-weight: bold;
+	text-transform: uppercase;
+	background-color: lightgray;
+	
+}
+body {
+
+  background: #141E30;
+  background: -webkit-linear-gradient(-45deg, #35577D, #141E30);
+  background: linear-gradient(-45deg, #35577D, #141E30);
+  margin: 0;
+  padding: 0;
+}
+.emptyTop{
+	height: 100px;
+}
+.main{
+	background-color: white;
+	top: 100px;
+	float: center;
+	border: 5px solid white;
+	border-radius: 20px;
+	height: 900px;
+	width: 90%;
+	min-height: 500px;
+	min-width: 300px;
+	margin: 0 auto;
+}
+
+.mainTop{
+	background: url(./images/banner.jpg) no-repeat center center;
+	background-size: cover ; 
+	height: 260px;
+	width: 100%;
+	border: 5px solid white;
+	border-radius: 5px;
+}
+.topElement{
+		display: inline-block;
+		height: 100%;
+		width: auto;
+		text-align: center;
+		color: white;
+		font-family: Arial;
+		font-size: 20px;
+		/*border: 2px solid red;*/
+		text-transform: uppercase;
+
+}
+.topElement img{
+	height: 220px;
+	width: 220px;
+	border: 10px solid white;
+	border-radius: 50%;	
+	margin: 15px;
+
+}
+.topElement h1{
+	height: auto;
+	width: auto;
+	font-size: 40px;
+	padding-top: 30px;
+	padding-top: 40px;
+
+	
+}
+.topElement h4{
+	padding-top: 25px;
+	padding-bottom: 0px;
+}
+.about{
+	border: 2px solid red;
+	display: inline-block;
+	height: 45%;
+	width: 40%;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	margin-left:6.5%;
+	/*overflow: scroll;*/
+	
+}
+footer{
+	height: 100px;
+	width: 100%;
+}
