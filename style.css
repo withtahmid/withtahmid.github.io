@@ -503,10 +503,9 @@ body {
 
 
 footer{
-	border-top: 3px solid white;
+	border-top: 1px solid white;
 	text-align: center;
 	font-family: sans-serif;
-	
 	font-size: 20px;
 	height: 100px;
 	width: 100%;
@@ -516,5 +515,6 @@ footer{
 	height: 80px;
 }
 footer h3{
-	margin: 30px;
+	margin: 40px;
+	opacity: 0.5;
 }
