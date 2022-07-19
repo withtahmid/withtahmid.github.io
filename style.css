@@ -528,6 +528,8 @@ footer p{
 	height: 80px;
 }
 footer h3{
+	font-family: Avantgarde, 'TeX Gyre Adventor', 'URW Gothic L', sans-serif;
 	margin: 40px;
 	opacity: 0.5;
+	font-style: italic;
 }
