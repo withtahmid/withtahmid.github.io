@@ -7,6 +7,9 @@
   padding: 0;
 }
 header{
+	background: #141E30;
+  background: -webkit-linear-gradient(-45deg, #35577D, #141E30);
+  background: linear-gradient(-45deg, #35577D, #141E30);
 	border: 10 solid white;
 	border-radius: 40px;
 	height: 8%;
@@ -22,10 +25,20 @@ header{
 	opacity: 0.75;
 	
 }
-header h3{
+
+header .ancor{
+		margin-left: 4%;
+		background-color: rgba(160, 160, 160, .25);
+		border-radius: 40px;
+		display: inline-block;
+		height: 100%;
+		padding: 1%;
+}
+
+header h4{
+	color: white;
 	/*border: 2px solid red;*/
-	height: 100%;
-	padding: 1%;
+
 }
 body {
 
@@ -168,14 +181,16 @@ body {
 	text-align: left;
 	padding: 0 2%;
 	margin: 10px 0px;
-	margin-top: 15%;
+	margin-top: 10%;
 }
 .about .aboutText{
 	padding: 1%;
 	font-size: 26px;
 	text-align: justify;
 }
-
+.about p{
+	font-family: Avantgarde, 'TeX Gyre Adventor', 'URW Gothic L', sans-serif;
+} 
 
 
 
@@ -204,6 +219,7 @@ body {
 }
 .educationalQualification{
 	/*border: 2px solid red;*/
+
 	display: inline-block;
 	height: 500px;
 	min-width: 500px;
@@ -263,6 +279,9 @@ body {
 	text-align: center;
 	font-size: 20px;
 }
+.examElement {
+	font-family: cursive;
+}
 .exam p{
 	padding-top: 2%;
 }
@@ -274,12 +293,14 @@ body {
 /*////////////////////////////////////*/
 .skillBox{
 	/*border: 2px solid red;*/
+	border-top: 2px solid black;
 	min-height: 400px;
 	font-weight: auto;
-	margin: 6.5%;
-	margin-top: 3%;
+	margin: 0 auto%;
+	/*margin-top: 3%;*/
 }
 .skills{
+	/*border: 2px solid red;*/
 	display: inline-block;
 	height: 60px;
 	width: 40%;
@@ -296,9 +317,11 @@ body {
 	margin-left: 6.5%;
 	margin-right: 6.5%;
 }
+
 .skillBox h2{
 
-	border-radius: 2px solid black;
+	/*border: 2px solid red;*/
+	
 	border-radius: 40px;
 	font-family: arial;
 	font-size: 30px;
@@ -307,6 +330,9 @@ body {
 	margin-left: 0%;
 }
 .skillElement{
+	font-family: 'DejaVu Sans Mono', monospace;
+	letter-spacing: 3px;
+	border-radius: 2px solid black;
 	display: inline-block;
 	height: 100%;
 	overflow: hidden;
@@ -321,22 +347,12 @@ body {
 	font-size: 25px;
 	padding: 10px 10px;
 }
-.skillBox .programming{
-	/*border: 2px solid red;*/
-}
-.skillBox .media{
-	/*border: 2px solid red;*/
-}
-
 .contactBox{
 		/*border: 2px solid red;*/
-		min-height: 400px;
 		font-weight: auto;
-		margin: 2%;
-		margin-top: 3%;
 		overflow: hidden;
 		padding: 1%;
-		min-width: 900px;
+		/*min-width: 900px;*/
 }
 .contactLabel
 {
@@ -346,6 +362,11 @@ body {
 	width: auto;
 	margin-left: 5%;
 	margin-right: 7%;
+}
+.skillsLabel h2{
+	font-family: 'Arial Narrow', sans-serif;
+	font-size: 35px;
+	letter-spacing: 3px;
 }
 .contactBox h2{
 
@@ -362,20 +383,32 @@ body {
 	/*border: 2px solid red;*/
 	display: inline-block;
 	height: 90%;
-	min-height: 300px;
-	margin-left: 2%;
-	width: 25%;
+	min-height: 220px;
+	margin-left: 6%;
+	width: 30%;
 	color: white;
 	/*min-width: 500px;*/
 	overflow: hidden;
 }
 .contactTextRight {
+
+	/*border: 2px solid red;*/
+	display: inline-block;
+	min-height: 220px;
+	margin-left: 6%;
+	width: 20%;
+	color: white;
+	/*min-width: 500px;*/
+	overflow: hidden;
+}
+.contactTextMiddle{
 	/*border: 2px solid red;*/
 	display: inline-block;
 	height: 90%;
-	min-height: 300px;
-	margin-left: 2%;
-	width: 65%;
+	min-height: 220px;
+	/*min-width: 300px;*/
+	margin-left: 6%;
+	width: 20%;
 	color: white;
 	/*min-width: 500px;*/
 	overflow: hidden;
@@ -392,7 +425,7 @@ body {
 		display: inline-block;
 		overflow: hidden;
 		/*border: 2px solid red;*/
-		min-height:300px ;
+		/*min-height:300px ;*/
 		margin-left: 1%;
 		width: 48%;
 		text-align: right;
@@ -401,7 +434,7 @@ body {
 		display: inline-block;
 		overflow: hidden;
 		/*border: 2px solid red;*/
-		min-height:300px ;
+		/*min-height:300px ;*/
 		margin-left: 1%;
 		width: 48%;
 		text-align: left;
@@ -425,7 +458,63 @@ body {
 		min-height: px;
 		padding: 15px;
 }
+.contactTextRight p{
+	text-align: justify;
+	padding: 1%;
+}
+.contactTextRight p{
+	margin-top: 10%;
+}
+.contactTextRight .contactText2 i{
+	/*border: 2px solid red;*/
+		/*margin-right: 30%;*/
+}
+.contactTextRight .contactText1 h4{
+	text-align: center;
+}
+.contactTextRight .contactText1 h4{
+	text-align: center;
+}
+
+.eachIcon{
+
+	background: url(./images/white.jpg) no-repeat center center;
+	background-size: cover ; 
+	border-radius: 50%;
+	/*border: 2px solid red;*/
+	min-height: 70px;
+	min-width: 70px;
+	height: auto;
+	width: auto;
+	display: inline-block;
+	margin: 2%;
+	margin-top: 5%;
+}
+.eachIcon img{
+	padding: 2%;
+	/*border: 2px solid red;*/
+	object-fit: contain;
+	margin-top: 12%;
+	margin-left: 12%;
+	/*border: 5px solid white;*/
+	border-radius: 50%;
+
+}
+
+
 footer{
+	border-top: 3px solid white;
+	text-align: center;
+	font-family: sans-serif;
+	
+	font-size: 20px;
 	height: 100px;
 	width: 100%;
+	text-transform: uppercase;
+}
+.gap{
+	height: 80px;
+}
+footer h3{
+	margin: 30px;
 }
