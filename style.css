@@ -267,21 +267,11 @@ body {
 	padding-top: 2%;
 }
 
-.skillsLabel{
-	/*border: 2px solid red;*/
-	height: 10%;
-	min-height: 50px;
-	width: auto;
-	margin-left: 6.5%;
-	margin-right: 6.5%;
-}
-.skillsLabel h2{
 
-	font-family: arial;
-	font-size: 30px;
-	text-align: left;
-	margin: 2%;
-}
+
+
+
+/*////////////////////////////////////*/
 .skillBox{
 	/*border: 2px solid red;*/
 	min-height: 400px;
@@ -297,6 +287,24 @@ body {
 	margin-top: 1%;
 	margin-bottom: 1%;
 	overflow: hidden;
+}
+.skillsLabel{
+	/*border: 2px solid red;*/
+	height: 10%;
+	min-height: 50px;
+	width: auto;
+	margin-left: 6.5%;
+	margin-right: 6.5%;
+}
+.skillBox h2{
+
+	border-radius: 2px solid black;
+	border-radius: 40px;
+	font-family: arial;
+	font-size: 30px;
+	text-align: left;
+	margin: 2%;
+	margin-left: 0%;
 }
 .skillElement{
 	display: inline-block;
@@ -318,6 +326,104 @@ body {
 }
 .skillBox .media{
 	/*border: 2px solid red;*/
+}
+
+.contactBox{
+		/*border: 2px solid red;*/
+		min-height: 400px;
+		font-weight: auto;
+		margin: 2%;
+		margin-top: 3%;
+		overflow: hidden;
+		padding: 1%;
+		min-width: 900px;
+}
+.contactLabel
+{
+	/*border: 2px solid red;*/
+	height: 10%;
+	min-height: 50px;
+	width: auto;
+	margin-left: 5%;
+	margin-right: 7%;
+}
+.contactBox h2{
+
+	border-radius: 2px solid red;
+	font-family: arial;
+	color: white;
+	font-size: 50px;
+	text-align: left;
+	margin: 2%;
+	margin-left: 0%;
+	letter-spacing: 5px;
+}
+.contactTextLeft {
+	/*border: 2px solid red;*/
+	display: inline-block;
+	height: 90%;
+	min-height: 300px;
+	margin-left: 2%;
+	width: 25%;
+	color: white;
+	/*min-width: 500px;*/
+	overflow: hidden;
+}
+.contactTextRight {
+	/*border: 2px solid red;*/
+	display: inline-block;
+	height: 90%;
+	min-height: 300px;
+	margin-left: 2%;
+	width: 65%;
+	color: white;
+	/*min-width: 500px;*/
+	overflow: hidden;
+}
+.white{
+	color: white;
+}
+.contactText h4{
+	margin: 3%;
+	font-size: 20px;
+	font-family: arial;
+}
+.contactText1{
+		display: inline-block;
+		overflow: hidden;
+		/*border: 2px solid red;*/
+		min-height:300px ;
+		margin-left: 1%;
+		width: 48%;
+		text-align: right;
+}
+.contactText2{
+		display: inline-block;
+		overflow: hidden;
+		/*border: 2px solid red;*/
+		min-height:300px ;
+		margin-left: 1%;
+		width: 48%;
+		text-align: left;
+}
+
+.contactTextLeft .contactText1{
+	width: 28%;
+}
+.contactTextLeft .contactText2{
+	width: 68%;
+}
+.contactTextLeft h4{
+	/*border: 2px solid red;*/
+		/*margin-right: 30%;*/
+		
+		padding: 15px;
+}
+.contactTextRight h4{
+	/*border: 2px solid red;*/
+		/*margin-right: 30%;*/
+		min-height: px;
+		padding: 15px;
 }
 footer{
 	height: 100px;
