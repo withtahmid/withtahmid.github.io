@@ -6,49 +6,80 @@
   <title>MQTT Web App</title>
 </head>
 <body>
+  <div>
   <video id="myVideoPlayer" width="720" height="480" controls>
   <source src="" type="video/mp4">
 </video>
+</div>
 <br>
+<label id="statusLabel">Not Connected</label>
     <form>
       <label for="user">User:</label>
       <input type="text" id="user" name="user" required><br>
       
+      <label for="topic">Topic:</label>
+      <input type="text" id="topic" name="topic" value="test/topic" required><br>
+      
+      <!-- Sources -->
       <input type="radio" id="source_toggle" name="source_toggle" value="1" checked>
-      <label for="source_toggle">Source 1</label>
-      <input type="radio" id="source_toggle" name="source_toggle" value="2">
-      <label for="source_toggle">Source 2</label><br>
-      
-      <label for="source_1">Source 1:</label>
+      <label for="source_1">Drive</label>
       <input type="text" id="source_1" name="source_1"><br>
-      
-      <label for="source_2">Source 2:</label>
+
+      <input type="radio" id="source_toggle" name="source_toggle" value="2">
+      <label for="source_2">Local</label>
       <input type="file" id="source_2" name="source_2"><br>
-      
-      <button type="submit" onclick="submitForm(event)">Submit</button>
+      <!-- Sources -->
+
+      <button type="submit" onclick="submitForm(event)">Submit</button><br><br>
     </form>
-  
+  <div id="infoBox" style="height: 200px; width: 50%; overflow: auto;border: 1px solid black; overflow: scroll;"></div>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script>
     const videoPlayer = document.getElementById('myVideoPlayer');
+    var statusLabel = document.getElementById("statusLabel");
     // Create an MQTT client instance
-     mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
-    const topic = 'test/topic';
-    me = 'withtahmid';
+    let mqttClient;
+    let topic = 'test/topic';
+    let me = 'withtahmid';
     const ESP = 0.5;
     previous_time = -1;
+    ignore_event = false;
+    function NOW(){
+      const currentDate = new Date();
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formattedDate = currentDate.toLocaleString('en-US', options);
+      return formattedDate;
+    }
+    function addHistory(info) {
+      var infoBox = document.getElementById("infoBox");
+      var infoLine = document.createElement("p");
+      infoLine.textContent = NOW() + " | " + info;
+      infoBox.appendChild(infoLine);
+      infoBox.scrollTop = infoBox.scrollHeight;
+    }
+    function formatDuration(duration) {
+      var hours = Math.floor(duration / 3600);
+      var minutes = Math.floor((duration % 3600) / 60);
+      var seconds = duration % 60;
 
+      var hoursStr = hours.toString().padStart(2, "0");
+      var minutesStr = minutes.toString().padStart(2, "0");
+      var secondsStr = seconds.toString().padStart(2, "0");
+
+      return `${hoursStr}:${minutesStr}:${parseInt(secondsStr)}`;
+    }
 
      function submitForm(event) {
         event.preventDefault();
-        const user = document.getElementById("user").value;
-        me = user;
+        me = document.getElementById("user").value;
+        topic = document.getElementById("topic").value;
         let source;
         const sourceToggle = document.querySelector('input[name="source_toggle"]:checked').value;
         if (sourceToggle === "2") {
           file = document.getElementById("source_2").files[0]
           const videoUrl = URL.createObjectURL(file);
           videoPlayer.src = videoUrl;
+          source = videoUrl;
         }
         else {
           source = document.getElementById("source_1").value;
@@ -59,81 +90,79 @@
         }
         console.log(`User: ${user}`);
         console.log(`Source: ${source}`);
+        triggermqtt();
+        
       }
+      function triggermqtt(){
+        mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
+        mqttClient.subscribe(topic);
+        mqttClient.on('message', function (topic, message) {
 
+          ignore_event = true;
+          payload = message.toString().split('&');
+          
+          info = payload[0] + " " + payload[1]+"ed at "+ formatDuration(payload[2]);
+          addHistory(info);
+          
+          if(payload[0] == me || payload[1] == 'join'){
+            ignore_event = false
+            return;
+          }
+          console.log(payload);
+          text = payload[1];
+          console.log(text);
+
+          
+          if(text == 'play' && videoPlayer.paused){
+            videoPlayer.currentTime = Number(payload[2]);
+            videoPlayer.play();
+            }
+            else if(text == 'pause' && !videoPlayer.paused){
+              videoPlayer.pause();
+              videoPlayer.currentTime = Number(payload[2]);
+            }
+            else if(text == 'seek'){
+              // videoPlayer.pause();
+              videoPlayer.currentTime = Number(payload[2]);
+              console.log("Recieved Seeking message");
+            }
+            setTimeout(() => {
+              ignore_event = false;
+            }, 500);
+            
+
+
+      });
+      mqttClient.on('connect', () => {
+        console.log('Connected to MQTT broker');
+         statusLabel.textContent = "Connected as " + me + " on topic : "+ topic;
+        statusLabel.style.color = "green";
+        logConnectionEvent();
+      });
+
+      mqttClient.on('error', (error) => {
+        console.error('Error:', error);
+      });
+
+      mqttClient.on('close', () => {
+        console.log('Disconnected from MQTT broker');
+        statusLabel.textContent = "Disconnected";
+        statusLabel.style.color = "red";
+        // Attempt to reconnect after a delay
+        setTimeout(() => {
+          mqttClient.connect();
+        }, 5000);
+      });
+      }
     
-    // Subscribe to a topic
-    mqttClient.subscribe(topic);
-
-    // Handle incoming messages
-    mqttClient.on('message', function (topic, message) {
-      payload = message.toString().split('&');
-
-      console.log(payload);
-      text = payload[1];
-      console.log(text);
-      if(text == 'play'){
-        videoPlayer.play();
-        }
-        else if(text == 'pause'){
-          videoPlayer.pause();
-          videoPlayer.currentTime = Number(payload[2]);
-        }
-        else if(text == 'seeked'){
-          // videoPlayer.pause();
-          videoPlayer.currentTime = Number(payload[2]);
-          console.log("Recieved Seeking message");
-        }
-    });
-    mqttClient.on('connect', () => {
-      console.log('Connected to MQTT broker');
-    });
-
-    mqttClient.on('error', (error) => {
-      console.error('Error:', error);
-    });
-
-    mqttClient.on('close', () => {
-      console.log('Disconnected from MQTT broker');
-      // Attempt to reconnect after a delay
-      setTimeout(() => {
-        mqttClient.connect();
-      }, 5000);
-    });
-
+  
     function publishMessage(payload){
       mqttClient.publish(topic, payload);
       setTimeout(function(){}, 1000);
     } 
-    var play = function(){
-      current_time = videoPlayer.currentTime;
-      // if(videoPlayer.paused  || Math.abs(current_time - previous_time) > ESP){
-        logVideoEvent('play', current_time);
-        previous_time = current_time;
-      // }
-      console.log("inside play");
-      console.log(current_time);
-      console.log(previous_time);
-    }
-    var pause = function(){
-      current_time = videoPlayer.currentTime;
-      if(Math.abs(current_time - previous_time) > ESP){
-        logVideoEvent('pause', current_time);
-        previous_time = current_time;
-      }
-      console.log("inside pause");
-      console.log(current_time);
-      console.log(previous_time);
-    }
-    var seeked = function(){
-      
-      current_time = videoPlayer.currentTime;
-      if(Math.abs(current_time - previous_time) > ESP){
-        logVideoEvent('seeked', current_time);
-        previous_time = current_time;
-      }
-      // videoPlayer.pause();
-    }
+    var play = function(){logVideoEvent('play', videoPlayer.currentTime);}
+    var pause = function(){logVideoEvent('pause', videoPlayer.currentTime);}
+    var seeked = function(){logVideoEvent('seek', videoPlayer.currentTime);}
     function changeTime(time) {
       // videoPlayer.pause();
       videoPlayer.currentTime = time;    
@@ -142,9 +171,18 @@
     videoPlayer.addEventListener('pause', pause);
     videoPlayer.addEventListener('seeked', seeked);
     function logVideoEvent(event, time) {
+      console.log(ignore_event);
+      if(ignore_event){
+        return;
+      }
       payload = me + '&' + event + '&' + time.toString();
         publishMessage(payload);
         console.log(payload);
+    }
+    function logConnectionEvent(){
+       payload = me + '&join&'+ videoPlayer.currentTime.toString();
+      publishMessage(payload);
+      console.log(payload);
     }
     function reconnect(){
        setTimeout(() => {
@@ -153,4 +191,4 @@
     }
   </script>
 </body>
-</html>c
+</html>
