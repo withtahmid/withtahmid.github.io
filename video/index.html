@@ -3,14 +3,68 @@
 <head>
   <!-- <link rel="stylesheet" href="ok.css"> -->
   <meta charset="UTF-8">
-  <title>MQTT Web App</title>
+  <title>Watch Together</title>
+    <style>
+    .infobox {
+
+      display: inline-block;
+      width: 28%;
+      height: 400px;
+      background-color: #d3e0ea;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: scroll;
+      margin-left: 50px;
+    }
+
+    .info {
+      width: 100%;
+      height: auto;
+      background-color: rgb(135,206,235);
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .info p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .info .name {
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .info .time {
+      display: inline-block;
+      margin-left: 10px;
+      color: #000;
+    }
+
+    .info .message {
+      margin-top: 5px;
+      font-style: italic;
+      color: #333;
+    }
+
+    .info.special {
+      background-color: rgb(221,160,221);
+/*      color: #fff;*/
+    }
+  </style>
 </head>
 <body>
-  <div>
+  <div style="width:70%px; display: inline-block;">
   <video id="myVideoPlayer" width="720" height="480" controls>
   <source src="" type="video/mp4">
 </video>
 </div>
+<div id = "infobox" class="infobox">
+    <div id="info"></div>
+  </div>
 <br>
 <label id="statusLabel">Not Connected</label>
     <form>
@@ -32,7 +86,7 @@
 
       <button type="submit" onclick="submitForm(event)">Submit</button><br><br>
     </form>
-  <div id="infoBox" style="height: 200px; width: 50%; overflow: auto;border: 1px solid black; overflow: scroll;"></div>
+  
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script>
     const videoPlayer = document.getElementById('myVideoPlayer');
@@ -44,6 +98,27 @@
     const ESP = 0.5;
     previous_time = -1;
     ignore_event = false;
+
+
+    function appendInfo(name, time, message) {
+      var infoDiv = document.createElement("div");
+      infoDiv.className = "info";
+      if (name === me) {
+        infoDiv.classList.add("special");
+        name = 'You'
+      }
+      var nameTime = document.createElement("p");
+      nameTime.innerHTML = '<span class="name">' + name + '</span><span class="time">' + time + '</span>';
+      infoDiv.appendChild(nameTime);
+      var messagePara = document.createElement("p");
+      messagePara.className = "message";
+      messagePara.innerHTML = message;
+      infoDiv.appendChild(messagePara);
+      document.getElementById("info").appendChild(infoDiv);
+      var infoBox = document.getElementById("infobox");
+      infoBox.scrollTop = infoBox.scrollHeight;
+    }
+
     function NOW(){
       const currentDate = new Date();
       const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
@@ -102,7 +177,13 @@
           payload = message.toString().split('&');
           
           info = payload[0] + " " + payload[1]+"ed at "+ formatDuration(payload[2]);
-          addHistory(info);
+          if(payload[1] == 'join'){
+            appendInfo(payload[0], NOW(), "joined");
+            ignore_event = false
+            return;
+          }
+          appendInfo(payload[0], NOW(), payload[1]+"ed at "+ formatDuration(payload[2]));
+          // addHistory(info);
           
           if(payload[0] == me || payload[1] == 'join'){
             ignore_event = false
@@ -112,7 +193,6 @@
           text = payload[1];
           console.log(text);
 
-          
           if(text == 'play' && videoPlayer.paused){
             videoPlayer.currentTime = Number(payload[2]);
             videoPlayer.play();
@@ -129,33 +209,30 @@
             setTimeout(() => {
               ignore_event = false;
             }, 500);
-            
+        });
 
 
-      });
-      mqttClient.on('connect', () => {
-        console.log('Connected to MQTT broker');
-         statusLabel.textContent = "Connected as " + me + " on topic : "+ topic;
-        statusLabel.style.color = "green";
-        logConnectionEvent();
-      });
+        mqttClient.on('connect', () => {
+          console.log('Connected to MQTT broker');
+           statusLabel.textContent = "Connected as " + me + " on topic : "+ topic;
+          statusLabel.style.color = "green";
+          logConnectionEvent();
+        });
 
-      mqttClient.on('error', (error) => {
-        console.error('Error:', error);
-      });
+        mqttClient.on('error', (error) => {
+          console.error('Error:', error);
+        });
 
-      mqttClient.on('close', () => {
-        console.log('Disconnected from MQTT broker');
-        statusLabel.textContent = "Disconnected";
-        statusLabel.style.color = "red";
-        // Attempt to reconnect after a delay
-        setTimeout(() => {
-          mqttClient.connect();
-        }, 5000);
-      });
+        mqttClient.on('close', () => {
+          console.log('Disconnected from MQTT broker');
+          statusLabel.textContent = "Disconnected";
+          statusLabel.style.color = "red";
+          // Attempt to reconnect after a delay
+          setTimeout(() => {
+            mqttClient.connect();
+          }, 5000);
+        });
       }
-    
-  
     function publishMessage(payload){
       mqttClient.publish(topic, payload);
       setTimeout(function(){}, 1000);
@@ -164,7 +241,6 @@
     var pause = function(){logVideoEvent('pause', videoPlayer.currentTime);}
     var seeked = function(){logVideoEvent('seek', videoPlayer.currentTime);}
     function changeTime(time) {
-      // videoPlayer.pause();
       videoPlayer.currentTime = time;    
     }
     videoPlayer.addEventListener('play', play);
@@ -176,8 +252,8 @@
         return;
       }
       payload = me + '&' + event + '&' + time.toString();
-        publishMessage(payload);
-        console.log(payload);
+      publishMessage(payload);
+      console.log(payload);
     }
     function logConnectionEvent(){
        payload = me + '&join&'+ videoPlayer.currentTime.toString();
