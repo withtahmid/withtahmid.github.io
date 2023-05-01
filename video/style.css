@@ -1,0 +1,210 @@
+.infobox {
+      display: inline-block;
+      width: 30%;
+      height: 415px;
+      background-color: #d3e0ea;
+/*      padding: 20px;*/
+/*      margin: 20px;*/
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: auto;
+      margin-left: 10px;
+      min-width: 384px;
+/*      overflow: hidden;*/
+    }
+
+    .info {
+      width: 95%;
+      height: auto;
+      background-color: rgb(135,206,235);
+/*      margin:0 auto;*/
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+
+    }
+
+    .info p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .info .name {
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .info .time {
+      display: inline-block;
+      margin-left: 10px;
+      color: #000;
+    }
+
+    .info .message {
+      margin-top: 5px;
+      font-style: italic;
+      color: #333;
+    }
+
+    .info.chat {
+      background-color: rgb(221,160,221);
+/*      color: #fff;*/
+    }
+
+    .info.meEvent {
+      background-color: rgb(105,186,205);
+      text-align: right;
+/*      background-color: white;*/
+/*      color: #fff;*/
+    }
+    .info.meChat {
+    background-color: rgb(201,140,201);
+    text-align: right;
+/*      background-color: black;*/
+    /*      color: #fff;*/
+    }
+  
+/*  */
+/*  */
+.compact-form {
+  background-color: #d3e0ea;
+  display: inline-block;
+  flex-direction: column;
+  gap: 10px;
+  width: 30%;
+  min-width: 384px;
+  border-radius: 8px;
+  border: 2px solid lightgray;
+  padding: 10px;
+  overflow: hidden;
+/*  height: 415px;*/
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.form-group input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+/*  width: 80%;*/
+}
+
+.sources {
+  margin-top: 10px;
+}
+
+.sources label {
+  margin-right: 10px;
+}
+
+.sources div {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.sources div input[type="radio"] {
+  margin-right: 5px;
+}
+
+.sources div input[type="file"] {
+/*  display: none;*/
+}
+
+.sources div label {
+  cursor: pointer;
+  color: #555;
+}
+.compact-form button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  width:120px;
+  margin: 1% 2%;
+}
+
+.compact-form button:hover {
+  background-color: #3e8e41;
+}
+.sources div label:hover {
+  text-decoration: underline;
+}
+/**/
+/*  */
+.video-container {
+  position: relative;
+/*  width: 560px;*/
+  width: 50%;
+  height: 315px;
+/*  border: 2px solid red;*/
+/*  max-width: 640px; /* adjust as needed */
+  margin: 0 auto;
+/*  margin-left: 10%;*/
+/*  padding-bottom: 28.125%; /* 16:9 aspect ratio */
+}
+
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .video-container {
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  }
+}
+
+
+.connectionBox{
+  display: inline-block;
+      width: 30%;
+      height: 415px;
+      background-color: #d3e0ea;
+/*      padding: 20px;*/
+/*      margin: 20px;*/
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: auto;
+      margin-left: 10px;
+      min-width: 384px;
+      overflow-y: auto;
+/*      overflow: hidden;*/
+}
+
+.connectionInfo {
+  border: 1px dotted gray;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 auto;
+   margin-bottom: 10px;
+}
+
+.connectionName {
+  padding-left: 5%;
+  font-weight: bold;
+}
+
+.connectionTime {
+  padding-right: 5%;
+  color: #888;
+}

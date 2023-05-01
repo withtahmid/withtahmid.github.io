@@ -1,91 +1,75 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- <link rel="stylesheet" href="ok.css"> -->
+  <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8">
   <title>Watch Together</title>
-    <style>
-    .infobox {
-
-      display: inline-block;
-      width: 28%;
-      height: 400px;
-      background-color: #d3e0ea;
-      padding: 20px;
-      margin: 20px;
-      border-radius: 10px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-      overflow: scroll;
-      margin-left: 50px;
-    }
-
-    .info {
-      width: 100%;
-      height: auto;
-      background-color: rgb(135,206,235);
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    .info p {
-      margin: 0;
-      padding: 0;
-    }
-
-    .info .name {
-      font-weight: bold;
-      display: inline-block;
-    }
-
-    .info .time {
-      display: inline-block;
-      margin-left: 10px;
-      color: #000;
-    }
-
-    .info .message {
-      margin-top: 5px;
-      font-style: italic;
-      color: #333;
-    }
-
-    .info.special {
-      background-color: rgb(221,160,221);
-/*      color: #fff;*/
-    }
-  </style>
 </head>
 <body>
-  <div style="width:70%px; display: inline-block;">
-  <video id="myVideoPlayer" width="720" height="480" controls>
-  <source src="" type="video/mp4">
-</video>
-</div>
-<div id = "infobox" class="infobox">
-    <div id="info"></div>
+<div style="width: 100%; margin: 2% 0;">
+  <div class="video-container">
+    <video id="myVideoPlayer" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   </div>
-<br>
-<label id="statusLabel">Not Connected</label>
-    <form>
+</div>
+
+<div style="width: 100%;overflow: hidden; padding-left: 3%;">
+  <!-- <div style="display: inline-block ;"> -->
+    <form class="compact-form" >
+    <label id="statusLabel" >Not Connected</label>
+    <div class="form-group">
       <label for="user">User:</label>
-      <input type="text" id="user" name="user" required><br>
-      
+      <input type="text" id="user" name="user" required>
+    </div>   
+
+    <div class="form-group">
       <label for="topic">Topic:</label>
-      <input type="text" id="topic" name="topic" value="" required><br>
-      
-      <!-- Sources -->
-      <input type="radio" id="source_toggle" name="source_toggle" value="1" checked>
-      <label for="source_1">Drive</label>
-      <input type="text" id="source_1" name="source_1"><br>
+      <input type="text" id="topic" name="topic" value="test/topic" required>
+    </div>
 
-      <input type="radio" id="source_toggle" name="source_toggle" value="2">
-      <label for="source_2">Local</label>
-      <input type="file" id="source_2" name="source_2"><br>
-      <!-- Sources -->
+    <!-- Sources -->
+    <div class="form-group sources">
+      <label>Sources:</label>
+      <div>
+        <input type="radio" id="source_toggle_1" name="source_toggle" value="1" >
+        <label for="source_1">Drive</label>
+        <input type="text" id="source_1" name="source_1">
+      </div>
 
-      <button type="submit" onclick="submitForm(event)">Submit</button><br><br>
-    </form>
+      <div>
+        <input type="radio" id="source_toggle_2" name="source_toggle" value="2" checked>
+        <label for="source_2">Local</label>
+        <input type="file" id="source_2" name="source_2">
+      </div>
+    </div>
+    <!-- Sources -->
+    <button type="submit" onclick="submitForm(event)">Connect</button>
+
+    <div class="form-group">
+      <label for="broadcast">Enter broadcast message:</label>
+      <input type="text" id="broadcast" name="broadcast">
+      <button type="button" onclick="logMessage()">Broadcast</button>
+    </div>
+
+  </form>
+  <div id = "infobox" class="infobox">
+      <div id="info"></div>
+  </div>
+   <div id = "connectionBox" class="connectionBox" >
+     <div class='connectionInfo'style=" margin-top: 10px; border:0px solid transparent; ">
+      <span class='connectionName'>Connections</span>
+      <span class='connectionTime'>"Last Joining Time"</span></div>
+  </div>
+  <br>
+</div>
+
+  
+
+
+
   
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script>
@@ -94,18 +78,26 @@
     // Create an MQTT client instance
     let mqttClient;
     let topic = 'test/topic';
-    let me = 'withtahmid';
+    let me = '';
     const ESP = 0.5;
     previous_time = -1;
     ignore_event = false;
+    const set = new Set();
+  
 
-
-    function appendInfo(name, time, message) {
+    function appendInfo(name, time, message, chat) {
       var infoDiv = document.createElement("div");
       infoDiv.className = "info";
-      if (name === me) {
-        infoDiv.classList.add("special");
+      if (name === me && chat) {
         name = 'You'
+        infoDiv.classList.add("meChat");
+      }
+      else if(name == me){
+        name = 'You'
+        infoDiv.classList.add("meEvent");
+      }
+      else if(chat){
+        infoDiv.classList.add("chat");
       }
       var nameTime = document.createElement("p");
       nameTime.innerHTML = '<span class="name">' + name + '</span><span class="time">' + time + '</span>';
@@ -117,6 +109,21 @@
       document.getElementById("info").appendChild(infoDiv);
       var infoBox = document.getElementById("infobox");
       infoBox.scrollTop = infoBox.scrollHeight;
+    }
+    function appendConnection(name) {
+      ok ="<div class='connectionInfo'><span class='connectionName'>"+name+"</span><span class='connectionTime'>"+ NOW()+ "</span></div>";
+      if(set.has(name)){
+        var connection = document.getElementById(name);
+        connection.innerHTML = ok;
+        return;
+      }
+      set.add(name);
+      const parent = document.getElementById('connectionBox');
+      const subDiv = document.createElement("div");
+      subDiv.setAttribute("id", name);
+      
+      subDiv.innerHTML =  ok;
+      parent.appendChild(subDiv); 
     }
 
     function NOW(){
@@ -176,16 +183,20 @@
           ignore_event = true;
           payload = message.toString().split('&');
           
-          info = payload[0] + " " + payload[1]+"ed at "+ formatDuration(payload[2]);
+          info = payload[1]+"ed at "+ formatDuration(payload[2]);
           if(payload[1] == 'join'){
-            appendInfo(payload[0], NOW(), "joined");
+            appendConnection(payload[0]);
             ignore_event = false
             return;
           }
-          appendInfo(payload[0], NOW(), payload[1]+"ed at "+ formatDuration(payload[2]));
-          // addHistory(info);
+          if(payload[1] == 'chat'){
+            appendInfo(payload[0], NOW(), payload[2], true);
+            ignore_event = false
+            return;
+          }
+          appendInfo(payload[0], NOW(), info, false);
           
-          if(payload[0] == me || payload[1] == 'join'){
+          if(payload[0] == me || payload[1] == 'join' || payload[1] == 'chat'){
             ignore_event = false
             return;
           }
@@ -214,7 +225,7 @@
 
         mqttClient.on('connect', () => {
           console.log('Connected to MQTT broker');
-           statusLabel.textContent = "Connected as " + me + " on topic : "+ topic;
+           statusLabel.textContent = "Connected as " + me + " on '"+ topic + "'' at " + NOW();
           statusLabel.style.color = "green";
           logConnectionEvent();
         });
@@ -254,6 +265,13 @@
       payload = me + '&' + event + '&' + time.toString();
       publishMessage(payload);
       console.log(payload);
+    }
+    function logMessage() {
+      const message = document.getElementById("broadcast").value;
+      payload = me+'&chat&'+message;
+      console.log(payload);
+      publishMessage(payload);
+
     }
     function logConnectionEvent(){
        payload = me + '&join&'+ videoPlayer.currentTime.toString();
