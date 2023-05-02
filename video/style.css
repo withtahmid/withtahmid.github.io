@@ -1,23 +1,49 @@
+* {
+  box-sizing: border-box;
+}
+ body {
+            margin: 0;
+            padding: 0;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            height: 50vh;
+            width: 100%;
+/*            border: 1px solid red;*/
+        }
+        .col {
+/*          border: 1px solid red;*/
+            height: 100%;
+            flex-basis: 50%;
+            box-sizing: border-box;
+/*            padding: 20px;*/
+        }
 .infobox {
       display: inline-block;
-      width: 30%;
-      height: 415px;
-      background-color: #d3e0ea;
-/*      padding: 20px;*/
+      width: 100%;
+      height: 100%;
+     
+      padding: 20px;
 /*      margin: 20px;*/
       border-radius: 10px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-      overflow: auto;
-      margin-left: 10px;
-      min-width: 384px;
+      background-color: rgb(189,206,223);
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+/*      overflow: auto;*/
+/*      min-width: 384px;*/
 /*      overflow: hidden;*/
+      height: 95%;
+      width:95%;
+      margin-top: 1%;
+      margin-left: 4%;
+      /*margin: 2% 2%; margin-left:3%; margin-right:0;*/
     }
 
     .info {
-      width: 95%;
+      width: 100%;
       height: auto;
       background-color: rgb(135,206,235);
-/*      margin:0 auto;*/
+      margin:0 auto;
       margin-bottom: 10px;
       padding: 10px;
       border-radius: 5px;
@@ -37,17 +63,21 @@
     .info .time {
       display: inline-block;
       margin-left: 10px;
-      color: #000;
+/*      font-style: italic;*/
+      font-size: 15px;
+      color: #333;
     }
 
     .info .message {
       margin-top: 5px;
-      font-style: italic;
+/*      font-style: italic;*/
+      font-size: 20px;
       color: #333;
     }
 
-    .info.chat {
+    .info.me {
       background-color: rgb(221,160,221);
+      text-align: right;
 /*      color: #fff;*/
     }
 
@@ -67,17 +97,22 @@
 /*  */
 /*  */
 .compact-form {
-  background-color: #d3e0ea;
+ background-color: rgb(189,206,223);
   display: inline-block;
   flex-direction: column;
-  gap: 10px;
-  width: 30%;
-  min-width: 384px;
+/*  gap: 10px;*/
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  
+/*  min-width: 384px;*/
   border-radius: 8px;
-  border: 2px solid lightgray;
-  padding: 10px;
-  overflow: hidden;
-/*  height: 415px;*/
+/*  border: 2px solid lightgray;*/
+  padding: 1%; 
+  overflow: auto;
+  height: 95%;
+  width:95%;
+  margin-top: 2%;
+  margin-left: 1%;
+  /*margin: 2% 2%; margin-left:3%; margin-right:0;*/
 }
 
 .form-group {
@@ -86,8 +121,8 @@
 }
 
 .form-group label {
-  margin-bottom: 5px;
-  margin-top: 5px;
+  margin-bottom: 1%;
+  margin-top: 1%;
 }
 
 .form-group input {
@@ -98,25 +133,26 @@
 }
 
 .sources {
-  margin-top: 10px;
+  margin-top: 2%;
 }
 
 .sources label {
-  margin-right: 10px;
+  margin-right: 2%;
 }
 
 .sources div {
   display: flex;
   align-items: center;
-  margin-top: 5px;
+  margin-top: 1%;
 }
 
 .sources div input[type="radio"] {
-  margin-right: 5px;
+  margin-right: 1%;
 }
 
 .sources div input[type="file"] {
 /*  display: none;*/
+border: none;
 }
 
 .sources div label {
@@ -132,7 +168,7 @@
   font-size: 16px;
   cursor: pointer;
   width:120px;
-  margin: 1% 2%;
+/*  margin: 1% 2%;*/
 }
 
 .compact-form button:hover {
@@ -144,13 +180,18 @@
 /**/
 /*  */
 .video-container {
+   background-color: black;
+   border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   position: relative;
 /*  width: 560px;*/
-  width: 50%;
-  height: 315px;
+  height: 95%;
+  width:95%;
+  margin-top: 2%;
+  margin-left: 4%;
 /*  border: 2px solid red;*/
 /*  max-width: 640px; /* adjust as needed */
-  margin: 0 auto;
+/*  margin: 0 auto;*/
 /*  margin-left: 10%;*/
 /*  padding-bottom: 28.125%; /* 16:9 aspect ratio */
 }
@@ -159,8 +200,12 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+/*  border-radius: 10px;*/
+  height: 89%;
+  width:100%;
+/*  margin-top: 2%;*/
+/*  margin-left: 1%;*/
+  /*margin: 2% 2%; margin-left:3%; margin-right:0;*/
 }
 
 @media (max-width: 768px) {
@@ -172,17 +217,21 @@
 
 .connectionBox{
   display: inline-block;
-      width: 30%;
-      height: 415px;
-      background-color: #d3e0ea;
+  width: 100%;
+  height: 100%;
+ background-color: rgb(189,206,223);
 /*      padding: 20px;*/
 /*      margin: 20px;*/
-      border-radius: 10px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-      overflow: auto;
-      margin-left: 10px;
-      min-width: 384px;
-      overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  overflow: auto;
+  min-width: 384px;
+  overflow-y: auto;
+  height: 95%;
+  width:95%;
+  margin-top: 1%;
+  margin-left: 1%;
+  /*margin: 2% 2%; margin-left:3%; margin-right:0;*/
 /*      overflow: hidden;*/
 }
 
@@ -191,20 +240,117 @@
   padding: 10px;
   margin: 10px;
   border-radius: 5px;
-  width: 90%;
+  width:95%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin: 0 auto;
-   margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .connectionName {
   padding-left: 5%;
   font-weight: bold;
 }
-
+.connectionActivity {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+}
 .connectionTime {
   padding-right: 5%;
-  color: #888;
+  color: #333;
+}
+
+/* Set the width and height of the scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+/* Style the scrollbar track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Style the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 10px;
+}
+
+/* Style the scrollbar on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
+}
+
+/* Style the scrollbar corner */
+::-webkit-scrollbar-corner {
+    background: #f1f1f1;
+}
+.bottom{
+display: none; flex-direction: row; align-items: center; justify-content: space-between;
+ height: 11%;
+ width: 100%;
+ padding-bottom:2%;
+/* margin: 0 auto;*/
+/*  margin-left: 1%;*/
+  background-color: black;
+}
+.bottom button, .bottom input{
+  height: 100%;
+  border-radius: 5px;
+/*  margin:2% 0;*/
+  border: 1px solid black;
+  background-color: gray;
+/*  border: none;*/
+}
+.bottom input{
+  flex-grow: 1;
+  width: 15%; 
+  margin: 0 1%; 
+  text-align: center;
+}
+.bottom button{
+  flex-basis: 50%;
+/*  margin-left: 1%;*/
+}
+.bottom button:hover{
+  background-color: darkgray;
+}
+
+.video-container:hover > .bottom {
+  display: flex;
+}
+
+.chatBox{
+/*  border: 1px solid red;*/
+  height: 10%;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.chatBox input{
+ flex-grow: 1; 
+ width: 85.5%;
+ padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 100%;
+}
+.chatBox button {
+  padding: 1px 2px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  width:10%;
+  height: 100%;
+}
+
+.chatBox button:hover {
+  background-color: #3e8e41;
 }

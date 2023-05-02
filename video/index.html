@@ -7,97 +7,115 @@
   <title>Watch Together</title>
 </head>
 <body>
-<div style="width: 100%; margin: 2% 0;">
-  <div class="video-container">
-    <video id="myVideoPlayer" controls>
-      <source src="" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-</div>
+   <div class="row">
 
-<div style="width: 100%;overflow: hidden; padding-left: 3%;">
-  <!-- <div style="display: inline-block ;"> -->
-    <form class="compact-form" >
-    <label id="statusLabel" >Not Connected</label>
-    <div class="form-group">
-      <label for="user">User:</label>
-      <input type="text" id="user" name="user" required>
-    </div>   
-
-    <div class="form-group">
-      <label for="topic">Topic:</label>
-      <input type="text" id="topic" name="topic" value="test/topic" required>
-    </div>
-
-    <!-- Sources -->
-    <div class="form-group sources">
-      <label>Sources:</label>
-      <div>
-        <input type="radio" id="source_toggle_1" name="source_toggle" value="1" >
-        <label for="source_1">Drive</label>
-        <input type="text" id="source_1" name="source_1">
+        <!--  -->
+        <div class="col col-2">
+        <div style="display: flex; flex-direction: column;" class="video-container">
+          <div style="flex: 1;">
+            <video id="myVideoPlayer" controls>
+              <source src="" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div> <!-- empty div to push content to top -->
+          <div class="bottom" style="">
+            <input id = "skipValue" type="number" min="1" max="60" value="5">
+            <button onclick="backward()" >Skip Backward</button>
+            <button onclick="forward()" style="margin-right: 60%;">Skip Forward</button>
+          </div>
+        </div>
       </div>
+        <!--  -->
 
-      <div>
-        <input type="radio" id="source_toggle_2" name="source_toggle" value="2" checked>
-        <label for="source_2">Local</label>
-        <input type="file" id="source_2" name="source_2">
-      </div>
+
+        <div class="col col-1">
+          <form class="compact-form">
+            <label id="statusLabel" >Not Connected</label>
+            <div class="form-group">
+              <label for="user">Username:</label>
+              <input type="text" id="user" name="user" placeholder="Shouldn't conflict under same room">
+            </div>   
+
+            <div class="form-group">
+              <label for="topic">Room:</label>
+              <input type="text" id="topic" name="topic" placeholder="NOTE: All connections on this keyword will be on sync">
+            </div>
+
+            <!-- Sources -->
+            <div class="form-group sources">
+              <label>Sources:</label>
+              <div>
+                <input type="radio" id="source_toggle_1" name="source_toggle" value="1" >
+                <label for="source_1">Drive</label>
+                <input placeholder="Pase Google Drive link" type="text" id="source_1" name="source_1">
+              </div>
+
+              <div>
+                <input type="radio" id="source_toggle_2" name="source_toggle" value="2" checked>
+                <label for="source_2">Local</label>
+                <input type="file" id="source_2" name="source_2">
+              </div>
+            </div>
+            <!-- Sources -->
+            <button type="submit" onclick="submitForm(event)">Connect</button>
+          </form>
+        </div>
+        
     </div>
-    <!-- Sources -->
-    <button type="submit" onclick="submitForm(event)">Connect</button>
+    <div class="row">
+        <div class="col col-3">
+          <div class="infobox">
+            <div id = "infobox" style="height: 90%; overflow: auto;">
+                <div id="info"></div>
+            <!-- </div> -->
+            </div>
+            <div class="chatBox">
+            <input  type="text" id="broadcast" name="broadcast" placeholder="This message will reach to all connected people">
+                 <button type="button" onclick="logMessage()">Send</button>
+           </div>
+          </div>
+        </div>
+        
 
-    <div class="form-group">
-      <label for="broadcast">Enter broadcast message:</label>
-      <input type="text" id="broadcast" name="broadcast">
-      <button type="button" onclick="logMessage()">Broadcast</button>
+        <div class="col col-4">
+          <div id = "connectionBox" class="connectionBox" >
+             <div class='connectionInfo'style="border: none;">
+              <span class='connectionName'>Users</span>
+              <span class='connectionActivity'>Last Activity</span>
+              <span class='connectionTime'>Last Activity Time</span>
+          </div>
+        
+        </div>
     </div>
-
-  </form>
-  <div id = "infobox" class="infobox">
-      <div id="info"></div>
-  </div>
-   <div id = "connectionBox" class="connectionBox" >
-     <div class='connectionInfo'style=" margin-top: 10px; border:0px solid transparent; ">
-      <span class='connectionName'>Connections</span>
-      <span class='connectionTime'>"Last Joining Time"</span></div>
-  </div>
-  <br>
-</div>
-
   
-
-
-
-  
+  <!-- <div style="display: inline-block ;"> -->  
+  <!-- <br> -->
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script>
     const videoPlayer = document.getElementById('myVideoPlayer');
     var statusLabel = document.getElementById("statusLabel");
     // Create an MQTT client instance
     let mqttClient;
-    let topic = 'test/topic';
+    let topic = '';
     let me = '';
-    const ESP = 0.5;
-    previous_time = -1;
     ignore_event = false;
     const set = new Set();
-  
 
-    function appendInfo(name, time, message, chat) {
+    function backward(){
+      skip = document.getElementById("skipValue").value;
+      videoPlayer.currentTime -= Number(skip);
+    }
+    function forward(){
+      skip = document.getElementById("skipValue").value;
+      videoPlayer.currentTime += Number(skip);
+    }
+
+    function appendChat(name, time, message, Text) {
       var infoDiv = document.createElement("div");
       infoDiv.className = "info";
-      if (name === me && chat) {
+      if(name == me){
         name = 'You'
-        infoDiv.classList.add("meChat");
-      }
-      else if(name == me){
-        name = 'You'
-        infoDiv.classList.add("meEvent");
-      }
-      else if(chat){
-        infoDiv.classList.add("chat");
+        infoDiv.classList.add("me");
       }
       var nameTime = document.createElement("p");
       nameTime.innerHTML = '<span class="name">' + name + '</span><span class="time">' + time + '</span>';
@@ -110,8 +128,13 @@
       var infoBox = document.getElementById("infobox");
       infoBox.scrollTop = infoBox.scrollHeight;
     }
-    function appendConnection(name) {
-      ok ="<div class='connectionInfo'><span class='connectionName'>"+name+"</span><span class='connectionTime'>"+ NOW()+ "</span></div>";
+
+    function updateConnectionTable(name, event, duration) {
+      activity = event+ "ed"
+      if(event != 'join' && event != 'Text'){
+        activity += " on " + formatDuration(duration);
+      }
+      ok ="<div class='connectionInfo'><span class='connectionName'>"+name+"</span><span class = 'connectionActivity'> " +activity+ "</span> <span class='connectionTime'>"+ NOW()+ "</span></div>";
       if(set.has(name)){
         var connection = document.getElementById(name);
         connection.innerHTML = ok;
@@ -121,7 +144,6 @@
       const parent = document.getElementById('connectionBox');
       const subDiv = document.createElement("div");
       subDiv.setAttribute("id", name);
-      
       subDiv.innerHTML =  ok;
       parent.appendChild(subDiv); 
     }
@@ -132,22 +154,13 @@
       const formattedDate = currentDate.toLocaleString('en-US', options);
       return formattedDate;
     }
-    function addHistory(info) {
-      var infoBox = document.getElementById("infoBox");
-      var infoLine = document.createElement("p");
-      infoLine.textContent = NOW() + " | " + info;
-      infoBox.appendChild(infoLine);
-      infoBox.scrollTop = infoBox.scrollHeight;
-    }
     function formatDuration(duration) {
       var hours = Math.floor(duration / 3600);
       var minutes = Math.floor((duration % 3600) / 60);
       var seconds = duration % 60;
-
       var hoursStr = hours.toString().padStart(2, "0");
       var minutesStr = minutes.toString().padStart(2, "0");
       var secondsStr = seconds.toString().padStart(2, "0");
-
       return `${hoursStr}:${minutesStr}:${parseInt(secondsStr)}`;
     }
 
@@ -178,28 +191,20 @@
       function triggermqtt(){
         mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
         mqttClient.subscribe(topic);
-        mqttClient.on('message', function (topic, message) {
-
-          ignore_event = true;
+        mqttClient.on('message', function (topic, message){
           payload = message.toString().split('&');
-          
-          info = payload[1]+"ed at "+ formatDuration(payload[2]);
-          if(payload[1] == 'join'){
-            appendConnection(payload[0]);
-            ignore_event = false
+          if(payload.length < 3){
             return;
           }
-          if(payload[1] == 'chat'){
-            appendInfo(payload[0], NOW(), payload[2], true);
-            ignore_event = false
+          updateConnectionTable(payload[0], payload[1], payload[2]);
+          if(payload[1] == 'Text'){
+            appendChat(payload[0], NOW(), payload[2], true);  
+            return;
+          }  
+          if(payload[1] == 'join' || payload[0] == me){
             return;
           }
-          appendInfo(payload[0], NOW(), info, false);
-          
-          if(payload[0] == me || payload[1] == 'join' || payload[1] == 'chat'){
-            ignore_event = false
-            return;
-          }
+          ignore_event = true;
           console.log(payload);
           text = payload[1];
           console.log(text);
@@ -236,7 +241,7 @@
 
         mqttClient.on('close', () => {
           console.log('Disconnected from MQTT broker');
-          statusLabel.textContent = "Disconnected";
+          statusLabel.textContent = "Disconnected at " + NOW();
           statusLabel.style.color = "red";
           // Attempt to reconnect after a delay
           setTimeout(() => {
@@ -254,6 +259,7 @@
     function changeTime(time) {
       videoPlayer.currentTime = time;    
     }
+
     videoPlayer.addEventListener('play', play);
     videoPlayer.addEventListener('pause', pause);
     videoPlayer.addEventListener('seeked', seeked);
@@ -267,8 +273,12 @@
       console.log(payload);
     }
     function logMessage() {
-      const message = document.getElementById("broadcast").value;
-      payload = me+'&chat&'+message;
+      const message = document.getElementById("broadcast");
+      if(message.value == ''){
+        return;
+      }
+      payload = me+'&Text&'+message.value;
+      message.value = "";
       console.log(payload);
       publishMessage(payload);
 
