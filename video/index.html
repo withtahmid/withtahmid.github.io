@@ -7,6 +7,7 @@
   <title>Watch Together</title>
 </head>
 <body>
+
    <div class="row">
 
         <!--  -->
@@ -70,7 +71,7 @@
             <!-- </div> -->
             </div>
             <div class="chatBox">
-            <input  type="text" id="broadcast" name="broadcast" placeholder="This message will reach to all connected people">
+            <input  type="text" id="broadcast"  onkeydown="if(event.keyCode===13) logMessage()" name="broadcast" placeholder="This message will reach to all connected people">
                  <button type="button" onclick="logMessage()">Send</button>
            </div>
           </div>
@@ -90,10 +91,12 @@
   
   <!-- <div style="display: inline-block ;"> -->  
   <!-- <br> -->
+  <audio style="display:none;" id="message-sound" src="http://soundbible.com/grab.php?id=2154&type=mp3"></audio>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script>
     const videoPlayer = document.getElementById('myVideoPlayer');
     var statusLabel = document.getElementById("statusLabel");
+    var messageSound = document.getElementById("message-sound");
     // Create an MQTT client instance
     let mqttClient;
     let topic = '';
@@ -127,6 +130,7 @@
       document.getElementById("info").appendChild(infoDiv);
       var infoBox = document.getElementById("infobox");
       infoBox.scrollTop = infoBox.scrollHeight;
+      messageSound.play();
     }
 
     function updateConnectionTable(name, event, duration) {
