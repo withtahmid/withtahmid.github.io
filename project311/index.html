@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login Example</title>
+  <style>
+    *{
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 32px;
+    }
+    input[type=text], input[type=password] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    label{
+      font-family: 'Monospace';
+    }
+    button {
+      background-color: gray;
+      color: white;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      height: 80px;
+      width: 160px;
+      margin: 5% 0;
+      font-size: 30px;
+      font-family: 'Monospace';
+
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      margin-top: 32px;
+      margin: 5%;
+      align-content: center;
+    }
+    .each_box{
+      
+    }
+    .on {
+      background-color: green;
+    }
+    .no{
+      background-color: gray;
+    }
+    .off {
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+  <form id="login-form" onsubmit="checkCredentials(event)">
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+
+    <button type="submit">Login</button>
+  </form>
+
+ 
+  <div class="buttons">
+     <label id = "timestamp">Not connected</label>
+    <button id="button1" onclick="toggleState('button1')">???</button>
+    <button id="button2" onclick="toggleState('button2')">???</button>
+    <button id="button3" onclick="toggleState('button3')">???</button>
+    <button id="button4" onclick="toggleState('button4')">???</button>
+  </div>
+
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script>
+    //MQTT
+    start = new Date("2023-01-01");
+    prev = "";
+    const topic = "tahmid/okbai";
+    mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
+    mqttClient.subscribe(topic);
+    
+
+    mqttClient.on('message', function (topic, message){
+    payload = message.toString();
+    processMessage(payload);
+  });
+    mqttClient.on('connect', () => {
+      console.log('Connected to MQTT broker');
+       
+    });
+    mqttClient.on('error', (error) => {
+      console.error('Error:', error);
+    });
+    mqttClient.on('close', () => {
+      console.log('Disconnected from MQTT broker');
+      setTimeout(() => {
+        mqttClient.connect();
+      }, 5000);
+    });
+    function publishMessage(message){
+      mqttClient.publish(topic, message);
+      setTimeout(function(){}, 1000);
+    }
+    function processMessage(message){
+      console.log(message);
+      if(message[0] == "u" || message[0] != 'm') {
+        return
+      }
+      
+      start = new Date();
+      if(message == prev){
+        return;
+      }
+      prev = message;
+      for(i = 1; i <= 4; ++i){
+        if(message[i] == '1'){
+          turnOn("button"+i.toString());
+        }
+        else if(message[i] == '0'){
+          turnOff("button"+i.toString());
+        }
+      }
+    } 
+    //MQTT
+
+    function checkCredentials(event) {
+      event.preventDefault();
+      const username = document.getElementsByName('username')[0].value;
+      const password = document.getElementsByName('password')[0].value;
+      if (username === 'username' && password === 'password') {
+        document.getElementById('login-form').style.display = 'none';
+        document.querySelector('.buttons').style.display = 'flex';
+        document.getElementsByName('username')[0].value = "";
+        document.getElementsByName('password')[0].value = "";
+
+      } else {
+        alert('Invalid credentials, please try again.');
+      }
+    }
+    function toggleState(buttonid) {
+      let message;
+      const button = document.getElementById(buttonid);
+      if (button.classList.contains('on')) {
+        message = "u"+ buttonid[buttonid.length - 1] +"1";
+      } else {
+        message = "u"+ buttonid[buttonid.length - 1] +"0";
+      }
+      publishMessage(message);
+    }
+    function logout(){
+      document.getElementById('login-form').style.display = 'flex';
+      document.querySelector('.buttons').style.display = 'none';
+    }
+    function turnOn(buttonid){
+        const button = document.getElementById(buttonid);
+        button.classList.remove('on');
+        button.classList.remove('no');
+        button.classList.add('off');
+        button.textContent = 'OFF';
+    }
+    function turnOff(buttonid){
+        const button = document.getElementById(buttonid);
+        button.classList.remove('off');
+        button.classList.remove('no');
+        button.classList.add('on');
+        button.textContent = 'ON';
+      
+    }
+
+    function disconnect(){
+      for(i = 1; i <= 4; ++i){
+        const button = document.getElementById("button"+i.toString());
+        button.classList.remove('off');
+        button.classList.remove('on');
+        button.classList.add('no');
+        button.textContent = '???';
+      }
+      prev = "";
+    }
+
+    const timestampElement = document.getElementById("timestamp");
+    function updateTimestamp() {
+      const now = new Date();
+      const elapsedSeconds = Math.floor((now - start) / 1000);
+      if (elapsedSeconds <= 3) {
+        timestampElement.textContent = "Updated Just Now";
+      } else if(elapsedSeconds <= 10) {
+        timestampElement.textContent = `Updated ${elapsedSeconds} seconds ago`;
+      }
+      else{
+         timestampElement.textContent = `Not connected`;
+         disconnect();
+      }
+    }
+    updateTimestamp();
+    setInterval(updateTimestamp, 1000);
+  </script>
+</body>
+</html>
