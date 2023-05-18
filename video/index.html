@@ -59,6 +59,9 @@
             </div>
             <!-- Sources -->
             <button type="submit" onclick="submitForm(event)">Connect</button>
+            <br><br>
+            <button type="button" onclick="createAncore()">Ancore</button>
+            <button id = "releaseAncore" type="button" onclick="playFromAncore()">00:00:00</button>
           </form>
         </div>
         
@@ -104,6 +107,18 @@
     ignore_event = false;
     const set = new Set();
 
+    ancoredTime = 0;
+
+    function createAncore(){
+      ancoredTime = videoPlayer.currentTime;
+      document.getElementById('releaseAncore').innerHTML = formatDuration(ancoredTime);
+
+    }
+    function playFromAncore(){
+      videoPlayer.currentTime = ancoredTime;
+    }
+
+
     function backward(){
       skip = document.getElementById("skipValue").value;
       videoPlayer.currentTime -= Number(skip);
@@ -120,19 +135,27 @@
         name = 'You'
         infoDiv.classList.add("me");
       }
+      console.log(message);
+      temp = message.split('$');
+      message = temp[0];
+      timestamp = formatDuration(Number(temp[1]));
+
       var nameTime = document.createElement("p");
-      nameTime.innerHTML = '<span class="name">' + name + '</span><span class="time">' + time + '</span>';
+      nameTime.innerHTML = '<span class="name">' + name + '</span><span class="time"> at ' +time + '. On playback  '+'</span><span class = "name"><button onclick = "lookback('+temp[1]+')" class = "name" style = "background-color:transparent; border:none; cursor:pointer;">'+timestamp+'</button></span>';
       infoDiv.appendChild(nameTime);
       var messagePara = document.createElement("p");
       messagePara.className = "message";
       messagePara.innerHTML = message;
       infoDiv.appendChild(messagePara);
+
       document.getElementById("info").appendChild(infoDiv);
       var infoBox = document.getElementById("infobox");
       infoBox.scrollTop = infoBox.scrollHeight;
       messageSound.play();
     }
-
+    function lookback(time) {
+      videoPlayer.currentTime = Number(time);
+    }
     function updateConnectionTable(name, event, duration) {
       activity = event+ "ed"
       if(event != 'join' && event != 'Text'){
@@ -281,7 +304,7 @@
       if(message.value == ''){
         return;
       }
-      payload = me+'&Text&'+message.value;
+      payload = me+'&Text&'+message.value + "$"+videoPlayer.currentTime;
       message.value = "";
       console.log(payload);
       publishMessage(payload);
