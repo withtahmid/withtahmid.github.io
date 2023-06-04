@@ -14,15 +14,6 @@
       height: 100vh;
     }
 
-    form {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 32px;
-    }
     input[type=text], input[type=password] {
       width: 100%;
       padding: 12px 20px;
@@ -74,17 +65,6 @@
   </style>
 </head>
 <body>
-  <form id="login-form" onsubmit="checkCredentials(event)">
-    <label for="username"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="username" required>
-
-    <label for="password"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
-
-    <button type="submit">Login</button>
-  </form>
-
- 
   <div class="buttons">
      <label id = "timestamp">Not connected</label>
     <button id="button1" onclick="toggleState('button1')">???</button>
@@ -95,7 +75,6 @@
 
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script>
-    //MQTT
     start = new Date("2023-01-01");
     prev = "";
     const topic = "tahmid/okbai";
@@ -104,9 +83,10 @@
     
 
     mqttClient.on('message', function (topic, message){
-    payload = message.toString();
-    processMessage(payload);
-  });
+      payload = message.toString();
+      processMessage(payload);
+    });
+    
     mqttClient.on('connect', () => {
       console.log('Connected to MQTT broker');
        
@@ -125,7 +105,7 @@
       setTimeout(function(){}, 1000);
     }
     function processMessage(message){
-      console.log(message);
+      // console.log(message);
       if(message[0] == "u" || message[0] != 'm') {
         return
       }
@@ -144,29 +124,13 @@
         }
       }
     } 
-    //MQTT
-
-    function checkCredentials(event) {
-      event.preventDefault();
-      const username = document.getElementsByName('username')[0].value;
-      const password = document.getElementsByName('password')[0].value;
-      if (username === 'username' && password === 'password') {
-        document.getElementById('login-form').style.display = 'none';
-        document.querySelector('.buttons').style.display = 'flex';
-        document.getElementsByName('username')[0].value = "";
-        document.getElementsByName('password')[0].value = "";
-
-      } else {
-        alert('Invalid credentials, please try again.');
-      }
-    }
     function toggleState(buttonid) {
       let message;
       const button = document.getElementById(buttonid);
       if (button.classList.contains('on')) {
-        message = "u"+ buttonid[buttonid.length - 1] +"1";
+        message = "u"+ buttonid[buttonid.length - 1] + "1";
       } else {
-        message = "u"+ buttonid[buttonid.length - 1] +"0";
+        message = "u"+ buttonid[buttonid.length - 1] + "0";
       }
       publishMessage(message);
     }
@@ -180,7 +144,7 @@
         button.classList.remove('on');
         button.classList.remove('no');
         button.classList.add('off');
-        button.textContent = 'OFF';
+        button.textContent = 'Turn Off';
     }
 
     function turnOff(buttonid){
@@ -188,7 +152,7 @@
         button.classList.remove('off');
         button.classList.remove('no');
         button.classList.add('on');
-        button.textContent = 'ON';
+        button.textContent = 'Turn On';
       
     }
 
