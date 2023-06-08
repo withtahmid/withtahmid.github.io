@@ -81,7 +81,6 @@
     mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
     mqttClient.subscribe(topic);
     
-
     mqttClient.on('message', function (topic, message){
       payload = message.toString();
       processMessage(payload);
@@ -171,7 +170,7 @@
     function updateTimestamp() {
       const now = new Date();
       const elapsedSeconds = Math.floor((now - start) / 1000);
-      if (elapsedSeconds <= 3) {
+      if (elapsedSeconds <= 1) {
         timestampElement.textContent = "Updated Just Now";
       } else if(elapsedSeconds <= 10) {
         timestampElement.textContent = `Updated ${elapsedSeconds} seconds ago`;

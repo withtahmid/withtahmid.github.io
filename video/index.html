@@ -56,6 +56,12 @@
                 <label for="source_2">Local</label>
                 <input type="file" id="source_2" name="source_2">
               </div>
+
+              <div>
+                <label for="source_2">Subtitle(vtt)</label>
+                <input type="file" id="subtitle" name="subtitle">
+              </div>
+
             </div>
             <!-- Sources -->
             <button type="submit" onclick="submitForm(event)">Connect</button>
@@ -198,7 +204,7 @@
         let source;
         const sourceToggle = document.querySelector('input[name="source_toggle"]:checked').value;
         if (sourceToggle === "2") {
-          file = document.getElementById("source_2").files[0]
+          file = document.getElementById("source_2").files[0];
           const videoUrl = URL.createObjectURL(file);
           videoPlayer.src = videoUrl;
           source = videoUrl;
@@ -210,6 +216,17 @@
             videoPlayer.src = source;
           }
         }
+
+      if(true){
+        const file = document.getElementById("subtitle").files[0];
+        const trackElement = document.createElement('track');
+        trackElement.src = URL.createObjectURL(file);
+        trackElement.kind = 'subtitles';
+        trackElement.srclang = 'en';
+        trackElement.label = 'English';
+        trackElement.default = true;
+        videoPlayer.appendChild(trackElement);
+      }
         console.log(`User: ${user}`);
         console.log(`Source: ${source}`);
         triggermqtt();

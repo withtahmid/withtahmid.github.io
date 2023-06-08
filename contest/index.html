@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upcoming Contests</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #333;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #fff;
+      margin-bottom: 30px;
+    }
+    
+    h6 {
+      text-decoration: none;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 30px;
+      cursor: pointer;
+    }
+    
+    h6 a{
+      color: #fff;
+      text-decoration: none;
+      text-align: center;
+    }
+    
+    h6 a:hover{
+      font-weight: bold;
+      text-decoration: underline;
+    }   
+    
+    .contest {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    .contest:hover {
+      opacity: 0.9;
+    }
+    
+    .contest h3 {
+      margin: 0;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    
+    .contest p {
+      margin: 10px 0 0;
+      color: #ccc;
+    }
+    .contest .time {
+      font-weight: bold;
+      font-size: 18px;
+      color: #fff;
+      font-weight: bold;
+    }
+    
+    .contest .time-late {
+      color: red;
+    }
+    
+    .contest .duration {
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    
+    .contest .time-remaining {
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    .division-1 {
+      background-color: #333;
+    }
+    
+    .division-2 {
+      background-color: #222;
+    }
+    
+    .division-3 {
+      background-color: #111;
+    }
+    
+    .division-4 {
+      background-color: #000;
+    }
+    
+    .date {
+      color: #fff;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .date .day {
+      font-weight: bold;
+      font-size: 18px;
+      margin-right: 10px;
+    }
+    
+    .date .month {
+      font-size: 18px;
+    }
+    
+    .register-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 15px;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background-color: #111;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    .register-button:hover {
+      background-color: #222;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upcoming Contests</h1>
+  <h6> <a href="https://codeforces.com/profile/withtahmid" target="_blank">© withtahmid</a></h6>
+  <div id="contests"></div>
+
+  <script>
+    fetch('https://codeforces.com/api/contest.list')
+      .then(response => response.json())
+      .then(data => {
+        const codeforcesContests = data.result.filter(contest => contest.phase === 'BEFORE');
+        displayContests(codeforcesContests);
+      })
+      .catch(error => console.error('Error fetching Codeforces contests:', error));
+
+    function displayContests(contests) {
+      const reversedContests = contests.reverse();
+      const contestsDiv = document.getElementById('contests');
+
+      reversedContests.forEach(contest => {
+        const contestDiv = document.createElement('div');
+        contestDiv.className = 'contest';
+
+        const name = document.createElement('h3');
+        name.textContent = contest.name;
+
+        const startTime = document.createElement('p');
+        const startDate = new Date(contest.startTimeSeconds * 1000);
+        const dayName = startDate.toLocaleString('en-us', { weekday: 'long' });
+        const formattedDate = `<span class="day">${dayName}</span>, <span class="month">${startDate.getDate()}/${startDate.getMonth() + 1}/${startDate.getFullYear()}</span>`;
+
+        let hours = startDate.getHours();
+        let minutes = startDate.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = ('0' + minutes).slice(-2);
+        const formattedTime = `${hours}:${minutes} ${ampm}`;
+
+        const isLate = formattedTime !== '8:35 PM';
+        startTime.innerHTML = `Start Time (Local): <span class="time${isLate ? ' time-late' : ''}">${formattedTime}</span>`;
+
+        const dateTimeDiv = document.createElement('div');
+        dateTimeDiv.className = 'date';
+        dateTimeDiv.innerHTML = `<span class="day">${dayName}</span><span class="month">${startDate.getDate()}/${startDate.getMonth() + 1}/${startDate.getFullYear()}</span>`;
+
+        const registerButton = document.createElement('a');
+        registerButton.href = `https://codeforces.com/contestRegistration/${contest.id}`;
+        registerButton.target = '_blank';
+        registerButton.textContent = 'Contest page';
+        registerButton.className = 'register-button';
+
+        const duration = document.createElement('p');
+        const durationSeconds = contest.durationSeconds;
+        const durationHours = Math.floor(durationSeconds / 3600);
+        const durationMinutes = Math.floor((durationSeconds % 3600) / 60);
+        duration.innerHTML = `Duration: ${durationHours} hours ${durationMinutes} minutes`;
+
+        const timeRemaining = document.createElement('p');
+        const currentTime = new Date().getTime();
+        const startTimeSeconds = contest.startTimeSeconds * 1000;
+        const timeDiff = startTimeSeconds - currentTime;
+        const daysRemaining = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const hoursRemaining = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutesRemaining = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const secondsRemaining = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        let timeRemainingText = '';
+        if (daysRemaining === 0 && hoursRemaining === 0 && minutesRemaining === 0) {
+          timeRemainingText = `Starts in ${secondsRemaining} seconds`;
+        } else if (daysRemaining === 0 && hoursRemaining === 0) {
+          timeRemainingText = `Starts in ${minutesRemaining} minutes`;
+        } else if (daysRemaining === 0) {
+          timeRemainingText = `Starts in ${hoursRemaining} hours ${minutesRemaining} minutes`;
+        } else if (daysRemaining === 1) {
+          timeRemainingText = `Starts tomorrow`;
+        } else {
+          timeRemainingText = `Starts in ${daysRemaining} days`;
+        }
+
+        timeRemaining.textContent = timeRemainingText;
+
+        if (contest.name.includes('Div. 2')) {
+          contestDiv.classList.add('division-2');
+        } else if (contest.name.includes('Div. 1')) {
+          contestDiv.classList.add('division-1');
+        } else if (contest.name.includes('Div. 3')) {
+          contestDiv.classList.add('division-3');
+        } else if (contest.name.includes('Div. 4')) {
+          contestDiv.classList.add('division-4');
+        }
+
+        contestDiv.appendChild(name);
+        contestDiv.appendChild(dateTimeDiv);
+        contestDiv.appendChild(startTime);
+        contestDiv.appendChild(duration);
+        contestDiv.appendChild(timeRemaining);
+        contestDiv.appendChild(registerButton);
+        contestsDiv.appendChild(contestDiv);
+
+        registerButton.onclick = function(event) {
+          event.stopPropagation();
+          window.open(`https://codeforces.com/contests/${contest.id}`, '_blank');
+        };
+      });
+    }
+  </script>
+</body>
+</html>
