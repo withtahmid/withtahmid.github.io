@@ -197,6 +197,21 @@
       return `${hoursStr}:${minutesStr}:${parseInt(secondsStr)}`;
     }
 
+    function handleSubtitlesFileSelect(event) {
+      console.log("okbaiiiiiii");
+      const file = document.getElementById("subtitle").files[0];
+      const trackElement = document.createElement('track');
+      trackElement.src = URL.createObjectURL(file);
+      trackElement.kind = 'subtitles';
+      trackElement.srclang = 'en';
+      trackElement.label = 'English';
+      trackElement.default = true;
+      videoPlayer.appendChild(trackElement);
+    }
+    const subtitlesFileInput = document.getElementById('subtitle');
+    subtitlesFileInput.addEventListener('change', handleSubtitlesFileSelect);
+
+
      function submitForm(event) {
         event.preventDefault();
         me = document.getElementById("user").value;
@@ -215,17 +230,6 @@
             source = "https://drive.google.com/uc?export=download&id=" + source.split('/')[5];
             videoPlayer.src = source;
           }
-        }
-
-        if(false){
-          const file = document.getElementById("subtitle").files[0];
-          const trackElement = document.createElement('track');
-          trackElement.src = URL.createObjectURL(file);
-          trackElement.kind = 'subtitles';
-          trackElement.srclang = 'en';
-          trackElement.label = 'English';
-          trackElement.default = true;
-          videoPlayer.appendChild(trackElement);
         }
         console.log(`User: ${user}`);
         console.log(`Source: ${source}`);
