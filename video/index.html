@@ -55,7 +55,7 @@
                 <input type="file" id="subtitle" name="subtitle">
                 <!-- <input type="range" id="subtitleBackward" min="0" max="30" step="1" value="10"> -->
               </div>
-              <button type="button" id="toggleButton" onclick="toggleSubtitle()">Show</button>
+              <button type="button" id="showSubtitle" onclick="toggleSubtitle()">Show</button>
   
           <!-- <div id="subtitleBox" class="subtitle_box"> -->
             
@@ -63,6 +63,7 @@
             </div>
             <div class="subtitle_box" id = "subBox">
                <input type="range" id="subtitleBackward" min="0" max="30" step="1" value="10">
+              <button type="button" id="hideSubtitle" onclick="toggleSubtitle()">Show</button>
                <br><br>
                <div  id="subtitleContainer"> </div>
           </div>
@@ -111,10 +112,20 @@
             </div>
             <br>
             <button type="button" onclick="submitForm(event)">Connect</button>
+             <button type="button" id ="showActivity" onclick="toggleActivity()">Activity</button>
              Sync <input type="checkbox" id="syncCheckbox" checked>
             <label for="notiVolumeRange"> Notification volume </label>
             <input type="range" id="notiVolumeRange" min="0" max="1" step="0.01" value="1">
-          </form>
+         
+         
+          <!--  -->
+          <div class="history_box" id = "activityBox">
+              <button type="button" id="hideActivity" onclick="toggleActivity()">Show</button>
+              <br><br>
+              <div id = "activityLog"></div>
+          </div>
+           </form>
+          <!--  -->
 
              <div class='connectionInfo'style="border: none;">
               <span class='connectionName'>Users</span>
@@ -222,6 +233,10 @@
       if(!subtitle_added){
         return;
       }
+      var div = document.getElementById("subBox");
+      if (div.style.display === "none") {
+        return;  
+      }
       subtitleContainer.innerHTML = '';
       const currentTime = videoPlayer.currentTime;
       const cues = subtitlesTrack.track.cues;
@@ -245,14 +260,24 @@
 
     function toggleSubtitle() {
       var div = document.getElementById("subBox");
-      var btn = document.getElementById("toggleButton");
       if (div.style.display === "none") {
         div.style.display = "block";
-        btn.textContent = "Hide";
+        document.getElementById("hideSubtitle").textContent = "Hide"
   
       } else {
         div.style.display = "none";
-        btn.textContent = "Show";
+        document.getElementById("showSubtitle").textContent = "Subtitle";
+      }
+    }
+    function toggleActivity() {
+      var div = document.getElementById("activityBox");
+      if (div.style.display === "none") {
+        div.style.display = "block";
+        document.getElementById("hideActivity").textContent = "Hide";
+  
+      } else {
+        div.style.display = "none";
+       document.getElementById("showActivity").textContent = "Activity";
       }
     }
 
@@ -304,17 +329,41 @@
     function lookback(time) {
       videoPlayer.currentTime = Number(time);
     }
+
+    function addActivity(name, event, activity){
+      if(set.has(name) && event == 'Join'){
+        return;
+      }
+      div = document.getElementById("activityLog");
+      const subDiv = document.createElement("p");
+      subDiv.innerHTML = activity;
+      div.appendChild(subDiv);
+      console.log("Appended");
+
+
+      div.scrollTop = div.scrollHeight;
+    }
+
     function updateConnectionTable(name, event, duration) {
-      activity = event+ "ed"
+      activity = event+ "ed";      
       if(event != 'join' && event != 'Text'){
         activity += " on " + formatDuration(duration);
       }
+
+      
+
+      log = name + " " + activity + " at " + NOW();
+      addActivity(name, event, log);
+      
+
       ok ="<div class='connectionInfo'><span class='connectionName'>"+name+"</span><span class = 'connectionActivity'> " +activity+ "</span> <span class='connectionTime'>"+ NOW()+ "</span></div>";
       if(set.has(name)){
         var connection = document.getElementById(name);
         connection.innerHTML = ok;
         return;
       }
+
+      
       set.add(name);
       const parent = document.getElementById('connectionBox');
       const subDiv = document.createElement("div");
@@ -486,6 +535,7 @@
       }, 5000);
     }
     toggleSubtitle();
+    toggleActivity();
   </script>
 </body>
 </html>
