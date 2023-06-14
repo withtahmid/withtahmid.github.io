@@ -23,7 +23,7 @@
           </div> <!-- empty div to push content to top -->
           <div class="bottom" style="">
             <input id = "skipValue" type="number" min="1" max="60" value="5">
-            <button onclick="backward()" >Skip Backward</button>
+            <button onclick="backward()">Skip Backward</button>
             <button onclick="forward()" style="margin-right: 60%;">Skip Forward</button>
           </div>
         </div>
@@ -34,37 +34,41 @@
         <div class="col col-1">
           
           <!--  -->
-          <div id="toggleButton" class="subtitle_button" onclick="toggleSubtitle()">Subtitle</div>
-  
-          <div id="subtitleContainer" class="subtitle_box">
-             
-          </div>
           <!--  -->
           <form class="compact-form">
+            <h2>Media Control</h2>
             <!-- Sources -->
             <div class="form-group sources">
-              <!-- <label>Sources:</label>
+              <label>Sources:</label>
               <div>
-                <label for="source_1">Drive</label>
-                <input placeholder="Pase Google Drive link" type="text" id="source_1" name="source_1">
-              </div> -->
-
-              <div>
-                <label for="source_2">Local</label>
-               <input type="file" id="videoFileInput">
+                <label for="source_1">Drive - Link </label>
+                <input placeholder="Pase Google Drive link" type="text" id="driveInput" name="source_1">
               </div>
 
               <div>
-                <label for="source_2">Subtitle(vtt)</label>
+                <label for="videoFileInput">Local Video</label>
+               <input type="file" id="videoFileInput" >
+              </div>
+
+              <div>
+                <label for="subtitle">Subtitle(vtt)</label>
                 <input type="file" id="subtitle" name="subtitle">
-                <input type="range" id="subtitleBackward" min="0" max="30" step="1" value="10">
-                <!-- <input type="range" id="subtitleForward" min="0" max="30" step="1" value="10"> -->
+                <!-- <input type="range" id="subtitleBackward" min="0" max="30" step="1" value="10"> -->
               </div>
-
+              <button type="button" id="toggleButton" onclick="toggleSubtitle()">Show</button>
+  
+          <!-- <div id="subtitleBox" class="subtitle_box"> -->
+            
+          <!-- </div> -->
             </div>
+            <div class="subtitle_box" id = "subBox">
+               <input type="range" id="subtitleBackward" min="0" max="30" step="1" value="10">
+               <br><br>
+               <div  id="subtitleContainer"> </div>
+          </div>
             <!-- Sources -->
             
-            <br><br>
+            <br>
             <button type="button" onclick="createAncore()">Ancore</button>
             <button id = "releaseAncore" type="button" onclick="playFromAncore()">00:00:00</button>
             
@@ -89,8 +93,10 @@
         
 
         <div class="col col-4">
+          <!--  -->
           <div id = "connectionBox" class="connectionBox" >
-             <form class="compact-form" style="height: 200px; width: 95;
+            <h2>Connection Dashboard</h2>
+             <form class="compact-form" style="height: 230px; width: 95;
              box-shadow: 0 0 0  rgba(0, 0, 0, 0);
              border: 0 solid transparent;">
             <label id="statusLabel" >Not Connected</label>
@@ -103,9 +109,10 @@
               <label for="topic">Room:</label>
               <input type="text" id="topic" name="topic" placeholder="NOTE: All connections on this keyword will be on sync">
             </div>
+            <br>
             <button type="button" onclick="submitForm(event)">Connect</button>
-            Sync<input type="checkbox" id="syncCheckbox" checked>
-            <label for="notiVolumeRange">Notification volume</label>
+             Sync <input type="checkbox" id="syncCheckbox" checked>
+            <label for="notiVolumeRange"> Notification volume </label>
             <input type="range" id="notiVolumeRange" min="0" max="1" step="0.01" value="1">
           </form>
 
@@ -129,10 +136,11 @@
     const videoSource = document.getElementById('videoSource');
     const videoFileInput = document.getElementById('videoFileInput');
     const syncCheckbox = document.getElementById("syncCheckbox");
+    const driveInput = document.getElementById("driveInput");
 
     var statusLabel = document.getElementById("statusLabel");
     var messageSound = document.getElementById("message-sound");
-    // Create an MQTT client instance
+
     let mqttClient;
     let topic = '';
     let me = '';
@@ -141,10 +149,10 @@
 
     ignore_event = false;
     subtitle_added = false;
-
     isConnedted = false;
-
+    videoAdded = false;
     wantToSync = true;
+
 
     ancoredTime = 0;
 
@@ -170,13 +178,34 @@
     const subtitle_back = document.getElementById("subtitleBackward");
     subtitle_back.addEventListener("input", function() {
       subtitle_range_time = parseInt(subtitle_back.value);
-      console.log(subtitle_range_time);
+      // console.log(subtitle_range_time);
     });
 
     videoFileInput.addEventListener('change', function() {
       const file = videoFileInput.files[0];
       videoSource.src = URL.createObjectURL(file);
       videoPlayer.load();
+      videoAdded = true;
+    });
+
+
+
+    driveInput.addEventListener('keypress', function(event) {
+      event.preventDefault();
+      if (event.key === 'Enter') {
+        const inputValue = event.target.value;
+        // console.log('Entered value:', inputValue);
+        // Perform further processing with the entered value
+
+        source = document.getElementById("driveInput").value;
+        // console.log(source);
+        if(source.includes("drive.google.com")){
+          id = source.split('/')[5];
+          source = "https://drive.google.com/uc?export=download&id=" + id;
+          videoPlayer.src = source;
+          // console.log(id);
+        }
+      }
     });
 
     // Subtitle
@@ -185,8 +214,7 @@
       const file = subtitlesFileInput.files[0];
       subtitlesTrack.src = URL.createObjectURL(file);
       videoPlayer.textTracks[0].mode = 'showing';
-      subtitle_added = true;
-      displaySubtitles();
+      subtitle_added = true;    
     });
     videoPlayer.addEventListener('timeupdate', displaySubtitles);
 
@@ -195,14 +223,10 @@
         return;
       }
       subtitleContainer.innerHTML = '';
-
       const currentTime = videoPlayer.currentTime;
       const cues = subtitlesTrack.track.cues;
       const rangeStart = currentTime - subtitle_range_time;
       const rangeEnd = currentTime + subtitle_range_time;
-
-      // console.log("start: " +  rangeStart + " " + subtitle_range_time);
-      // console.log("end: " + rangeEnd + " " + subtitle_range_time);
 
       for (let i = 0; i < cues.length; i++) {
         const cue = cues[i];
@@ -220,11 +244,15 @@
     }
 
     function toggleSubtitle() {
-      var div = document.getElementById("subtitleContainer");
+      var div = document.getElementById("subBox");
+      var btn = document.getElementById("toggleButton");
       if (div.style.display === "none") {
         div.style.display = "block";
+        btn.textContent = "Hide";
+  
       } else {
         div.style.display = "none";
+        btn.textContent = "Show";
       }
     }
 
@@ -313,29 +341,30 @@
 
     
 
+      function insertCharacterInMiddle(str, character) {
+        const middleIndex = Math.floor(str.length / 2);
+        const firstHalf = str.slice(0, middleIndex);
+        const secondHalf = str.slice(middleIndex);
 
+        return firstHalf + character + secondHalf;
+      }
      function submitForm(event) {
         event.preventDefault();
         me = document.getElementById("user").value;
         topic = document.getElementById("topic").value;
-        
-        // let source;
-        // const sourceToggle = document.querySelector('input[name="source_toggle"]:checked').value;
-        // if (sourceToggle === "2") {
-        //   file = document.getElementById("source_2").files[0];
-        //   const videoUrl = URL.createObjectURL(file);
-        //   videoPlayer.src = videoUrl;
-        //   source = videoUrl;
-        // }
-        // else {
-        //   source = document.getElementById("source_1").value;
-        //   if(source.includes("drive.google.com")){
-        //     source = "https://drive.google.com/uc?export=download&id=" + source.split('/')[5];
-        //     videoPlayer.src = source;
-        //   }
-        // }
-        console.log(`User: ${user}`);
-        // console.log(`Source: ${source}`);
+
+        warning = ""
+        if(me == "" || me.includes(' ')){
+          warning += "Username is empty or contains space\n";
+        }
+        if(topic.length < 6 || topic.length > 10 || topic.includes(' ')){
+          warning += "room name must be between 6 and 10 character without space\n";
+        }
+        if(warning !== ""){
+          alert(warning);
+          return;
+        }
+        topic = insertCharacterInMiddle(topic, '/');
         triggermqtt();
         
       }
@@ -359,9 +388,13 @@
             return;
           }
           ignore_event = true;
-          console.log(payload);
+          // console.log(payload);
           text = payload[1];
-          console.log(text);
+          // console.log(text);
+
+          if(!videoAdded){
+            return;
+          }
 
           if(text == 'play' && videoPlayer.paused){
             videoPlayer.currentTime = Number(payload[2]);
@@ -374,7 +407,7 @@
             else if(text == 'seek'){
               // videoPlayer.pause();
               videoPlayer.currentTime = Number(payload[2]);
-              console.log("Recieved Seeking message");
+              // console.log("Recieved Seeking message");
             }
             setTimeout(() => {
               ignore_event = false;
@@ -424,13 +457,13 @@
     videoPlayer.addEventListener('pause', pause);
     videoPlayer.addEventListener('seeked', seeked);
     function logVideoEvent(event, time) {
-      console.log(ignore_event);
+      // console.log(ignore_event);
       if(ignore_event){
         return;
       }
       payload = me + '&' + event + '&' + time.toString();
       publishMessage(payload);
-      console.log(payload);
+      // console.log(payload);
     }
     function logMessage() {
       const message = document.getElementById("broadcast");
@@ -439,19 +472,20 @@
       }
       payload = me+'&Text&'+message.value + "$"+videoPlayer.currentTime;
       message.value = "";
-      console.log(payload);
+      // console.log(payload);
       publishMessage(payload);
     }
     function logConnectionEvent(){
        payload = me + '&join&'+ videoPlayer.currentTime.toString();
       publishMessage(payload);
-      console.log(payload);
+      // console.log(payload);
     }
     function reconnect(){
        setTimeout(() => {
         mqttClient.connect();
       }, 5000);
     }
+    toggleSubtitle();
   </script>
 </body>
 </html>
