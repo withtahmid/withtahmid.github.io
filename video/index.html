@@ -14,8 +14,10 @@
         <div class="col col-2">
         <div style="display: flex; flex-direction: column;" class="video-container">
           <div style="flex: 1;">
+
             <video id="myVideoPlayer" controls>
-              <source src="" type="video/mp4">
+              <source id="videoSource" src="" type="video/mp4">
+              <track id="subtitlesTrack" kind="captions" srclang="en" label="English" default>
               Your browser does not support the video tag.
             </video>
           </div> <!-- empty div to push content to top -->
@@ -30,45 +32,44 @@
 
 
         <div class="col col-1">
+          
+          <!--  -->
+          <div id="toggleButton" class="subtitle_button" onclick="toggleSubtitle()">Subtitle</div>
+  
+          <div id="subtitleContainer" class="subtitle_box">
+             
+          </div>
+          <!--  -->
           <form class="compact-form">
-            <label id="statusLabel" >Not Connected</label>
-            <div class="form-group">
-              <label for="user">Username:</label>
-              <input type="text" id="user" name="user" placeholder="Shouldn't conflict under same room">
-            </div>   
-
-            <div class="form-group">
-              <label for="topic">Room:</label>
-              <input type="text" id="topic" name="topic" placeholder="NOTE: All connections on this keyword will be on sync">
-            </div>
-
             <!-- Sources -->
             <div class="form-group sources">
-              <label>Sources:</label>
+              <!-- <label>Sources:</label>
               <div>
-                <input type="radio" id="source_toggle_1" name="source_toggle" value="1" >
                 <label for="source_1">Drive</label>
                 <input placeholder="Pase Google Drive link" type="text" id="source_1" name="source_1">
-              </div>
+              </div> -->
 
               <div>
-                <input type="radio" id="source_toggle_2" name="source_toggle" value="2" checked>
                 <label for="source_2">Local</label>
-                <input type="file" id="source_2" name="source_2">
+               <input type="file" id="videoFileInput">
               </div>
 
               <div>
                 <label for="source_2">Subtitle(vtt)</label>
                 <input type="file" id="subtitle" name="subtitle">
+                <input type="range" id="subtitleBackward" min="0" max="30" step="1" value="10">
+                <!-- <input type="range" id="subtitleForward" min="0" max="30" step="1" value="10"> -->
               </div>
 
             </div>
             <!-- Sources -->
-            <button type="submit" onclick="submitForm(event)">Connect</button>
+            
             <br><br>
             <button type="button" onclick="createAncore()">Ancore</button>
             <button id = "releaseAncore" type="button" onclick="playFromAncore()">00:00:00</button>
+            
           </form>
+
         </div>
         
     </div>
@@ -89,6 +90,25 @@
 
         <div class="col col-4">
           <div id = "connectionBox" class="connectionBox" >
+             <form class="compact-form" style="height: 200px; width: 95;
+             box-shadow: 0 0 0  rgba(0, 0, 0, 0);
+             border: 0 solid transparent;">
+            <label id="statusLabel" >Not Connected</label>
+            <div class="form-group">
+              <label for="user">Username:</label>
+              <input type="text" id="user" name="user" placeholder="Shouldn't conflict under same room">
+            </div>   
+
+            <div class="form-group">
+              <label for="topic">Room:</label>
+              <input type="text" id="topic" name="topic" placeholder="NOTE: All connections on this keyword will be on sync">
+            </div>
+            <button type="button" onclick="submitForm(event)">Connect</button>
+            Sync<input type="checkbox" id="syncCheckbox" checked>
+            <label for="notiVolumeRange">Notification volume</label>
+            <input type="range" id="notiVolumeRange" min="0" max="1" step="0.01" value="1">
+          </form>
+
              <div class='connectionInfo'style="border: none;">
               <span class='connectionName'>Users</span>
               <span class='connectionActivity'>Last Activity</span>
@@ -104,17 +124,111 @@
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script>
     const videoPlayer = document.getElementById('myVideoPlayer');
+    const subtitlesTrack = document.getElementById('subtitlesTrack');
+    const subtitlesFileInput = document.getElementById('subtitle');
+    const videoSource = document.getElementById('videoSource');
+    const videoFileInput = document.getElementById('videoFileInput');
+    const syncCheckbox = document.getElementById("syncCheckbox");
+
     var statusLabel = document.getElementById("statusLabel");
     var messageSound = document.getElementById("message-sound");
     // Create an MQTT client instance
     let mqttClient;
     let topic = '';
     let me = '';
-    ignore_event = false;
+
     const set = new Set();
+
+    ignore_event = false;
+    subtitle_added = false;
+
+    isConnedted = false;
+
+    wantToSync = true;
 
     ancoredTime = 0;
 
+    subtitle_range_time = 10;
+
+    const volumeRange = document.getElementById("notiVolumeRange");
+    volumeRange.addEventListener("input", function() {
+      const volumeValue = volumeRange.value;
+      messageSound.volume = volumeValue;
+    });
+
+    syncCheckbox.addEventListener("change", function() {
+      const isChecked = syncCheckbox.checked;
+      if (isChecked) {
+        wantToSync = true;
+      } else {
+        wantToSync = false;
+      }
+      
+    });
+
+
+    const subtitle_back = document.getElementById("subtitleBackward");
+    subtitle_back.addEventListener("input", function() {
+      subtitle_range_time = parseInt(subtitle_back.value);
+      console.log(subtitle_range_time);
+    });
+
+    videoFileInput.addEventListener('change', function() {
+      const file = videoFileInput.files[0];
+      videoSource.src = URL.createObjectURL(file);
+      videoPlayer.load();
+    });
+
+    // Subtitle
+
+    subtitlesFileInput.addEventListener('change', function() {
+      const file = subtitlesFileInput.files[0];
+      subtitlesTrack.src = URL.createObjectURL(file);
+      videoPlayer.textTracks[0].mode = 'showing';
+      subtitle_added = true;
+      displaySubtitles();
+    });
+    videoPlayer.addEventListener('timeupdate', displaySubtitles);
+
+    function displaySubtitles() {
+      if(!subtitle_added){
+        return;
+      }
+      subtitleContainer.innerHTML = '';
+
+      const currentTime = videoPlayer.currentTime;
+      const cues = subtitlesTrack.track.cues;
+      const rangeStart = currentTime - subtitle_range_time;
+      const rangeEnd = currentTime + subtitle_range_time;
+
+      // console.log("start: " +  rangeStart + " " + subtitle_range_time);
+      // console.log("end: " + rangeEnd + " " + subtitle_range_time);
+
+      for (let i = 0; i < cues.length; i++) {
+        const cue = cues[i];
+
+        if (cue.startTime > rangeEnd) {
+          break;
+        }
+
+        if (cue.endTime >= rangeStart && cue.startTime <= rangeEnd) {
+          const subtitleText = cue.text.replace('\n', '<br>');
+          const className = (cue.startTime <= currentTime && cue.endTime >= currentTime) ? 'currentSubtitle' : '';
+          subtitleContainer.innerHTML += `<span class="${className}">${subtitleText}</span><br>`;
+        }
+      }
+    }
+
+    function toggleSubtitle() {
+      var div = document.getElementById("subtitleContainer");
+      if (div.style.display === "none") {
+        div.style.display = "block";
+      } else {
+        div.style.display = "none";
+      }
+    }
+
+    // 
     function createAncore(){
       ancoredTime = videoPlayer.currentTime;
       document.getElementById('releaseAncore').innerHTML = formatDuration(ancoredTime);
@@ -197,42 +311,31 @@
       return `${hoursStr}:${minutesStr}:${parseInt(secondsStr)}`;
     }
 
-    function handleSubtitlesFileSelect(event) {
-      console.log("okbaiiiiiii");
-      const file = document.getElementById("subtitle").files[0];
-      const trackElement = document.createElement('track');
-      trackElement.src = URL.createObjectURL(file);
-      trackElement.kind = 'subtitles';
-      trackElement.srclang = 'en';
-      trackElement.label = 'English';
-      trackElement.default = true;
-      videoPlayer.appendChild(trackElement);
-    }
-    const subtitlesFileInput = document.getElementById('subtitle');
-    subtitlesFileInput.addEventListener('change', handleSubtitlesFileSelect);
+    
 
 
      function submitForm(event) {
         event.preventDefault();
         me = document.getElementById("user").value;
         topic = document.getElementById("topic").value;
-        let source;
-        const sourceToggle = document.querySelector('input[name="source_toggle"]:checked').value;
-        if (sourceToggle === "2") {
-          file = document.getElementById("source_2").files[0];
-          const videoUrl = URL.createObjectURL(file);
-          videoPlayer.src = videoUrl;
-          source = videoUrl;
-        }
-        else {
-          source = document.getElementById("source_1").value;
-          if(source.includes("drive.google.com")){
-            source = "https://drive.google.com/uc?export=download&id=" + source.split('/')[5];
-            videoPlayer.src = source;
-          }
-        }
+        
+        // let source;
+        // const sourceToggle = document.querySelector('input[name="source_toggle"]:checked').value;
+        // if (sourceToggle === "2") {
+        //   file = document.getElementById("source_2").files[0];
+        //   const videoUrl = URL.createObjectURL(file);
+        //   videoPlayer.src = videoUrl;
+        //   source = videoUrl;
+        // }
+        // else {
+        //   source = document.getElementById("source_1").value;
+        //   if(source.includes("drive.google.com")){
+        //     source = "https://drive.google.com/uc?export=download&id=" + source.split('/')[5];
+        //     videoPlayer.src = source;
+        //   }
+        // }
         console.log(`User: ${user}`);
-        console.log(`Source: ${source}`);
+        // console.log(`Source: ${source}`);
         triggermqtt();
         
       }
@@ -240,6 +343,9 @@
         mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
         mqttClient.subscribe(topic);
         mqttClient.on('message', function (topic, message){
+          if((!isConnedted) || !(wantToSync)){
+            return;
+          }
           payload = message.toString().split('&');
           if(payload.length < 3){
             return;
@@ -277,10 +383,12 @@
 
 
         mqttClient.on('connect', () => {
+          isConnedted = true;
           console.log('Connected to MQTT broker');
            statusLabel.textContent = "Connected as " + me + " on '"+ topic + "'' at " + NOW();
           statusLabel.style.color = "green";
           logConnectionEvent();
+          
         });
 
         mqttClient.on('error', (error) => {
@@ -290,6 +398,7 @@
         mqttClient.on('close', () => {
           console.log('Disconnected from MQTT broker');
           statusLabel.textContent = "Disconnected at " + NOW();
+          isConnedted = false;
           statusLabel.style.color = "red";
           // Attempt to reconnect after a delay
           setTimeout(() => {
@@ -298,6 +407,9 @@
         });
       }
     function publishMessage(payload){
+      if((!isConnedted) || !(wantToSync)){
+        return;
+      }
       mqttClient.publish(topic, payload);
       setTimeout(function(){}, 1000);
     } 
