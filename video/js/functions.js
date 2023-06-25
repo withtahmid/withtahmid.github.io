@@ -674,7 +674,15 @@ function getTimeFromDateHMS(date) {
   let hours = date.getHours();
   const minutes = date.getMinutes().toString().padStart(2, '0');
   const seconds = date.getSeconds().toString().padStart(2, '0');
-  return hours + ':' + minutes + ':' + seconds;
+  const amPm = hours >= 12 ? 'PM' : 'AM';
+
+  if (hours > 12) {
+    hours -= 12;
+  } else if (hours === 0) {
+    hours = 12;
+  }
+
+  return hours + ':' + minutes + ':' + seconds + ' ' + amPm;
 }
 
 function showActivityList(){
