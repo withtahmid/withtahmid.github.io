@@ -39,7 +39,10 @@ videoFileInput.addEventListener('change', function() {
 chatInput.addEventListener('keypress', function(event) {
   if (event.key === 'Enter') {
     const text = event.target.value;
-     event.target.value = '';
+    if(text == ''){
+        return;
+    }
+    event.target.value = '';
     publishMessage(generateMessage('text', 'null', text));
   }
 });
