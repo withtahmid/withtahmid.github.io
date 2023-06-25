@@ -74,6 +74,7 @@
 
 .message-box p{
 	margin: 0;
+	width: auto;
 }
 .message-box .top{
 	display: flex;
@@ -90,6 +91,7 @@
 }
 .message-box .text{
 	margin: .5%;
+	width: auto;
 }
 
 .message-box .time{
