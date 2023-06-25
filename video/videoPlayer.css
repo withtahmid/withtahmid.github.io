@@ -1,0 +1,279 @@
+*{
+  font-family: "Courier New", Courier, monospace;
+}
+
+
+
+.box-1{
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+}
+.box-1 video{
+  height: 89%;
+  width:100%;
+}
+.box-1 .below-video{
+  height: 11%;
+  width: 100%;
+  padding-bottom: 2%;
+  opacity: 0;
+  transition: opacity 1s ease-out;
+  align-items: center; 
+  justify-content: space-between;
+  background-color: black;
+  padding-left: 2%;
+}
+.box-1:hover > .below-video {
+  opacity: 1;
+  transition: opacity 0s;
+}
+.below-video button{
+  height: auto;
+  border-radius: 5px;
+  background-color: darkgray;
+  flex-basis: 50%;
+  width: auto;
+  font-weight: bold;
+  padding-left: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.below-video .right-btn{
+  margin-right: 60%;
+}
+.below-video input[type="range"]{
+  height: 4px;
+  width: 20px;
+  outline: none;
+  appearance: none;
+  background: rgba(255,255,255,0.3);
+  transition: width .5s;
+}
+
+.below-video input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 6px;
+  height: 15px;
+  background-color: darkgray;
+  cursor: pointer;
+}
+.below-video input[type="range"]:hover{
+  width: 15%;
+  transition: width 0.3s;
+}
+
+.box-2 .playFrom{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+  color: #aaa;
+  text-align: center;
+/*  border: 1px solid red;*/
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 4%;
+  overflow: hidden;
+}
+
+
+.box-2 .playFrom span{
+/*  flex: 1;*/
+/*  margin-right: 2%;*/
+}
+
+.box-2 .playFrom .src-btn{
+  height: 35px;
+  border: none;
+  border-radius: 10px;
+  margin-left: 20px;
+  width: 80px;
+  flex: 1;
+}
+
+.src-btn:hover{
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.src-btn:hover .bounceable{
+  animation: bounce 1s infinite;
+}
+
+.playing svg {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.box-2 .src-local{
+  background-color: darkcyan;
+  color: white;
+}
+
+.box-2 .src-drive{
+  background-color: #1FA463;
+  color: white;
+}
+
+.box-2 .src-youtube{
+  background-color: #FF0000;
+  color: white;
+}
+
+.box-2 .playFrom .default{
+  margin-left: 0;
+  width: 100px;
+  height: 35px;
+  background-color: #111;
+  color:#aaa;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-left: 20px;
+}
+
+.box-2 .playFrom .source-options{
+  opacity: 1;
+  padding-right: 50px;
+}
+
+.default:hover .source-options{
+ opacity: 1;
+
+}
+
+.box-2 .hidden{
+  display: none;
+  transition: display 1s ease;
+}
+
+.box-2 .not-hidden{
+  display: flex;
+}
+
+
+.box-2 .videoFileInput{
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 3%;
+  color: #aaa;
+}
+
+.box-2 .videoFileInput input[type="file"] {
+ display: none;
+}
+.box-2 .videoFileInput input[type="text"]{
+  width: 40%;
+  text-align: center;
+  background-color: #333;
+  color: #aaa;
+  border: none;
+  padding: 10px;
+  box-shadow: none;
+  outline: none;
+  border-radius: 10px;
+  margin: 0;
+  
+}
+
+.box-2  .videoFileInput input[type="text"]:hover{
+  border-bottom: 1px solid #888;
+  color: #bbb;
+}
+.box-2 .videoFileInput input[type="text"]:focus{
+  border: 1px solid #888;
+  color: #bbb;
+  border-top: none;
+}
+
+.box-2 .videoFileInput label, .videoFileInput button{
+  border-radius: 10px;
+  cursor: pointer;
+/*  background-color: #000;*/
+  color: #fff;
+  padding: 10px 20px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  margin: 0;
+  margin-top: 3%;
+}
+.box-2 .default{
+  background-color: #000;
+}
+.box-2 .subtitle-box{
+  color: white;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}
+
+
+.box-2 .MediaList{
+  width: 90%;
+  margin: 0 auto;
+  color: white;
+
+}
+.file-input{
+  display: inline-block;
+}
+.box-2 .videoFileInput .videoFileName{
+  
+  margin-left: 5%;
+  width: 400px;
+}
+.videoFileName label{
+  border-radius: 2px;
+}
+
+/*.box-2 .gap{
+  margin-top: 3%;
+}
+*/
+.subtitle-text{
+  text-align: center;
+  font-family: 'roboto';
+}
+
+.currentSubtitle{
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.popupdiv input[type="range"]{
+  height: 4px;
+  outline: none;
+  appearance: none;
+  background: rgba(255,255,255,0.3);
+}
+
+.popupdiv input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 6px;
+  height: 15px;
+  background-color: darkgray;
+  cursor: pointer;
+}
+
+.box-2 .mediaNames{
+  margin-top: 10%;
+  width: 90%;
+  margin: 0 auto;
+}
+.box-2 .mediaNames label{
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+

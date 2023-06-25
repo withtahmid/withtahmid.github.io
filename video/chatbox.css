@@ -1,0 +1,106 @@
+.box-3 .message-box{
+/*	border: 1px solid red;*/
+	height: 80%;
+	width: 80%;
+	background-color: transparent;
+	margin: 0 auto;
+	margin-top: 1%;
+	overflow: auto;
+}
+.box-3 .below-message{
+/*	border: 1px solid red;*/
+	height: 15%;
+	width: 95%;
+/*	padding-top: 1%;*/
+	margin: 0 auto;
+	display: flex;
+
+}
+
+.below-message input{
+	height: 40px;
+	width: 70%;
+	border-radius: 10px;
+	background-color: #333;
+	text-align: center;
+	color: #ccc;
+	border: none;
+	outline: none;
+	opacity: 0.7;
+  	transition: opacity .6s ease;
+	
+}
+
+.below-message input:focus{
+	border-bottom: 1px solid #aaa;
+}
+
+.below-message button{
+	height: 40px;
+	width: 100px;
+	margin-left: 2%;
+	border-radius: 10px;
+	background-color: #000;
+	color: #fff;
+	border: none;
+	outline: none;
+	opacity: 0.7;
+  	transition: opacity .6s ease;
+}
+
+.below-message button:hover, .below-message input:hover{
+	opacity: 1;
+  	transition: opacity .1s ease;
+}
+
+.message-box .message{
+	padding: 10px;
+	position: relative;
+	height: auto;
+/*	border: 1px solid red;*/
+	color: #aaa;
+	max-width: 60%;
+	margin-top: 4%;
+	border-radius: 20px;
+	border-right: 1px solid #666;
+	border-bottom: 1px solid #666;
+/*	display: flex;*/
+}
+.message-box .me{
+	margin-left: auto;
+	border-right: none;
+	border-left: 1px solid #666;
+}
+
+.message-box p{
+	margin: 0;
+}
+.message-box .top{
+	display: flex;
+
+}
+.message-box .top span{
+	flex: 1;
+}
+.message-box .sender{
+	font-weight: bold;
+	font-size: 22px;
+	text-align: left;
+	flex: 1;
+}
+.message-box .text{
+	margin: .5%;
+}
+
+.message-box .time{
+	font-weight: bold;
+	text-align: right;
+	margin-left: auto;
+}
+
+.message-box .message-container{
+	display: flex;
+}
+.message-box .gap-left {
+  flex: 1;
+}

@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Watch Together</title>
+</head>
+<body>
+
+   <div class="row">
+
+        <!--  -->
+        <div class="col col-2">
+        <div style="display: flex; flex-direction: column;" class="video-container">
+          <div style="flex: 1;">
+
+            
+            <video id="myVideoPlayer" controls>
+              <source id="videoSource" src="" type="video/mp4">
+              <track id="subtitlesTrack" kind="captions" srclang="en" label="English" default>
+              Your browser does not support the video tag.
+            </video>
+
+          </div> <!-- empty div to push content to top -->
+          <div class="bottom" style="">
+            <input id = "skipValue" type="number" min="1" max="60" value="5">
+            <button onclick="backward()">Skip Backward</button>
+            <button onclick="forward()" style="margin-right: 60%;">Skip Forward</button>
+          </div>
+        </div>
+      </div>
+        <!--  -->
+
+
+        <div class="col col-1">
+          
+          <!--  -->
+          <!--  -->
+          <form class="compact-form">
+            <h2>Media Control</h2>
+            <!-- Sources -->
+            <div class="form-group sources">
+              <label>Sources:</label>
+              <div>
+                <label for="source_1">Drive - Link </label>
+                <input placeholder="Pase Google Drive link" type="text" id="driveInput" name="source_1">
+              </div>
+
+              <div>
+                <label for="videoFileInput">Local Video</label>
+               <input type="file" id="videoFileInput" >
+              </div>
+
+              <div>
+                <label for="subtitle">Subtitle(vtt)</label>
+                <input type="file" id="subtitle" name="subtitle">
+                <!-- <input type="range" id="subtitleBackward" min="0" max="30" step="1" value="10"> -->
+              </div>
+              <button type="button" id="showSubtitle" onclick="toggleSubtitle()">Show</button>
+  
+          <!-- <div id="subtitleBox" class="subtitle_box"> -->
+            
+          <!-- </div> -->
+            </div>
+            <div class="subtitle_box" id = "subBox">
+               <input type="range" id="subtitleBackward" min="0" max="30" step="1" value="10">
+              <button type="button" id="hideSubtitle" onclick="toggleSubtitle()">Show</button>
+               <br><br>
+               <div  id="subtitleContainer"> </div>
+          </div>
+            <!-- Sources -->
+            
+            <br>
+            <button type="button" onclick="createAncore()">Ancore</button>
+            <button id = "releaseAncore" type="button" onclick="playFromAncore()">00:00:00</button>
+            
+          </form>
+
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col col-3">
+          <div class="infobox">
+            <div id = "infobox" style="height: 90%; overflow: auto;">
+                <div id="info"></div>
+            <!-- </div> -->
+            </div>
+            <div class="chatBox">
+            <input  type="text" id="broadcast"  onkeydown="if(event.keyCode===13) logMessage()" name="broadcast" placeholder="This message will reach to all connected people">
+                 <button type="button" onclick="logMessage()">Send</button>
+           </div>
+          </div>
+        </div>
+        
+
+        <div class="col col-4">
+          <!--  -->
+          <div id = "connectionBox" class="connectionBox" >
+            <h2>Connection Dashboard</h2>
+             <form class="compact-form" style="height: 230px; width: 95;
+             box-shadow: 0 0 0  rgba(0, 0, 0, 0);
+             border: 0 solid transparent;">
+            <label id="statusLabel" >Not Connected</label>
+            <div class="form-group">
+              <label for="user">Username:</label>
+              <input type="text" id="user" name="user" placeholder="Shouldn't conflict under same room">
+            </div>   
+
+            <div class="form-group">
+              <label for="topic">Room:</label>
+              <input type="text" id="topic" name="topic" placeholder="NOTE: All connections on this keyword will be on sync">
+            </div>
+            <br>
+            <button type="button" onclick="submitForm(event)">Connect</button>
+             <button type="button" id ="showActivity" onclick="toggleActivity()">Activity</button>
+             Sync <input type="checkbox" id="syncCheckbox" checked>
+            <label for="notiVolumeRange"> Notification volume </label>
+            <input type="range" id="notiVolumeRange" min="0" max="1" step="0.01" value="1">
+         
+         
+          <!--  -->
+          <div class="history_box" id = "activityBox">
+              <button type="button" id="hideActivity" onclick="toggleActivity()">Show</button>
+              <br><br>
+              <div id = "activityLog"></div>
+          </div>
+           </form>
+          <!--  -->
+
+             <div class='connectionInfo'style="border: none;">
+              <span class='connectionName'>Users</span>
+              <span class='connectionActivity'>Last Activity</span>
+              <span class='connectionTime'>Last Activity Time</span>
+          </div>
+        
+        </div>
+    </div>
+  
+  <!-- <div style="display: inline-block ;"> -->  
+  <!-- <br> -->
+  <audio style="display:none;" id="message-sound" src="http://soundbible.com/grab.php?id=1645&type=mp3"></audio>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script>
+    const videoPlayer = document.getElementById('myVideoPlayer');
+    const subtitlesTrack = document.getElementById('subtitlesTrack');
+    const subtitlesFileInput = document.getElementById('subtitle');
+    const videoSource = document.getElementById('videoSource');
+    const videoFileInput = document.getElementById('videoFileInput');
+    const syncCheckbox = document.getElementById("syncCheckbox");
+    const driveInput = document.getElementById("driveInput");
+
+    var statusLabel = document.getElementById("statusLabel");
+    var messageSound = document.getElementById("message-sound");
+
+    let mqttClient;
+    let topic = '';
+    let me = '';
+
+    const set = new Set();
+
+    ignore_event = false;
+    subtitle_added = false;
+    isConnedted = false;
+    videoAdded = false;
+    wantToSync = true;
+
+
+    ancoredTime = 0;
+
+    subtitle_range_time = 10;
+
+    const volumeRange = document.getElementById("notiVolumeRange");
+    volumeRange.addEventListener("input", function() {
+      const volumeValue = volumeRange.value;
+      messageSound.volume = volumeValue;
+    });
+
+    syncCheckbox.addEventListener("change", function() {
+      const isChecked = syncCheckbox.checked;
+      if (isChecked) {
+        wantToSync = true;
+      } else {
+        wantToSync = false;
+      }
+      
+    });
+
+
+    const subtitle_back = document.getElementById("subtitleBackward");
+    subtitle_back.addEventListener("input", function() {
+      subtitle_range_time = parseInt(subtitle_back.value);
+      // console.log(subtitle_range_time);
+    });
+
+    videoFileInput.addEventListener('change', function() {
+      const file = videoFileInput.files[0];
+      videoSource.src = URL.createObjectURL(file);
+      videoPlayer.load();
+      videoAdded = true;
+    });
+
+
+
+    driveInput.addEventListener('keypress', function(event) {
+      event.preventDefault();
+      if (event.key === 'Enter') {
+        const inputValue = event.target.value;
+        // console.log('Entered value:', inputValue);
+        // Perform further processing with the entered value
+
+        source = document.getElementById("driveInput").value;
+        // console.log(source);
+        if(source.includes("drive.google.com")){
+          id = source.split('/')[5];
+          source = "https://drive.google.com/uc?export=download&id=" + id;
+          videoPlayer.src = source;
+          // console.log(id);
+        }
+      }
+    });
+
+    // Subtitle
+
+    subtitlesFileInput.addEventListener('change', function() {
+      const file = subtitlesFileInput.files[0];
+      subtitlesTrack.src = URL.createObjectURL(file);
+      videoPlayer.textTracks[0].mode = 'showing';
+      subtitle_added = true;    
+    });
+    videoPlayer.addEventListener('timeupdate', displaySubtitles);
+
+    function displaySubtitles() {
+      if(!subtitle_added){
+        return;
+      }
+      var div = document.getElementById("subBox");
+      if (div.style.display === "none") {
+        return;  
+      }
+      subtitleContainer.innerHTML = '';
+      const currentTime = videoPlayer.currentTime;
+      const cues = subtitlesTrack.track.cues;
+      const rangeStart = currentTime - subtitle_range_time;
+      const rangeEnd = currentTime + subtitle_range_time;
+
+      for (let i = 0; i < cues.length; i++) {
+        const cue = cues[i];
+
+        if (cue.startTime > rangeEnd) {
+          break;
+        }
+
+        if (cue.endTime >= rangeStart && cue.startTime <= rangeEnd) {
+          const subtitleText = cue.text.replace('\n', '<br>');
+          const className = (cue.startTime <= currentTime && cue.endTime >= currentTime) ? 'currentSubtitle' : '';
+          subtitleContainer.innerHTML += `<span class="${className}">${subtitleText}</span><br>`;
+        }
+      }
+    }
+
+    function toggleSubtitle() {
+      var div = document.getElementById("subBox");
+      if (div.style.display === "none") {
+        div.style.display = "block";
+        document.getElementById("hideSubtitle").textContent = "Hide"
+  
+      } else {
+        div.style.display = "none";
+        document.getElementById("showSubtitle").textContent = "Subtitle";
+      }
+    }
+    function toggleActivity() {
+      var div = document.getElementById("activityBox");
+      if (div.style.display === "none") {
+        div.style.display = "block";
+        document.getElementById("hideActivity").textContent = "Hide";
+  
+      } else {
+        div.style.display = "none";
+       document.getElementById("showActivity").textContent = "Activity";
+      }
+    }
+
+    // 
+    function createAncore(){
+      ancoredTime = videoPlayer.currentTime;
+      document.getElementById('releaseAncore').innerHTML = formatDuration(ancoredTime);
+
+    }
+    function playFromAncore(){
+      videoPlayer.currentTime = ancoredTime;
+    }
+
+
+    function backward(){
+      skip = document.getElementById("skipValue").value;
+      videoPlayer.currentTime -= Number(skip);
+    }
+    function forward(){
+      skip = document.getElementById("skipValue").value;
+      videoPlayer.currentTime += Number(skip);
+    }
+
+    function appendChat(name, time, message, Text) {
+      var infoDiv = document.createElement("div");
+      infoDiv.className = "info";
+      if(name == me){
+        name = 'You'
+        infoDiv.classList.add("me");
+      }
+      console.log(message);
+      temp = message.split('$');
+      message = temp[0];
+      timestamp = formatDuration(Number(temp[1]));
+
+      var nameTime = document.createElement("p");
+      nameTime.innerHTML = '<span class="name">' + name + '</span><span class="time"> at ' +time + '. On playback  '+'</span><span class = "name"><button onclick = "lookback('+temp[1]+')" class = "name" style = "background-color:transparent; border:none; cursor:pointer;">'+timestamp+'</button></span>';
+      infoDiv.appendChild(nameTime);
+      var messagePara = document.createElement("p");
+      messagePara.className = "message";
+      messagePara.innerHTML = message;
+      infoDiv.appendChild(messagePara);
+
+      document.getElementById("info").appendChild(infoDiv);
+      var infoBox = document.getElementById("infobox");
+      infoBox.scrollTop = infoBox.scrollHeight;
+      messageSound.play();
+    }
+    function lookback(time) {
+      videoPlayer.currentTime = Number(time);
+    }
+
+    function addActivity(name, event, activity){
+      if(set.has(name) && event == 'Join'){
+        return;
+      }
+      div = document.getElementById("activityLog");
+      const subDiv = document.createElement("p");
+      subDiv.innerHTML = activity;
+      div.appendChild(subDiv);
+      console.log("Appended");
+
+
+      div.scrollTop = div.scrollHeight;
+    }
+
+    function updateConnectionTable(name, event, duration) {
+      activity = event+ "ed";      
+      if(event != 'join' && event != 'Text'){
+        activity += " on " + formatDuration(duration);
+      }
+
+      
+
+      log = name + " " + activity + " at " + NOW();
+      addActivity(name, event, log);
+      
+
+      ok ="<div class='connectionInfo'><span class='connectionName'>"+name+"</span><span class = 'connectionActivity'> " +activity+ "</span> <span class='connectionTime'>"+ NOW()+ "</span></div>";
+      if(set.has(name)){
+        var connection = document.getElementById(name);
+        connection.innerHTML = ok;
+        return;
+      }
+
+      
+      set.add(name);
+      const parent = document.getElementById('connectionBox');
+      const subDiv = document.createElement("div");
+      subDiv.setAttribute("id", name);
+      subDiv.innerHTML =  ok;
+      parent.appendChild(subDiv); 
+    }
+
+    function NOW(){
+      const currentDate = new Date();
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formattedDate = currentDate.toLocaleString('en-US', options);
+      return formattedDate;
+    }
+    function formatDuration(duration) {
+      var hours = Math.floor(duration / 3600);
+      var minutes = Math.floor((duration % 3600) / 60);
+      var seconds = duration % 60;
+      var hoursStr = hours.toString().padStart(2, "0");
+      var minutesStr = minutes.toString().padStart(2, "0");
+      var secondsStr = seconds.toString().padStart(2, "0");
+      return `${hoursStr}:${minutesStr}:${parseInt(secondsStr)}`;
+    }
+
+    
+
+      function insertCharacterInMiddle(str, character) {
+        const middleIndex = Math.floor(str.length / 2);
+        const firstHalf = str.slice(0, middleIndex);
+        const secondHalf = str.slice(middleIndex);
+
+        return firstHalf + character + secondHalf;
+      }
+     function submitForm(event) {
+        event.preventDefault();
+        me = document.getElementById("user").value;
+        topic = document.getElementById("topic").value;
+
+        warning = ""
+        if(me == "" || me.includes(' ')){
+          warning += "Username is empty or contains space\n";
+        }
+        if(topic.length < 6 || topic.length > 10 || topic.includes(' ')){
+          warning += "room name must be between 6 and 10 character without space\n";
+        }
+        if(warning !== ""){
+          alert(warning);
+          return;
+        }
+        topic = insertCharacterInMiddle(topic, '/');
+        triggermqtt();
+        
+      }
+      function triggermqtt(){
+        mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
+        mqttClient.subscribe(topic);
+        mqttClient.on('message', function (topic, message){
+          if((!isConnedted) || !(wantToSync)){
+            return;
+          }
+          payload = message.toString().split('&');
+          if(payload.length < 3){
+            return;
+          }
+          updateConnectionTable(payload[0], payload[1], payload[2]);
+          if(payload[1] == 'Text'){
+            appendChat(payload[0], NOW(), payload[2], true);  
+            return;
+          }  
+          if(payload[1] == 'join' || payload[0] == me){
+            return;
+          }
+          ignore_event = true;
+          // console.log(payload);
+          text = payload[1];
+          // console.log(text);
+
+          if(!videoAdded){
+            return;
+          }
+
+          if(text == 'play' && videoPlayer.paused){
+            videoPlayer.currentTime = Number(payload[2]);
+            videoPlayer.play();
+            }
+            else if(text == 'pause' && !videoPlayer.paused){
+              videoPlayer.pause();
+              videoPlayer.currentTime = Number(payload[2]);
+            }
+            else if(text == 'seek'){
+              // videoPlayer.pause();
+              videoPlayer.currentTime = Number(payload[2]);
+              // console.log("Recieved Seeking message");
+            }
+            setTimeout(() => {
+              ignore_event = false;
+            }, 500);
+        });
+
+
+        mqttClient.on('connect', () => {
+          isConnedted = true;
+          console.log('Connected to MQTT broker');
+           statusLabel.textContent = "Connected as " + me + " on '"+ topic + "'' at " + NOW();
+          statusLabel.style.color = "green";
+          logConnectionEvent();
+          
+        });
+
+        mqttClient.on('error', (error) => {
+          console.error('Error:', error);
+        });
+
+        mqttClient.on('close', () => {
+          console.log('Disconnected from MQTT broker');
+          statusLabel.textContent = "Disconnected at " + NOW();
+          isConnedted = false;
+          statusLabel.style.color = "red";
+          // Attempt to reconnect after a delay
+          setTimeout(() => {
+            mqttClient.connect();
+          }, 5000);
+        });
+      }
+    function publishMessage(payload){
+      if((!isConnedted) || !(wantToSync)){
+        return;
+      }
+      mqttClient.publish(topic, payload);
+      setTimeout(function(){}, 1000);
+    } 
+    var play = function(){logVideoEvent('play', videoPlayer.currentTime);}
+    var pause = function(){logVideoEvent('pause', videoPlayer.currentTime);}
+    var seeked = function(){logVideoEvent('seek', videoPlayer.currentTime);}
+    function changeTime(time) {
+      videoPlayer.currentTime = time;    
+    }
+
+    videoPlayer.addEventListener('play', play);
+    videoPlayer.addEventListener('pause', pause);
+    videoPlayer.addEventListener('seeked', seeked);
+    function logVideoEvent(event, time) {
+      // console.log(ignore_event);
+      if(ignore_event){
+        return;
+      }
+      payload = me + '&' + event + '&' + time.toString();
+      publishMessage(payload);
+      // console.log(payload);
+    }
+    function logMessage() {
+      const message = document.getElementById("broadcast");
+      if(message.value == ''){
+        return;
+      }
+      payload = me+'&Text&'+message.value + "$"+videoPlayer.currentTime;
+      message.value = "";
+      // console.log(payload);
+      publishMessage(payload);
+    }
+    function logConnectionEvent(){
+       payload = me + '&join&'+ videoPlayer.currentTime.toString();
+      publishMessage(payload);
+      // console.log(payload);
+    }
+    function reconnect(){
+       setTimeout(() => {
+        mqttClient.connect();
+      }, 5000);
+    }
+    toggleSubtitle();
+    toggleActivity();
+  </script>
+</body>
+</html>
