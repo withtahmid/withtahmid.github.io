@@ -16,12 +16,26 @@ body {
   overflow: hidden;
   margin: 0 0;
   padding: 0 0;
+/*  border: 1px solid red;*/
 }
-@media (max-aspect-ratio: 1.2/1) {
+/*@media (max-aspect-ratio: 1.2/1) {
+  .box {
+    width: 100%;
+  }
+}*/
+
+@media screen and (orientation: portrait) {
   .box {
     width: 100%;
   }
 }
+
+@media screen and (orientation: landscape) {
+  .box {
+    width: 49%;
+  }
+}
+
 .box-element{
   background-color: #222;
   border-radius: 20px ;

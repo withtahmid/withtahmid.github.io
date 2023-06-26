@@ -33,7 +33,7 @@ function adjust_display(){
 		}
 	}
 	update_boxes(height, width);
-	
+	alert(height, width);
 	
 }
 adjust_display();
