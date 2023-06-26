@@ -41,6 +41,13 @@ videoFileInput.addEventListener('change', function() {
     setPlaying(true);
     setVideoFineName(file.name);
     videoFileChanged();
+    container = document.getElementById('videoContainer');
+    container.classList.remove('inactive');
+    container.classList.add('active');
+    document.getElementById('subtitleFileNameLabel').textContent = '';
+    removeClass('subtitleFileNameLabel', 'src-local');
+    removeClass('subtitleFileNameLabel', 'src-drive');
+    removeClass('subtitleFileNameLabel', 'src-youtube');
 });
 chatInput.addEventListener('keypress', function(event) {
   if (event.key === 'Enter') {
@@ -53,13 +60,76 @@ chatInput.addEventListener('keypress', function(event) {
   }
 });
 
-subtitlesFileInput.addEventListener('change', function() {
-    const file = subtitlesFileInput.files[0];
-    subtitlesTrack.src = URL.createObjectURL(file);
+function convertSrtToVtt(srtData) {
+    var vttData = 'WEBVTT\n\n';
+    var srtLines = srtData.trim().split('\n\n');
+    
+    for (var i = 0; i < srtLines.length; i++) {
+        var srtLine = srtLines[i];
+        var srtParts = srtLine.split('\n');
+        
+        if (srtParts.length >= 3) {
+            var index = srtParts[0];
+            var timeRange = srtParts[1].replace(/,/g, '.');
+            var text = srtParts.slice(2).join('\n');
+            
+            vttData += index + '\n';
+            vttData += timeRange + '\n';
+            vttData += text + '\n\n';
+        }
+    }
+
+    return vttData;
+}
+
+function showSubtitleName(filename){
+    filename = trimFileName(filename);
+    addClass('subtitleFileNameLabel', getSelectedSource());
+    label = document.getElementById('subtitleFileNameLabel');
+    label.textContent = '';
+    i = 0;
+    var intervalName = setInterval(function() {
+        label.textContent  += filename[i];
+        i += 1;
+        if(i >= filename.length){
+            clearInterval(intervalName);
+        }
+    }, 20);
+}
+
+function addUrlToTrack(subtitleURL){
+    subtitlesTrack.src = subtitleURL;
     videoPlayer.textTracks[0].mode = 'showing';
     subtitleStatus(true);
     removeClass('showSubBtn', 'inactive');
+}
+subtitlesFileInput.addEventListener('change', function() {
+    var subtitleFile = subtitlesFileInput.files[0];
+    filename = subtitleFile.name;             
+    var subtitleURL;
+    var subtitleExtension = subtitleFile.name.split('.').pop().toLowerCase();
+    if (subtitleExtension === 'vtt') {
+        subtitleURL = URL.createObjectURL(subtitleFile);
+        addUrlToTrack(subtitleURL);
+        showSubtitleName(filename);
+    } 
+    else if (subtitleExtension === 'srt') {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var convertedSubtitles = convertSrtToVtt(event.target.result);
+            var blob = new Blob([convertedSubtitles], { type: 'text/vtt' });
+            subtitleURL = URL.createObjectURL(blob);
+            addUrlToTrack(subtitleURL);
+            showSubtitleName(filename);
+        };
+        reader.readAsText(subtitleFile);
+    } 
+    else {
+        alert('Unsupported subtitle format. Please choose a VTT or SRT file.');
+        return;
+    }
 });
+
 
 function driveLinkInputClipboard(){
     navigator.clipboard.readText()
@@ -74,11 +144,11 @@ function driveLinkInputClipboard(){
 
 function playFromDriveLink(link){
     result  = getVideoSourceFromGoogleDriveLink(link);
-    document.getElementById('driveTextInputField').value = link;
     if(!result){
         alert('Invalid Google Drive Link\n' + link);
         return;
     }
+    document.getElementById('driveTextInputField').value = link;
     videoSource.src = result;
     videoPlayer.load();
     setPlaying(true);
@@ -113,6 +183,9 @@ function decodeMessage(message){
 }
 
 function handleMediaEvent(event){
+    if((!sync())){
+        return;
+    }
     message = generateMessage('media', event);
     publishMessage(message);
 

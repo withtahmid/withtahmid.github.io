@@ -13,7 +13,7 @@ function inputIsValid(username, roomName){
       warning += "room name must be between 6 and 10 character without space\n";
     }
     if(warning !== ""){
-      alert(warning);
+      alertUser(warning);
       return false;
     }
     return true
@@ -125,6 +125,7 @@ function ButtonInputOff(id, val){
 }
 
 function handelFirstTimeConnection(){
+  makeUniqueKey();
   makeDivZero('usernameInputField');
   makeDivZero('roomnameInputField');
   makeDivZero('connectButton');
@@ -148,7 +149,7 @@ function handelFirstTimeConnection(){
   document.getElementById('connection-sync').innerHTML = getRoomName()+" <i class='sync-icon fas fa-sync-alt'></i>";
   firstHappened();
   existanceBroadcastIntervalId = setInterval(broadCastExistance, 5000);
-  refreshConnectedPeopleIntervalId = setInterval(refreshConnectFeed, 5000);
+  refreshConnectedPeopleIntervalId = setInterval(refreshConnectFeed, 12000);
 }
 
 function resetAllConnection(){
@@ -175,6 +176,7 @@ function resetAllConnection(){
   makeDivFullHeight('connectionInputField');
   document.getElementById('connection-roomname').innerHTML = '<i class="fas fa-globe rotate-globe"></i> Username';
   document.getElementById('peopleRefreshList').innerHTML = '';
+  document.getElementById('messageContainer').innerHTML = '';
   makeStatusBarZero();
   setSync(true);
   setIntentonalDisconnect(false);
@@ -182,7 +184,6 @@ function resetAllConnection(){
   clearInterval(refreshConnectedPeopleIntervalId);
   resetPeopleList();
   resetNotification();
-
 }
 function toggleSync(){
   if(!isConnected()){
@@ -193,7 +194,6 @@ function toggleSync(){
     removeClass('connection-sync', 'sync');
     addClass('connection-sync', 'noSync');
     setSync(false);
-    document.getElementById('peopleRefreshList').innerHTML = '';
   }
   else{
     addClass('connection-sync', 'sync');
@@ -219,15 +219,14 @@ function addClass(id, className){
 }
 
 function publishMessage(payload){
-  if((!isConnected()) || (!sync()) || (!getPublishFlag())){
+  if((!isConnected()) || (!getPublishFlag())){
     return;
   }
   mqttClient.publish(getTopic(), payload);
-  // setTimeout(function(){}, 100);
 } 
 
 function broadCastExistance(){
-  message = generateMessage('exist', 'null', 'null');
+  message = generateMessage('exist', 'null', getUniqueKey());
   publishMessage(message);
 }
 
@@ -239,7 +238,9 @@ function createPeopleForList(username, now){
   timeMessage = '';
  
   if(timeAgo > 60){
-    removeUser(username);
+    if(username != getUsername()){
+      removeUser(username);
+    }
     timeMessage = 'Disconnected';
     people.classList.add('disconnected');
   }
@@ -261,7 +262,7 @@ function createPeopleForList(username, now){
     people.classList.remove('late');
     people.classList.remove('active');
     people.classList.add('thisUser');
-     people.innerHTML = "<span>" + username + "</span><span>" + timeMessage + "</span><span><button><i class='fas fa-user-circle'></i></button></span>";
+    people.innerHTML = "<span>" + username + " (you) </span><span>" + timeMessage + "</span><span><button><i class='fas fa-user-circle'></i></button></span>";
   }
  
   return people;
@@ -488,14 +489,17 @@ function matchSubtitleTosrcTheme(){
   if(source !== 'src-local'){
     removeSubtileTheme('src-local');
     removeClass('videoFileNameLabel', 'src-local');
+    removeClass('subtitleFileNameLabel', 'src-local');
   }
   if(source !== 'src-drive'){
     removeSubtileTheme('src-drive');
     removeClass('videoFileNameLabel', 'src-drive');
+    removeClass('subtitleFileNameLabel', 'src-drive');
   }
   if(source !== 'src-youtube'){
     removeSubtileTheme('src-youtube');
     removeClass('videoFileNameLabel', 'src-youtube');
+    removeClass('subtitleFileNameLabel', 'src-youtube');
   }
 
   addClass('videoFileNameLabel', source);
@@ -519,7 +523,7 @@ function selectSource(source){
   fn();
 }
 
-function showFileName(){
+function showVideoFileName(){
   filename = trimFileName(videoFileName());
   label = document.getElementById('videoFileNameLabel');
   label.textContent = '';
@@ -534,13 +538,15 @@ function showFileName(){
 }
 function videoFileChanged(){
   document.getElementById('subtitlesTrack').src = '';
+  document.getElementById('subtitleFileNameLabel').textContent = '';
   ButtonInputOff('subtitleBox', false);
   removeClass('subtitleBox','inactive');
   // addClass('subtitleBox', 'active');
   addClass('showSubBtn', 'inactive');
   subtitleStatus(false);
   matchSubtitleTosrcTheme();
-  showFileName();
+  showVideoFileName();
+
 }
 
 
@@ -785,14 +791,16 @@ mediaHandeler.set('seeked', function(playTime){
 function createMediaNotification(message){
   notification = "'"+message.user+"' " + message.event;
   if(message.event !== 'seeked'){
-    notification += 'ed';
+    notification += 'ed at ';
+  }else{
+    notification += 'to ';
   }
-  notification += ' at ' + formatDuration(message.playTime) + '.';
+  notification +=  formatDuration(message.playTime) + '.';
   return notification;
 }
 
 function handleMediaMessage(message){
-  if(!isPlaying() || message.user == getUsername()){
+  if(!isPlaying() || message.user == getUsername() || (!sync())){
     return;
   }
   setPublishFlag(false);
@@ -805,6 +813,7 @@ function handleMediaMessage(message){
   },500);
 }
 function handleJoinMessage(message){
+  broadCastExistance();
   refreshConnectFeed();
   if(message.user == getUsername()){
     return;
@@ -813,10 +822,33 @@ function handleJoinMessage(message){
   putNotification(notification);
 }
 function handleExistMessage(message){
-
-  
+  return;
+}
+function handleReconnectMessage(message){
+  return;
+}
+function disconnectThisUser(){
+  setIntentonalDisconnect(true);
+  setTimeout(function(){
+    mqttClient.end();
+  }, 200);
+  error = "Username '" + getUsername() + "' already is in the room.\n Please join with another username"; 
+  alertUser(error);
+}
+function handleConflict(message){
+    thisConnectionTime = new Date(parseInt(getUniqueKey()));
+    thatConnectiontime = new Date(parseInt(message.text));
+    if(thisConnectionTime > thatConnectiontime){
+        disconnectThisUser();
+    }
+}
+function handleConflictMessage(){
+  handleConflict(message);
 }
 function handleLeaveMessage(message){
+  if(message.user == getUsername()){
+    return;
+  }
   notification = "'" + message.user + "' left the room";
   putNotification(notification);
   removeUser(message.user);
@@ -869,7 +901,7 @@ function handleTextMessage(message){
   if(message.user == getUsername()){
     return;
   }
-  notification = "'" +message.user + ":' " + trimFileName(message.text);
+  notification = "" +message.user + ": " + trimFileName(message.text);
   putNotification(notification)
 }
 
@@ -1007,6 +1039,29 @@ function sendMessage(){
   }
   document.getElementById('chatInput').value.value = '';
   publishMessage(generateMessage('text', 'null', text));
+}
+
+function showAlert(){
+  box = document.getElementById('alert-box');
+  box.style.display = 'flex';
+}
+
+function hideAlert(){
+  box = document.getElementById('alert-box');
+  box.style.display = 'none';
+  document.getElementById('alertContent').innerHTML = '';
+}
+
+function alertUser(message){
+  div = document.getElementById('alertContent');
+  div.innerHTML = '';
+  messages = message.split('\n');
+  for(i = 0;i < messages.length; ++i){
+    const p = document.createElement('p');
+    p.textContent = messages[i].toString();
+    div.appendChild(p);
+  }
+  showAlert();
 }
 
 var notificationSound = document.getElementById("notification-sound");

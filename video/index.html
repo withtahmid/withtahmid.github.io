@@ -13,6 +13,15 @@
 </head>
 <body>
 
+	<div class="alertcontainer center" id="alert-box">
+		<div class="alert-box center">
+			<div id="alertContent" class="alert-content center">
+				<p>adverb</p>
+			</div>
+			<button onclick="hideAlert()" type="button" class="btn-hover-fx"><i  class="fas fa-times"></i></button>
+		</div>
+	</div>
+
 	<div id="notificationpopup" class="notificationpopup">
 		<button onclick="hideNotification()" type="button" class="btn-hover-fx"><i  class="fas fa-times"></i></button>
 		<div id="notificationContent" class="notification">
@@ -34,7 +43,7 @@
 
 	<!-- Box - 1 -->
 	<div class="box" >
-		<div class="box-element box-1">
+		<div class="box-element box-1 inactive" id="videoContainer">
 
 			<video id="videoPlayer" controls>
               <source id="videoSource" src="" type="video/mp4">
@@ -83,10 +92,10 @@
 			    	
 			    </div>
 			    <div class="file-input hidden" id="driveLinkInputField">
-			    	<label onclick="driveLinkInputClipboard()" class="file-input-label btn-hover-fx src-drive"><i class="fas fa-clipboard"></i> Paste Link</label>
+			    	<label onclick="driveLinkInputClipboard()" class="file-input-label btn-hover-fx src-drive"><i class="fas fa-clipboard"></i> Link</label>
 			    	 OR 
  			    	<input type="text" id="driveTextInputField">
-			    	<button onclick="playFromDriveClick()" class="src-drive btn-hover-fx">play</button>
+			    	<button onclick="playFromDriveClick()" class="src-drive btn-hover-fx"><i class="fas fa-play"></i></button>
 			    	
 			    </div>
 			    <div class="file-input hidden" id="youtubeLabel">
@@ -99,7 +108,6 @@
 					<input id="subtitleFileInput" type="file" class="file-input">
 			    	<label for="subtitleFileInput" id="subtitleFileInputLabel" class="file-input-label  btn-hover-fx">Add subtitle</label>
 			    	<button id="showSubBtn" class="inactive btn-hover-fx" onclick="showSubtitle()">Show subtile</button>
-			    	<a href="srtTovtt.html" target="_blank"><button  class="btn-hover-fx"><i class="fas fa-cogs"></i> srt > vtt</button></a>
 			    	<div class="gap">
 			    		<button onclick="createAncore()" class="btn-hover-fx">Ancore</button>
 			    		<button id="releaseAncore" onclick="playFromAncore()" class="btn-hover-fx">00:00:0</button>
@@ -107,20 +115,20 @@
 				</div>
 			</div>
 			<div class="mediaNames">
-				<div  class="videoFileName file-input">
-			    	<label style="max-width: 80%; overflow: hidden;" id="videoFileNameLabel"></label>
-			    </div>
+		    	<label id="videoFileNameLabel"></label>
+		    	<label id="subtitleFileNameLabel"></label>
 			</div>
 		</div>
 	</div>
 
 	<!-- Box - 3 -->
 	<div class="box">
-		<div class="box-element box-3 inactive" id="message-box">
+		<div class="box-element box-3" >
 			<div class="message-box" id="messageContainer">
+				<!-- Messages appear here -->
 			</div>
-			<div class="below-message center">
-				<input id="chatInput" type="text">
+			<div class="below-message center  inactive" id="message-box">
+				<input id="chatInput" placeholder="Send a message to everyone" type="text">
 				<button class="btn-hover-fx" onclick="sendMessage()" type="button">Send</button>
 			</div>
 		</div>
@@ -135,7 +143,7 @@
 			<div id = "connectionInputField" class="inputField">
 				<span><input id = "usernameInputField" type="text" placeholder="Username"></span>
 				<span><input id ="roomnameInputField" type="text" placeholder="Room"></span>
-				<span><button id = "connectButton" onclick="connect()" type="button">Connect</button></span>
+				<span><button id = "connectButton" onclick="connect()" type="button">Join</button></span>
 			</div>
 
 			<div id = "connectionSettings" class="connectionSettings inactive">

@@ -229,12 +229,12 @@
   display: inline-block;
 }
 .box-2 .videoFileInput .videoFileName{
-  
-  margin-left: 5%;
-  width: 400px;
+  width: 90%;
+  margin: 0 auto;
 }
 .videoFileName label{
   border-radius: 2px;
+  margin-right: 2%;
 }
 
 /*.box-2 .gap{

@@ -16,6 +16,8 @@ glbalVideoPlaying = false;
 globalAncoredTime = 0;
 globalSubtitleTolRange = 10;
 
+globalMyUniqueKey = '';
+
 separator = '~';
 
 publishFlag = true;
@@ -29,6 +31,13 @@ widthsById = new Map();
 
 notifications = [];
 globalshowingNotifications = false;
+
+function makeUniqueKey(){
+	globalMyUniqueKey = Date.now().toString();
+}
+function getUniqueKey(){
+	return globalMyUniqueKey;
+}
 
 function showingNotification(){
 	return globalshowingNotifications;

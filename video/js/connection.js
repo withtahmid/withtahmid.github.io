@@ -1,5 +1,8 @@
 function connect() {
-    
+    document.getElementById('connectButton').disabled = true;
+    setTimeout(function(){
+        document.getElementById('connectButton').disabled = false;
+    }, 100);
     var username = document.getElementById("usernameInputField").value;
     var roomName = document.getElementById("roomnameInputField").value;
     
@@ -39,7 +42,9 @@ function handelConnect(){
     activateConnectionButtons();
     if(firstConncet()){
        handelFirstTimeConnection();
-       publishMessage(generateMessage('join', 'null', 'null'));
+       publishMessage(generateMessage('join', 'null', getUniqueKey()));
+    }else{
+        publishMessage(generateMessage('reconnect', 'null', getUniqueKey()));
     }
 }
 function handelDisconnect(){
@@ -52,13 +57,7 @@ function handelDisconnect(){
     }
 }
 
-messageHandeler = new Map();
-messageHandeler.set('media', handleMediaMessage);
-messageHandeler.set('text', handleTextMessage);
-messageHandeler.set('join', handleJoinMessage);
-messageHandeler.set('leave', handleLeaveMessage);
-messageHandeler.set('exist', handleExistMessage);
-messageHandeler.set('poke', handlePokeMessage);
+
 let tempTableBody;
 let tempContainer;
 function addLastNotification(){
@@ -89,13 +88,19 @@ function addLastNotification(){
     tempContainer.scrollTop = tempContainer.scrollHeight;
 
 }
+
+messageHandeler = new Map();
+messageHandeler.set('media', handleMediaMessage);
+messageHandeler.set('text', handleTextMessage);
+messageHandeler.set('join', handleJoinMessage);
+messageHandeler.set('leave', handleLeaveMessage);
+messageHandeler.set('exist', handleExistMessage);
+messageHandeler.set('poke', handlePokeMessage);
+messageHandeler.set('reconnect', handleReconnectMessage);
+messageHandeler.set('conflict', handleConflictMessage);
 function handelMessage(message){
-    if(!sync()){
-        return;
-    }
-    // console.log(message);
     message = decodeMessage(message);
-    if(message.type != 'exist'){
+    if(message.type != 'exist' && message.type != 'reconnect'){
         addNotification(message);
         if(showingNotification()){
            setTimeout(()=>{
@@ -106,5 +111,12 @@ function handelMessage(message){
     registerLastResponseOfUser(message.user);
     typefn = messageHandeler.get(message.type);
     typefn(message);
+    refreshConnectFeed();
+    if(message.type == 'join' || message.type == 'reconnect' || message.type == 'exist'){
+
+        if(message.user == getUsername() && message.text != getUniqueKey()){
+            handleConflict(message);
+        }
+    }
 }
 
