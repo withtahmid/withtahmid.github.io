@@ -20,16 +20,28 @@
 .box-4 .disconnected{
   background-color: darkred;
 }
-.box-4 .inputField, .box-4 .connectionSettings {
+.box-4 .inputField{
+  width: 90%;
+  margin: 0 auto;
   margin-top: 2%;
   height: auto;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
+  /*justify-content: center;
+  align-items: center;*/
 }
-
+.inputField *{
+  flex-grow: 1;
+}
+.box-4 .connectionSettings{
+  width: 90%;
+  margin: 0 auto;
+  height: auto;
+}
+.box-4 .connectionSettings *{
+  margin-right: 5%;
+  margin-top: 3%;
+}
 .inactive, .inactive *, .inactive:hover, .inactive *:hover, .active .inactive{
   opacity: 0.4;
   cursor: not-allowed;
@@ -42,20 +54,22 @@
 }
 
 .box-4 .inputField span, .connectionSettings span {
-  flex: 1;
+/*  flex: 1;*/
   margin: 0 5px;
+
 }
 
-.box-4 .inputField, .connectionSettings{
+/*.box-4 .inputField, .connectionSettings{
   width: 90%;
   margin: 0 auto;
-/*  border: 1px solid red;*/
-}
+  border: 1px solid red;
+}*/
 .box-4 .inputField input[type="text"]{
   text-align: center;
   background-color: #222;
   color: #aaa;
   border: none;
+  width: 100%;
   padding: 10px;
   box-shadow: none;
   outline: none;
@@ -86,6 +100,7 @@
   opacity: 0.7;
   transition: opacity .6s ease;
 }
+
 .box-4 .inputField button, input {
   margin-left: 2%;
 }
@@ -95,7 +110,7 @@
 }
 
 .box-4 .connectionSettings button{
-  width: auto;
+/*  width: auto;*/
   padding-left: 10px;
   padding-right: 10px;
   height: 35px;
@@ -106,6 +121,8 @@
   border-radius: 5px;
   opacity: 0.7;
   transition: opacity .6s ease;
+  width: 100px;
+/*  border: 1px solid red;*/
 }
 .box-4 .connectionSettings button:hover{
   opacity: 1;

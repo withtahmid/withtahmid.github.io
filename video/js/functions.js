@@ -620,8 +620,8 @@ function showSubtitle(){
 
 videoPlayer.addEventListener('timeupdate', subtitleLoop);
 function trimFileName(name){
-  if(name.length > 50){
-    name = name.slice(0,49) + '...';
+  if(name.length > 25){
+    name = name.slice(0,24) + ' ...';
   }
   return name;
 }

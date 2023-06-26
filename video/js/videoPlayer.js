@@ -21,9 +21,15 @@ function handleSkipValueChange(){
 }
 
 function forward(){
+    if(!isPlaying()){
+        return;
+    }
     videoPlayer.currentTime += skipValue;
 }
 function backward(){
+    if(!isPlaying()){
+        return;
+    }
     videoPlayer.currentTime -= skipValue;
 }
 skipValueInput.addEventListener('change', handleSkipValueChange);
@@ -55,7 +61,7 @@ subtitlesFileInput.addEventListener('change', function() {
     removeClass('showSubBtn', 'inactive');
 });
 
-function chatInputClipboard(){
+function driveLinkInputClipboard(){
     navigator.clipboard.readText()
         .then(function(text) {
         // chatInput.value = text;
@@ -68,8 +74,9 @@ function chatInputClipboard(){
 
 function playFromDriveLink(link){
     result  = getVideoSourceFromGoogleDriveLink(link);
+    document.getElementById('driveTextInputField').value = link;
     if(!result){
-        alert('Invalid Google Drive Link');
+        alert('Invalid Google Drive Link\n' + link);
         return;
     }
     videoSource.src = result;
@@ -110,7 +117,10 @@ function handleMediaEvent(event){
     publishMessage(message);
 
 }
-
+function playFromDriveClick(){
+    link = document.getElementById('driveTextInputField').value;
+    playFromDriveLink(link);
+}
 videoPlayer.addEventListener('play', function(){
     handleMediaEvent('play')
 });

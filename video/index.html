@@ -84,6 +84,10 @@
 			    </div>
 			    <div class="file-input hidden" id="driveLinkInputField">
 			    	<label onclick="driveLinkInputClipboard()" class="file-input-label btn-hover-fx src-drive"><i class="fas fa-clipboard"></i> Paste Link</label>
+			    	 OR 
+ 			    	<input type="text" id="driveTextInputField">
+			    	<button onclick="playFromDriveClick()" class="src-drive btn-hover-fx">play</button>
+			    	
 			    </div>
 			    <div class="file-input hidden" id="youtubeLabel">
 			    	<label  class="file-input-label btn-hover-fx src-youtube">Working On it</label>
@@ -104,7 +108,7 @@
 			</div>
 			<div class="mediaNames">
 				<div  class="videoFileName file-input">
-			    	<label id="videoFileNameLabel"></label>
+			    	<label style="max-width: 80%; overflow: hidden;" id="videoFileNameLabel"></label>
 			    </div>
 			</div>
 		</div>
@@ -129,17 +133,17 @@
 			<div id ="connedtion-status" class = "connedtion-status disconnected"></div>
 			
 			<div id = "connectionInputField" class="inputField">
-				<span><input id = "usernameInputField" type="text" placeholder="Enter Username"></span>
-				<span><input id ="roomnameInputField" type="text" placeholder="Enter Room"></span>
+				<span><input id = "usernameInputField" type="text" placeholder="Username"></span>
+				<span><input id ="roomnameInputField" type="text" placeholder="Room"></span>
 				<span><button id = "connectButton" onclick="connect()" type="button">Connect</button></span>
 			</div>
 
 			<div id = "connectionSettings" class="connectionSettings inactive">
-				<span><button id = "connection-roomname" class="room"><i class="fas fa-globe rotate-globe"></i> Username</button></span>
-				<span><button class="btn-hover-fx" id = "connection-disconnect" onclick="disconnectConnection()" >Disconnect</button></span>
-				<span><button class="btn-hover-fx" id = "connection-Activity" onclick="showActivityList()">Activity</button></span>
-				<span><button class="btn-hover-fx" id = "connection-sync" onclick="toggleSync()">Room <i class="sync-icon fas fa-sync-alt"></i></button></span>
-				<span><input id = "connection-volume"type="range" min="0" max="1" step="0.01" value="1"></span>
+				<button id = "connection-roomname" class="room"><i class="fas fa-globe rotate-globe"></i> Username</button>
+				<button class="btn-hover-fx" id = "connection-disconnect" onclick="disconnectConnection()" >Disconnect</button>
+				<button class="btn-hover-fx" id = "connection-Activity" onclick="showActivityList()">Activity</button>
+				<button class="btn-hover-fx" id = "connection-sync" onclick="toggleSync()">Room <i class="sync-icon fas fa-sync-alt"></i></button>
+				<input id = "connection-volume"type="range" min="0" max="1" step="0.01" value="1">
 			</div>
 
 			<div id ="connectedPeopleList" class="connectedPeople inactive">
