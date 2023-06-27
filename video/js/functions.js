@@ -126,6 +126,9 @@ function ButtonInputOff(id, val){
 
 function handelFirstTimeConnection(){
   makeUniqueKey();
+  
+  document.getElementById('connectButton').innerHTML = 'Join';
+
   makeDivZero('usernameInputField');
   makeDivZero('roomnameInputField');
   makeDivZero('connectButton');
@@ -172,7 +175,6 @@ function resetAllConnection(){
 
   addClass('message-box', 'inactive');
   removeClass('message-box', 'active');
-  
   makeDivFullHeight('connectionInputField');
   document.getElementById('connection-roomname').innerHTML = '<i class="fas fa-globe rotate-globe"></i> Username';
   document.getElementById('peopleRefreshList').innerHTML = '';
@@ -226,7 +228,14 @@ function publishMessage(payload){
 } 
 
 function broadCastExistance(){
-  message = generateMessage('exist', 'null', getUniqueKey());
+  media = 'null';
+  if(isPlaying()){
+    media = videoFileName();
+    if(subTitleAded()){
+      media = media + "$" + getSubtitleName();
+    }
+  }
+  message = generateMessage('exist', media, getUniqueKey());
   publishMessage(message);
 }
 
@@ -236,7 +245,28 @@ function createPeopleForList(username, now){
   people.setAttribute('class', 'eachPeople');
   timeAgo = userLastResponseTime(username, now);
   timeMessage = '';
- 
+  
+  let subtitle = '';
+  let sub_Title = '';
+  if(getUserSubtitleName(username) !== 'null'){
+    subtitle = " <i class='fas fa-closed-captioning'></i>";
+    sub_Title = getUserSubtitleName(username);
+  }
+
+  let videoFile;
+  if(getUserVideoFileName(username) !== 'null'){
+    title = "Media: " + getUserVideoFileName(username);
+    if(sub_Title != ''){
+      title += "\nSubtitle: " + sub_Title;
+    }
+    click =`onclick = "putNotificationOnScreen('${getUserVideoFileName(username)}')"`;
+
+    videoFile = "<span><button " +click+ " title ='"+title+"'><i class='fas fa-film'></i>"+subtitle+"</button></span>";
+  }else{
+    videoFile = "<span><button title ='Not playing'><i class='fas fa-exclamation-circle'></i></button></span>";
+  }
+  var media = videoFile;
+
   if(timeAgo > 60){
     if(username != getUsername()){
       removeUser(username);
@@ -256,13 +286,13 @@ function createPeopleForList(username, now){
     timeMessage = 'Just Now';
     people.classList.add('active')
   }
-  people.innerHTML = "<span>" + username + "</span><span>" + timeMessage + "</span><span><button onclick='poke(\"" + username + "\")'><i class='fas fa-hand-point-right'></i></button></span>";
+  people.innerHTML = "<span>" + username + "</span><span>" + timeMessage +"</span> " +  media  + "<span><button onclick='poke(\"" + username + "\")'><i class='fas fa-hand-point-right'></i></button></span>";
   if(username == getUsername()){
     people.classList.remove('disconnected');
     people.classList.remove('late');
     people.classList.remove('active');
     people.classList.add('thisUser');
-    people.innerHTML = "<span>" + username + " (you) </span><span>" + timeMessage + "</span><span><button><i class='fas fa-user-circle'></i></button></span>";
+    people.innerHTML = "<span>" + username + " (you) </span><span>" + timeMessage+ "</span> " +  media  + "<span><button><i class='fas fa-user-circle'></i></button></span>";
   }
  
   return people;
@@ -546,7 +576,7 @@ function videoFileChanged(){
   subtitleStatus(false);
   matchSubtitleTosrcTheme();
   showVideoFileName();
-
+  document.getElementById('showSubBtn').disabled = true;
 }
 
 
@@ -643,12 +673,12 @@ function hidepopup(){
       if (height <= 0) {
         div.classList.add('hiddenpopup');
         clearInterval(intervalId);
+        document.getElementById('popupcontentDiv').innerHTML = '';
       }
     }, 1);
 
   subtitleVisible(false);
   notificationShowMode(false);
-  document.getElementById('popupcontentDiv').innerHTML = '';
   addClass('subtitleTolRange', 'hidden');
 }
 function showpopup(){
@@ -822,7 +852,18 @@ function handleJoinMessage(message){
   putNotification(notification);
 }
 function handleExistMessage(message){
-  return;
+  if(message.event == 'null'){
+    setUserSubtitleName(message.user, 'null');
+    setUserSubtitleName(message.user, 'null');
+    return;
+  }
+  filenames = message.event.split('$');
+  setUserVideoFileName(message.user, filenames[0]);
+  if(filenames.length > 1){
+    setUserSubtitleName(message.user, filenames[1]);
+  }else{
+    setUserSubtitleName(message.user, 'null');
+  }
 }
 function handleReconnectMessage(message){
   return;

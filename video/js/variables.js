@@ -15,7 +15,7 @@ let refreshConnectedPeopleIntervalId;
 glbalVideoPlaying = false;
 globalAncoredTime = 0;
 globalSubtitleTolRange = 10;
-
+globalSubtitleFileName = '';
 globalMyUniqueKey = '';
 
 separator = '~';
@@ -25,13 +25,46 @@ publishFlag = true;
 globalShowSubtitle = false;
 
 globalListOfConnectedPeople = new Map();
+
 innerHTMLById = new Map();
 heightsById = new Map();
 widthsById = new Map();
 
-notifications = [];
-globalshowingNotifications = false;
+usersVideoFileName = new Map();
+usersSubFileName = new Map();
 
+notifications = [];
+
+function setUserVideoFileName(username, val){
+	usersVideoFileName.set(username, val);
+}
+function getUserVideoFileName(username){
+	val = usersVideoFileName.get(username);
+	if(val){
+		return val;
+	}
+	else{
+		return 'null';
+	}
+}
+function setUserSubtitleName(username, val){
+	usersSubFileName.set(username, val);
+}
+function getUserSubtitleName(username){
+	val = usersSubFileName.get(username);
+	if(val){
+		return val;
+	}
+	else{
+		return 'null';
+	}
+}
+function setSubtitleName(val){
+	globalSubtitleFileName = val;
+}
+function getSubtitleName(){
+	return globalSubtitleFileName;
+}
 function makeUniqueKey(){
 	globalMyUniqueKey = Date.now().toString();
 }
@@ -91,6 +124,9 @@ function subtitleVisible(val){
 function subtitleStatus(val){
 	globalSubtitleisAdded = val;
 }
+function subTitleAded(){
+	return globalSubtitleisAdded;
+}
 
 function setVideoFineName(val){
 	globalVideoFilename = val;
@@ -141,7 +177,7 @@ function userLastResponseTime(username, currentTime){
 	return Math.floor((currentTime - lastResponsetime) / 1000);
 
 }
-function registerLastResponseOfUser(username){
+function registerLastResponseOfUser(username, fileName){
 	globalListOfConnectedPeople.set(username, currentTime());
 }
 

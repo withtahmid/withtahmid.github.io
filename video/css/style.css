@@ -143,6 +143,7 @@
   display: none;
 }
 .alert-box{
+
   padding: 1%;
   height:25%;
   width: 25%;
@@ -165,7 +166,6 @@
   border-radius: 5px;
 }
 .alert-content{
-/*  border: 1px solid red;*/
   height: 95%;
   width: 90%;
   display: flex;

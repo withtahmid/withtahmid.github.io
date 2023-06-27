@@ -83,6 +83,7 @@ function convertSrtToVtt(srtData) {
 }
 
 function showSubtitleName(filename){
+    setSubtitleName(filename);
     filename = trimFileName(filename);
     addClass('subtitleFileNameLabel', getSelectedSource());
     label = document.getElementById('subtitleFileNameLabel');
@@ -102,6 +103,7 @@ function addUrlToTrack(subtitleURL){
     videoPlayer.textTracks[0].mode = 'showing';
     subtitleStatus(true);
     removeClass('showSubBtn', 'inactive');
+    document.getElementById('showSubBtn').disabled = false;
 }
 subtitlesFileInput.addEventListener('change', function() {
     var subtitleFile = subtitlesFileInput.files[0];
@@ -145,7 +147,7 @@ function driveLinkInputClipboard(){
 function playFromDriveLink(link){
     result  = getVideoSourceFromGoogleDriveLink(link);
     if(!result){
-        alert('Invalid Google Drive Link\n' + link);
+        alertUser('Invalid Google Drive Link\n' + trimFileName(link));
         return;
     }
     document.getElementById('driveTextInputField').value = link;
@@ -154,6 +156,7 @@ function playFromDriveLink(link){
     setPlaying(true);
     setVideoFineName(result);
     videoFileChanged();
+
 }
 
 subTolRangeInput.addEventListener("input", function() {

@@ -94,7 +94,7 @@
 			    <div class="file-input hidden" id="driveLinkInputField">
 			    	<label onclick="driveLinkInputClipboard()" class="file-input-label btn-hover-fx src-drive"><i class="fas fa-clipboard"></i> Link</label>
 			    	 OR 
- 			    	<input type="text" id="driveTextInputField">
+ 			    	<input placeholder="G-Drive link" type="text" id="driveTextInputField">
 			    	<button onclick="playFromDriveClick()" class="src-drive btn-hover-fx"><i class="fas fa-play"></i></button>
 			    	
 			    </div>
@@ -106,17 +106,17 @@
 			    <span>
 			    <div id="subtitleBox" class="subtitle-box ">
 					<input id="subtitleFileInput" type="file" class="file-input">
-			    	<label for="subtitleFileInput" id="subtitleFileInputLabel" class="file-input-label  btn-hover-fx">Add subtitle</label>
+			    	<label for="subtitleFileInput" id="subtitleFileInputLabel" class="file-input-label  btn-hover-fx"><i class="fas fa-closed-captioning"></i> Add subtitle</label>
 			    	<button id="showSubBtn" class="inactive btn-hover-fx" onclick="showSubtitle()">Show subtile</button>
 			    	<div class="gap">
-			    		<button onclick="createAncore()" class="btn-hover-fx">Ancore</button>
+			    		<button onclick="createAncore()" class="btn-hover-fx"><i class="fas fa-anchor"></i> Ancore</button>
 			    		<button id="releaseAncore" onclick="playFromAncore()" class="btn-hover-fx">00:00:0</button>
 			    	</div>
 				</div>
 			</div>
 			<div class="mediaNames">
-		    	<label id="videoFileNameLabel"></label>
-		    	<label id="subtitleFileNameLabel"></label>
+		    	<label class="btn-hover-fx" id="videoFileNameLabel"></label>
+		    	<label class="btn-hover-fx" id="subtitleFileNameLabel"></label>
 			</div>
 		</div>
 	</div>
@@ -143,7 +143,7 @@
 			<div id = "connectionInputField" class="inputField">
 				<span><input id = "usernameInputField" type="text" placeholder="Username"></span>
 				<span><input id ="roomnameInputField" type="text" placeholder="Room"></span>
-				<span><button id = "connectButton" onclick="connect()" type="button">Join</button></span>
+				<span><button title="Text to show on hover" class="sync" id = "connectButton" onclick="connect()" type="button">Join</button></span>
 			</div>
 
 			<div id = "connectionSettings" class="connectionSettings inactive">
@@ -158,6 +158,7 @@
 				<div class="eachPeople heading">
 					<span>People</span>
 					<span>Last Seen</span>
+					<span><button>Media</button></span>
 					<span><button></button></span>
 				</div>
 				<div id ="peopleRefreshList">

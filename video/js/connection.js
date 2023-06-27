@@ -1,5 +1,6 @@
 function connect() {
-    document.getElementById('connectButton').disabled = true;
+    button = document.getElementById('connectButton');
+    button.disabled = true;
     setTimeout(function(){
         document.getElementById('connectButton').disabled = false;
     }, 100);
@@ -9,6 +10,7 @@ function connect() {
     if(!inputIsValid(username, roomName)){
         return;
     }
+    button.innerHTML = "<i class='sync-icon fas fa-sync-alt'></i>";
     var topic = insertCharacterInMiddle(roomName, '/');
     setRoomName(roomName);
     setUsername(username);

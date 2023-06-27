@@ -89,6 +89,7 @@
 
 
 .box-4 .inputField button {
+  width: 100px;
   background-color: #000;
   color: #ccc;
   border: none;

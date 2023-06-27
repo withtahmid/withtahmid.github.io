@@ -27,7 +27,7 @@
 	border: none;
 	outline: none;
 	opacity: 0.7;
-  	transition: opacity .6s ease;
+  transition: opacity .6s ease;
 	
 }
 
@@ -48,9 +48,9 @@
   	transition: opacity .6s ease;
 }
 
-.below-message button:hover, .below-message input:hover{
+.below-message button:hover, .below-message input:hover, .below-message input:focus{
 	opacity: 1;
-  	transition: opacity .1s ease;
+  transition: opacity .1s ease;
 }
 
 .message-box .message{
