@@ -32,8 +32,15 @@ widthsById = new Map();
 
 usersVideoFileName = new Map();
 usersSubFileName = new Map();
-
+userScreenMode = new Map();
 notifications = [];
+
+function setUserScreenMode(username, val){
+	userScreenMode.set(username, val);
+}
+function getUserScreenMode(username){
+	return userScreenMode.get(username);
+}
 
 function setUserVideoFileName(username, val){
 	usersVideoFileName.set(username, val);

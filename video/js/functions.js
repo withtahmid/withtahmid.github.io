@@ -232,7 +232,21 @@ function broadCastExistance(){
   if(isPlaying()){
     media = videoFileName();
     if(subTitleAded()){
-      media = media + "$" + getSubtitleName();
+      media += "$" + getSubtitleName();
+    }else{
+       media += "$null";
+    }
+
+    if(isVideoPlayerFullScreen()){
+      media += '$FULL';
+    }else{
+      media += '$!FULL';
+    }
+
+    if(videoPlayer.paused){
+      media += "$pause";
+    }else{
+      media += "$play";
     }
   }
   message = generateMessage('exist', media, getUniqueKey());
@@ -253,18 +267,30 @@ function createPeopleForList(username, now){
     sub_Title = getUserSubtitleName(username);
   }
 
+  let screenMode = '';
+  if(getUserScreenMode(username) =='FULL'){
+    screenMode = "<i class='fas fa-expand'></i>"
+  }
+
   let videoFile;
   if(getUserVideoFileName(username) !== 'null'){
     title = "Media: " + getUserVideoFileName(username);
     if(sub_Title != ''){
       title += "\nSubtitle: " + sub_Title;
     }
+    if(screenMode !== ''){
+      title += "\nWatching in full screen";
+    }
     click =`onclick = "putNotificationOnScreen('${getUserVideoFileName(username)}')"`;
 
-    videoFile = "<span><button " +click+ " title ='"+title+"'><i class='fas fa-film'></i>"+subtitle+"</button></span>";
+    videoFile = "<span><button " +click+ " title ='"+title+"'><i class='fas fa-film'></i>"+subtitle+ " " + screenMode +"</button></span>";
   }else{
     videoFile = "<span><button title ='Not playing'><i class='fas fa-exclamation-circle'></i></button></span>";
   }
+
+  // console.log(videoFile);
+
+
   var media = videoFile;
 
   if(timeAgo > 60){
@@ -311,22 +337,6 @@ function refreshConnectFeed(){
   });
   peopleList.innerHTML = temp.innerHTML;
 }
-
-
-
-// let button1, width1, targetWidth1, intervalId1;
-// let button2, width2, targetWidth2, intervalId2;
-// let button3, width3, targetWidth3, intervalId3;
-
-// let button1_arr = [button1, width1, targetWidth1, intervalId1];
-// let button2_arr = [button2, width2, targetWidth2, intervalId2];
-// let button3_arr = [button3, width3, targetWidth3, intervalId3];
-
-// button_map = new Map();
-
-// button_map.set('src-local', button1_arr);
-// button_map.set('src-drive', button2_arr); 
-// button_map.set('src-youtube', button3_arr); 
 
 function src_loacl_unsqueeze(){ 
   button_local = document.getElementById('src-local');
@@ -824,7 +834,7 @@ function createMediaNotification(message){
   if(message.event !== 'seeked'){
     notification += 'ed at ';
   }else{
-    notification += 'to ';
+    notification += ' to ';
   }
   notification +=  formatDuration(message.playTime) + '.';
   return notification;
@@ -852,19 +862,49 @@ function handleJoinMessage(message){
   notification = "'" + message.user + "' joined the room";
   putNotification(notification);
 }
-function handleExistMessage(message){
-  if(message.event == 'null'){
-    setUserSubtitleName(message.user, 'null');
-    setUserSubtitleName(message.user, 'null');
+function adjustPlayTimeAutomatic(message, paused){
+  if((!isPlaying()) || (!iJoinedLate(message)) || (!sync())){
     return;
   }
-  filenames = message.event.split('$');
-  setUserVideoFileName(message.user, filenames[0]);
-  if(filenames.length > 1){
-    setUserSubtitleName(message.user, filenames[1]);
-  }else{
-    setUserSubtitleName(message.user, 'null');
+  if(Math.abs(videoPlayer.currentTime - message.playTime) <= 3){
+    return;
   }
+
+  setPublishFlag(false);
+  videoPlayer.currentTime = message.playTime;
+  if(info.paused){
+    videoPlayer.pause();
+  }else{
+    videoPlayer.play();
+  }
+  setTimeout(function(){
+      setPublishFlag(true);
+  },800);
+  putNotification(`Syncing with ${message.user}`);
+}
+function decodeExistanceMessage(message){
+  array = message.event.split('$');
+  videoName = array[0];
+  subtitleName = array[1];
+  screenMode = array[2];
+  paused = false;
+  if(array[3] =='pause'){
+    paused = true;
+  }
+  return {videoName, subtitleName, screenMode, paused};
+}
+function handleExistMessage(message){
+  if(message.event == 'null'){
+    setUserVideoFileName(message.user, 'null');
+    setUserSubtitleName(message.user, 'null');
+    setUserScreenMode(message.user, 'null');
+    return;
+  }
+  info = decodeExistanceMessage(message);
+  setUserVideoFileName(message.user, info.videoName);
+  setUserSubtitleName(message.user, info.subtitleName);
+  setUserScreenMode(message.user, info.screenMode);
+  adjustPlayTimeAutomatic(message, info.paused);
 }
 function handleReconnectMessage(message){
   return;
@@ -877,10 +917,13 @@ function disconnectThisUser(){
   error = "Username '" + getUsername() + "' already is in the room.\n Please join with another username"; 
   alertUser(error);
 }
+function iJoinedLate(message){
+  thisConnectionTime = new Date(parseInt(getUniqueKey()));
+  thatConnectiontime = new Date(parseInt(message.text));
+  return thisConnectionTime > thatConnectiontime;
+}
 function handleConflict(message){
-    thisConnectionTime = new Date(parseInt(getUniqueKey()));
-    thatConnectiontime = new Date(parseInt(message.text));
-    if(thisConnectionTime > thatConnectiontime){
+    if(iJoinedLate(message)){
         disconnectThisUser();
     }
 }
@@ -944,7 +987,7 @@ function handleTextMessage(message){
     return;
   }
   notification = "" +message.user + ": " + trimFileName(message.text);
-  putNotification(notification)
+  putNotificationOnVideo(notification)
 }
 
 function putNotification(notification){
@@ -974,7 +1017,7 @@ let addedTrack;
 let subtitle_timeout_id = null;
 PreviouslyAddedSubtitle = '#$';
 function putNotificationOnVideo(text) {
-  if(!isPlaying()){
+  if((!isPlaying()) || (!isVideoPlayerFullScreen())){
     return;
   }
   if (PreviouslyAddedSubtitle !== '#$') {
@@ -1006,6 +1049,9 @@ function putNotificationOnVideo(text) {
 PreviouslyAddedNotification = '#$';
 let onscreenTimerId = null;
 function putNotificationOnScreen(notification){
+  if(isVideoPlayerFullScreen()){
+    return;
+  }
   clearInterval(onscreenTimerId);
   content = document.getElementById('notificationContent');
   content.innerHTML = '';
@@ -1116,3 +1162,12 @@ volumeRange.addEventListener("input", function() {
   const volumeValue = volumeRange.value;
   notificationSound.volume = volumeValue;
 });
+
+function isVideoPlayerFullScreen() {
+  return (
+    document.fullscreenElement === videoPlayer ||
+    document.webkitFullscreenElement === videoPlayer ||
+    document.mozFullScreenElement === videoPlayer ||
+    document.msFullscreenElement === videoPlayer
+  );
+}
