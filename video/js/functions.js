@@ -305,10 +305,11 @@ function refreshConnectFeed(){
     peoples.push(createPeopleForList(username, now));
   }
   peopleList = document.getElementById('peopleRefreshList');
-  peopleList.innerHTML = '';
+  const temp = document.createElement('div');
   peoples.forEach(function(child){
-    peopleList.appendChild(child);
+    temp.appendChild(child);
   });
+  peopleList.innerHTML = temp.innerHTML;
 }
 
 
@@ -947,14 +948,11 @@ function handleTextMessage(message){
 }
 
 function putNotification(notification){
-  console.log(notification);
   putNotificationOnVideo(notification);
   putNotificationOnScreen(notification);
 }
 
-let addedTrack;
-let subtitle_timeout_id = null;
-PreviouslyAddedSubtitle = '';
+
 function convertTextToWebVTT(text) {
   const trackId = 'subtitle-track-' + Date.now();
   const webVTTContent = `WEBVTT
@@ -971,11 +969,15 @@ function formatedTimeforSubtitle(timeInSeconds) {
   const milliseconds = (timeInSeconds % 1).toFixed(3).slice(2, 5);
   return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}.${milliseconds}`;
 }
+
+let addedTrack;
+let subtitle_timeout_id = null;
+PreviouslyAddedSubtitle = '#$';
 function putNotificationOnVideo(text) {
   if(!isPlaying()){
     return;
   }
-  if (subtitle_timeout_id) {
+  if (PreviouslyAddedSubtitle !== '#$') {
     clearTimeout(subtitle_timeout_id);
     text = PreviouslyAddedSubtitle + '\n' + text;
   }
@@ -997,7 +999,7 @@ function putNotificationOnVideo(text) {
   subtitle_timeout_id = setTimeout(function() {
     newTrack.mode = 'disabled';
     URL.revokeObjectURL(trackURL);
-    PreviouslyAddedSubtitle = '';
+    PreviouslyAddedSubtitle = '#$';
   }, 3000);
 }
 
@@ -1069,7 +1071,6 @@ function showNotification(){
 }
 
 function poke(username){
-  // console.log('poke', username);
   publishMessage(generateMessage('poke', username, 'null'));
 }
 
