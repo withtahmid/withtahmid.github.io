@@ -288,8 +288,6 @@ function createPeopleForList(username, now){
     videoFile = "<span><button title ='Not playing'><i class='fas fa-exclamation-circle'></i></button></span>";
   }
 
-  // console.log(videoFile);
-
 
   var media = videoFile;
 
