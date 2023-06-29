@@ -198,6 +198,7 @@ function toggleSync(){
     setSync(false);
   }
   else{
+    makeUniqueKey();
     addClass('connection-sync', 'sync');
     removeClass('connection-sync', 'noSync');
     setSync(true);
@@ -229,7 +230,7 @@ function publishMessage(payload){
 
 function broadCastExistance(){
   media = 'null';
-  if(isPlaying()){
+  if(isPlaying() && sync()){
     media = videoFileName();
     if(subTitleAded()){
       media += "$" + getSubtitleName();
