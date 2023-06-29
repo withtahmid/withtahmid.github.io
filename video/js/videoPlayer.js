@@ -140,22 +140,61 @@ function driveLinkInputClipboard(){
         playFromDriveLink(text);
     })
     .catch(function(error) {
-        alert('Failed to read clipboard contents: ', error);
+        alertUser('Failed to read clipboard contents: ', error);
     });
 }
 
-function playFromDriveLink(link){
-    result  = getVideoSourceFromGoogleDriveLink(link);
-    if(!result){
-        alertUser('Invalid Google Drive Link\n' + trimFileName(link));
-        return;
+async function tryDriveLink(link) {
+  const fileID = link.match(/[-\w]{25,}/);
+  if (!fileID) {
+    alertUser('Invalid Google Drive link');
+  }
+
+  const metadataEndpoint = `https://www.googleapis.com/drive/v3/files/${fileID[0]}?fields=name&key=AIzaSyDUjyB82R7zwWccZtIkZUQsVPAI6g_u-4s`;
+
+  try {
+    const response = await fetch(metadataEndpoint);
+    if (!response.ok) {
+      throw new Error('Failed to fetch file metadata');
     }
+
+    const data = await response.json();
+    const filename = data.name;
+    const source = `https://drive.google.com/uc?export=download&id=${fileID[0]}`;
     document.getElementById('driveTextInputField').value = link;
-    videoSource.src = result;
+    videoSource.src = source;
     videoPlayer.load();
     setPlaying(true);
-    setVideoFineName(result);
+    setVideoFineName(filename);
     videoFileChanged();
+    container = document.getElementById('videoContainer');
+    container.classList.remove('inactive');
+    container.classList.add('active');
+  } catch (error) {
+    console.error('Error fetching file metadata:', error);
+    alertUser('Error fetching file metadata');
+  }
+}
+
+function playFromDriveLink(link){
+    if(!tryDriveLink(link)){
+        alertUser("Invalid Google Drive link\n"+ link);
+    }
+
+    // result  = getVideoSourceFromGoogleDriveLink(link);
+    // if(!result){
+    //     alertUser('Invalid Google Drive Link\n' + trimFileName(link));
+    //     return;
+    // }
+    // document.getElementById('driveTextInputField').value = link;
+    // videoSource.src = result;
+    // videoPlayer.load();
+    // setPlaying(true);
+    // setVideoFineName(result);
+    // videoFileChanged();
+    // container = document.getElementById('videoContainer');
+    // container.classList.remove('inactive');
+    // container.classList.add('active');
 
 }
 

@@ -590,39 +590,41 @@ function videoFileChanged(){
 }
 
 
-function getVideoSourceFromGoogleDriveLink(link) {
-  const fileID = link.match(/[-\w]{25,}/);
-  if (!fileID) {
-    console.error('Invalid Google Drive link');
-    return null;
-  }
+// function getVideoSourceFromGoogleDriveLink(link) {
+//   const fileID = link.match(/[-\w]{25,}/);
+//   if (!fileID) {
+//     console.error('Invalid Google Drive link');
+//     return null;
+//   }
 
-  return `https://drive.google.com/uc?export=download&id=${fileID[0]}`;
-}
+//   return `https://drive.google.com/uc?export=download&id=${fileID[0]}`;
+// }
 
-async function getFilenameFromGoogleDriveLink(link) {
-  const fileID = link.match(/[-\w]{25,}/); // Extract the file ID from the link
-  if (!fileID) {
-    console.error('Invalid Google Drive link');
-    return null;
-  }
+// async function tryDriveLink(link) {
+//   const fileID = link.match(/[-\w]{25,}/); // Extract the file ID from the link
+//   if (!fileID) {
+//     console.error('Invalid Google Drive link');
+//     return null;
+//   }
 
-  const metadataEndpoint = `https://www.googleapis.com/drive/v3/files/${fileID[0]}?fields=name&key=YOUR_API_KEY`;
+//   const metadataEndpoint = `https://www.googleapis.com/drive/v3/files/${fileID[0]}?fields=name&key=YOUR_API_KEY`;
 
-  try {
-    const response = await fetch(metadataEndpoint);
-    if (!response.ok) {
-      throw new Error('Failed to fetch file metadata');
-    }
+//   try {
+//     const response = await fetch(metadataEndpoint);
+//     if (!response.ok) {
+//       throw new Error('Failed to fetch file metadata');
+//     }
 
-    const data = await response.json();
-    const filename = data.name;
-    return filename;
-  } catch (error) {
-    console.error('Error fetching file metadata:', error);
-    return null;
-  }
-}
+//     const data = await response.json();
+//     const filename = data.name;
+//     const source = `https://drive.google.com/uc?export=download&id=${fileID[0]}`;
+//     return filename;
+
+//   } catch (error) {
+//     console.error('Error fetching file metadata:', error);
+//     return null;
+//   }
+// }
 
 function displaySubtitles() {
   
