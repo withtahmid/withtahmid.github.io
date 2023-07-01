@@ -627,7 +627,6 @@ function videoFileChanged(){
 // }
 
 function displaySubtitles() {
-  
   subtitleContainer = document.createElement('div');
   subtitleContainer.classList.add('subtitle-text');
   subtitleContainer.innerHTML = '';
@@ -645,7 +644,7 @@ function displaySubtitles() {
 
     if (cue.endTime >= rangeStart && cue.startTime <= rangeEnd) {
       const subtitleText = cue.text.replace('\n', '<br>');
-      const className = (cue.startTime <= currentTime && cue.endTime >= currentTime) ? 'currentSubtitle' : '';
+      const className = (cue.startTime <= currentTime && cue.endTime >= currentTime) ? 'currentSubtitle' : 'normalSubtitle';
       subtitleContainer.innerHTML += `<span class="${className}">${subtitleText}</span><br>`;
     }
   }

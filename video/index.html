@@ -2,22 +2,23 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<link rel="stylesheet" href="css/boxes.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/connection.css">
 	<link rel="stylesheet" href="css/videoPlayer.css">
 	<link rel="stylesheet" href="css/chatbox.css">
+	<link rel="icon" href="icons/video-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="icons/video-icon.png" type="image/x-icon">
 	<title>Watch Together</title>
 </head>
 <body>
 
+	<!-- pop ups -->
 	<div class="alertcontainer center" id="alert-box">
 		<div class="alert-box center">
-			<div id="alertContent" class="alert-content center">
-				<p>adverb</p>
-			</div>
+			<div id="alertContent" class="alert-content center"></div>
 			<button onclick="hideAlert()" type="button" class="btn-hover-fx"><i  class="fas fa-times"></i></button>
 		</div>
 	</div>
@@ -28,11 +29,7 @@
 		</div>
 	</div>
 	<div id="popupdiv" class="popupdiv">
-
-		<div id="popupcontentDiv" class="popupcontent center">
-			
-		</div>
-
+		<div id="popupcontentDiv" class="popupcontent center"></div>
 		<div class="center" id="popupControl">
 			<input id='subtitleTolRange' type='range' min='0' max='30' step='1' value='10'>
 		</div>
@@ -44,13 +41,11 @@
 	<!-- Box - 1 -->
 	<div class="box" >
 		<div class="box-element box-1 inactive" id="videoContainer">
-
 			<video id="videoPlayer" controls>
               <source id="videoSource" src="" type="video/mp4">
               <track id="subtitlesTrack" kind="captions" srclang="en" label="English" default>
               Your browser does not support the video tag.
             </video>
-
             <div class="below-video">
             	<input id = "skipValue" type="range" min="1" max="59" value="5">
             	<button class="btn-hover-fx" id = 'backward-btn' onclick="backward()"class="arrow-button">
@@ -101,9 +96,6 @@
 			    <div class="file-input hidden" id="youtubeLabel">
 			    	<label  class="file-input-label btn-hover-fx src-youtube">Working On it</label>
 			    </div>
-			    <span>
-			    
-			    <span>
 			    <div id="subtitleBox" class="subtitle-box ">
 					<input id="subtitleFileInput" type="file" class="file-input">
 			    	<label for="subtitleFileInput" id="subtitleFileInputLabel" class="file-input-label  btn-hover-fx"><i class="fas fa-closed-captioning"></i> Add subtitle</label>
@@ -137,15 +129,12 @@
 	<!-- Box - 4 -->
 	<div class="box">
 		<div class="box-element box-4">
-			
 			<div id ="connedtion-status" class = "connedtion-status disconnected"></div>
-			
 			<div id = "connectionInputField" class="inputField">
 				<span><input id = "usernameInputField" type="text" placeholder="Username"></span>
 				<span><input id ="roomnameInputField" type="text" placeholder="Room"></span>
 				<span><button title="Text to show on hover" class="sync" id = "connectButton" onclick="connect()" type="button">Join</button></span>
 			</div>
-
 			<div id = "connectionSettings" class="connectionSettings inactive">
 				<button id = "connection-roomname" class="room"><i class="fas fa-globe rotate-globe"></i> Username</button>
 				<button class="btn-hover-fx" id = "connection-disconnect" onclick="disconnectConnection()" >Disconnect</button>
@@ -153,7 +142,6 @@
 				<button class="btn-hover-fx" id = "connection-sync" onclick="toggleSync()">Room <i class="sync-icon fas fa-sync-alt"></i></button>
 				<input id = "connection-volume"type="range" min="0" max="1" step="0.01" value="1">
 			</div>
-
 			<div id ="connectedPeopleList" class="connectedPeople inactive">
 				<div class="eachPeople heading">
 					<span>People</span>
@@ -161,22 +149,15 @@
 					<span>Media</span>
 					<span><button>Poke</button></span>
 				</div>
-				<div id ="peopleRefreshList">
-					
-				<div>
+				<div id ="peopleRefreshList"></div>
 			</div>
 		</div>
-			
-
-
-		</div>
 	</div>
-	<audio style="display:none;" id="notification-sound" src="http://soundbible.com/grab.php?id=1645&type=mp3"></audio>
+	<audio style="display:none;" id="notification-sound" src="Audio/notification.mp3"></audio>
 </body>
-
 <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-<script src="js/variables.js"></script>>
+<script src="js/variables.js"></script>
 <script src="js/adjustratio.js" ></script>
 <script src="js/videoPlayer.js"></script>
 <script src="js/functions.js"></script>

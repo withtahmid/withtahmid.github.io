@@ -243,13 +243,18 @@
 */
 .subtitle-text{
   text-align: center;
-  font-family: 'roboto';
+}
+.normalSubtitle{
+  font-size: 16px;
+  transition: font-size 0.3s ease;
 }
 
 .currentSubtitle{
   font-size: 22px;
   font-weight: bold;
+/*  transform: scale(1.2);*/
 }
+
 
 .popupdiv input[type="range"]{
   height: 4px;
