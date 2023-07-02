@@ -1172,7 +1172,7 @@ function sendMessage(){
   if(text == ''){
         return;
   }
-  document.getElementById('chatInput').value.value = '';
+  document.getElementById('chatInput').value = '';
   publishMessage(generateMessage('text', 'null', text));
 }
 
