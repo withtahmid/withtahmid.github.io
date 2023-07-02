@@ -1168,12 +1168,12 @@ function poke(username){
 }
 
 function sendMessage(){
-  const text = document.getElementById('chatInput').value;
+  const text = document.getElementById('chatInput');
   if(text == ''){
         return;
   }
-  document.getElementById('chatInput').value = '';
-  publishMessage(generateMessage('text', 'null', text));
+  publishMessage(generateMessage('text', 'null', text.value));
+  text.value = '';
 }
 
 function showAlert(){
