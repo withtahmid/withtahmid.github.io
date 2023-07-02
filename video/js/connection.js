@@ -100,6 +100,8 @@ messageHandeler.set('exist', handleExistMessage);
 messageHandeler.set('poke', handlePokeMessage);
 messageHandeler.set('reconnect', handleReconnectMessage);
 messageHandeler.set('conflict', handleConflictMessage);
+messageHandeler.set('mediaReguest', hadleMediaReguestMessage);
+messageHandeler.set('mediaResponse', handleMediaResponseMessage);
 function handelMessage(message){
     message = decodeMessage(message);
     if(message.type != 'exist' && message.type != 'reconnect'){

@@ -231,9 +231,9 @@ function publishMessage(payload){
 function broadCastExistance(){
   media = 'null';
   if(isPlaying() && sync()){
-    media = videoFileName();
+    media = 'true';
     if(subTitleAded()){
-      media += "$" + getSubtitleName();
+      media += '$true';
     }else{
        media += "$null";
     }
@@ -253,7 +253,12 @@ function broadCastExistance(){
   message = generateMessage('exist', media, getUniqueKey());
   publishMessage(message);
 }
-
+function requestMedia(username){
+  if(username == getUsername()){
+    return;
+  }
+  publishMessage(generateMessage('mediaReguest', username, 'null'));
+}
 function createPeopleForList(username, now){
   people = document.createElement('div');
   people.setAttribute('id', 'prople-username');
@@ -269,24 +274,26 @@ function createPeopleForList(username, now){
   }
 
   let screenMode = '';
-  if(getUserScreenMode(username) =='FULL'){
+  if(getUserScreenMode(username) == 'FULL'){
     screenMode = "<i class='fas fa-expand'></i>"
   }
 
   let videoFile;
+  click = `onclick = "requestMedia('${username}')"`;
   if(getUserVideoFileName(username) !== 'null'){
-    title = "Media: " + getUserVideoFileName(username);
+    title = "playing video";
     if(sub_Title != ''){
-      title += "\nSubtitle: " + sub_Title;
+      title += "\nwith subtitle";
     }
     if(screenMode !== ''){
-      title += "\nWatching in full screen";
+      title += "\nin full screen";
     }
-    click =`onclick = "putNotificationOnScreen('${getUserVideoFileName(username)}')"`;
+    // click =`onclick = "putNotificationOnScreen('${getUserVideoFileName(username)}')"`;
+    
 
-    videoFile = "<span><button " +click+ " title ='"+title+"'><i class='fas fa-film'></i>"+subtitle+ " " + screenMode +"</button></span>";
+    videoFile = "<span><button " + click + " title ='"+title+"'><i class='fas fa-film'></i>"+subtitle+ " " + screenMode +"</button></span>";
   }else{
-    videoFile = "<span><button title ='Not playing'><i class='fas fa-exclamation-circle'></i></button></span>";
+    videoFile = "<span><button " + click + " title ='Not playing'><i class='fas fa-exclamation-circle'></i></button></span>";
   }
 
 
@@ -838,6 +845,46 @@ function createMediaNotification(message){
   }
   notification +=  formatDuration(message.playTime) + '.';
   return notification;
+}
+
+function handleMediaResponseMessage(message){
+  if(message.event != getUsername()){
+    return;
+  }
+  console.log("got response");
+  if(message.text === 'null'){
+    putNotificationOnScreen(`${message.user}\n not playing \n or not in sync`);
+    return;
+  }
+  media = message.text.split('$');
+  username = message.user;
+  videoFile = media[0];
+  subtitle = media[1];
+  putNotificationOnScreen(`${username}\nVideo: ${videoFile}\nSubtitle: ${subtitle} ${media[2] == 'FULL'? '\nFull screes' : ''}`);
+}
+
+function hadleMediaReguestMessage(message){
+  if(message.event !== getUsername()){
+    return;
+  }
+  console.log("got request");
+  media = 'null';
+  if(isPlaying() && sync()){
+    media = videoFileName();
+    if(subTitleAded()){
+      media += `$${getSubtitleName()}`;
+    }else{
+       media += "$Not added";
+    }
+
+    if(isVideoPlayerFullScreen()){
+      media += '$FULL';
+    }else{
+      media += '$!FULL';
+    }
+  }
+  message = generateMessage('mediaResponse', message.user, media);
+  publishMessage(message);
 }
 
 function handleMediaMessage(message){
