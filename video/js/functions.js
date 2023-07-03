@@ -229,6 +229,9 @@ function publishMessage(payload){
 } 
 
 setInterval(function(){
+  if(!isConnected()){
+    return;
+  }
   mqttClient.publish('withtahmidxyz', `withtahmid$${getRoomName()}$${getUsername()}`);
 },15000);
 
