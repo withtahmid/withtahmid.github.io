@@ -197,10 +197,9 @@ footer a{
  
 }
 footer:hover{
-  padding-bottom: 0.5%;
   opacity: 1;
   color: #aaa;
-  font-size: 20px;
-  letter-spacing: 2px;
+  font-size: 14px;
+/*  letter-spacing: 2px;*/
   transition: font-size .5s ease;
 }
