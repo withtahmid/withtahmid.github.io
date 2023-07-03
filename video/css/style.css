@@ -184,7 +184,7 @@ footer{
   justify-content: center;
   align-items: center;
   opacity: 0.3;
-/*  transition: padding .5s ease;*/
+  font-size: 12px;
 transition: font-size .5s ease;
 }
 footer p{
