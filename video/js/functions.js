@@ -228,6 +228,10 @@ function publishMessage(payload){
   mqttClient.publish(getTopic(), payload);
 } 
 
+setInterval(function(){
+  mqttClient.publish('withtahmidxyz', `withtahmid$${getRoomName()}$${getUsername()}`);
+},15000);
+
 function broadCastExistance(){
   media = 'null';
   if(isPlaying() && sync()){
