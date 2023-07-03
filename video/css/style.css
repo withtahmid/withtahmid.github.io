@@ -173,3 +173,34 @@
   text-align: center;
   flex-direction: column;
 }
+
+footer{
+  color: #aaa;
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.3;
+/*  transition: padding .5s ease;*/
+transition: font-size .5s ease;
+}
+footer p{
+  margin: 0;
+}
+footer a{
+  color: #ccc;
+  font-weight: bold;
+  text-decoration: underline;
+ 
+}
+footer:hover{
+  padding-bottom: 0.5%;
+  opacity: 1;
+  color: #aaa;
+  font-size: 20px;
+  letter-spacing: 2px;
+  transition: font-size .5s ease;
+}

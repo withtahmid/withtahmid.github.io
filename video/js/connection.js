@@ -102,16 +102,21 @@ messageHandeler.set('reconnect', handleReconnectMessage);
 messageHandeler.set('conflict', handleConflictMessage);
 messageHandeler.set('mediaReguest', hadleMediaReguestMessage);
 messageHandeler.set('mediaResponse', handleMediaResponseMessage);
+ignoreMessage = ['exist', 'reconnect', 'mediaReguest', 'mediaResponse', 'poke'];
+function resgisterActivity(message){
+    if(ignoreMessage.includes(message.type)){
+       return;
+    }
+    addNotification(message);
+    if(showingNotification()){
+       setTimeout(()=>{
+         addLastNotification();
+       }, 50);
+    }
+}
 function handelMessage(message){
     message = decodeMessage(message);
-    if(message.type != 'exist' && message.type != 'reconnect'){
-        addNotification(message);
-        if(showingNotification()){
-           setTimeout(()=>{
-             addLastNotification();
-           }, 50);
-        }
-    }
+    resgisterActivity(message);
     registerLastResponseOfUser(message.user);
     typefn = messageHandeler.get(message.type);
     typefn(message);
