@@ -149,9 +149,10 @@
   border: none;
   outline: none;
   padding: 10px;
-  background-color: #111;
+  background-color: transparent;
   color: #aaa;
   border-radius: 10px;
+
 }
 
 .box-4 .connectionSettings button{

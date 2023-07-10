@@ -136,8 +136,8 @@ function handelFirstTimeConnection(){
   removeClass('room-info', 'inactive');
   addClass('room-info', 'active');
 
-  document.getElementById('connection-username').innerHTML = '<i class="fas fa-globe rotate-globe"></i> ' + getUsername();
-  document.getElementById('connection-roomname').textContent = getRoomName();
+  document.getElementById('connection-username').innerHTML = "<i class='fas fa-user'></i> " + getUsername();
+  document.getElementById('connection-roomname').innerHTML = "<i class='fas fa-home'></i> " + getRoomName();
   // document.getElementById('connection-sync').
   firstHappened();
   existanceBroadcastIntervalId = setInterval(broadCastExistance, 5000);
