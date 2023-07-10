@@ -1,4 +1,4 @@
-hidepopup();
+
 ButtonInputOff('connectionSettings', true);
 ButtonInputOff('connectedPeopleList', true);
 ButtonInputOff('subtitleBox', true);
@@ -14,7 +14,7 @@ storeHeightbyId('notificationpopup', document.getElementById('notificationpopup'
 
 
 
-selectSource('src-local');
+// selectSource('src-local');
 addClass('subtitleBox','inactive');
 addSubtlieTheme('default');
 

@@ -5,13 +5,12 @@ body {
   margin: 0;
   overflow-x: hidden;
   background-color: rgb(50,50,50);
-
-
+  padding-top: 45px;
 }
 .box{
   background-color: transparent;
   width: 49.73%;
-  height: 49.6vh;
+  height: 47vh;
   display: inline-block;
   overflow: hidden;
   margin: 0 0;
@@ -63,7 +62,7 @@ body {
 .popupdiv {
   position: fixed;
   border-radius: 20px;
-  top: 3%;
+  top: 5%;
   right: 2%;
   width: 46vw;
   max-width: 100%;
@@ -254,4 +253,83 @@ footer:hover{
   font-size: 14px;
 /*  letter-spacing: 2px;*/
   transition: font-size .5s ease;
+}
+
+header{
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  min-height: 45px;
+/*  border: 1px solid red;*/
+  border-radius: 22px;
+  top:0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #111;
+  color: #aaa;
+  overflow: hidden;
+  padding-left: 10px;
+}
+header img{
+  animation: rotate 10s infinite linear;
+}
+header p{
+  padding-left: 5px;
+   font-family: Megrim;
+   letter-spacing: 5px;
+   font-size: 40px;
+   margin: 0;
+}
+.nav-right-btn{
+  margin-right: 10px;
+  margin-left:auto;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  outline: none;
+  font-size: 25px;
+}
+.dropdown-menu{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background-color: #111;
+  border-radius: 10px;
+  margin: 0;
+  padding: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  top: 45px;
+  right: 10px;
+  height: 100px;
+  overflow: hidden;
+  transition: height .5s ease;
+/*  border: 1px solid red;*/
+  justify-content: center;
+}
+
+.hide-dropdown{
+  height: 0;
+  transition: height .5s ease;
+}
+
+.dropdown-menu li{
+/*  border: 1px solid red;*/
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+.dropdown-menu li:hover{
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #222;
+}
+
+
+header ul {
+    list-style-type: none;
 }

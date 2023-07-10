@@ -89,13 +89,19 @@
   border: none;
   border-radius: 10px;
   margin-left: 20px;
-  width: 80px;
   flex: 1;
+  overflow: hidden;
+/*  border: 1px solid red;*/
+  padding: 0;
 }
 
-.src-btn:hover{
-  padding-left: 1%;
-  padding-right: 1%;
+.src-zero-width{
+  width: 0;
+  transition: width .5s ease; 
+}
+.src-full-width{
+  width: 80px;
+  transition: width .5s ease;
 }
 
 .src-btn:hover .bounceable{
@@ -152,6 +158,10 @@
 
 }
 
+.source-options button{
+  overflow: hidden;
+  border: 1px solid red;
+}
 .box-2 .hidden{
   display: none;
   transition: display 1s ease;

@@ -17,7 +17,7 @@ globalAncoredTime = 0;
 globalSubtitleTolRange = 10;
 globalSubtitleFileName = '';
 globalMyUniqueKey = '';
-
+globalshowingNotifications = false;
 separator = '~';
 
 publishFlag = true;

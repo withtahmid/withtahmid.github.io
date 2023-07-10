@@ -7,6 +7,8 @@
 	<meta property="og:image:secure_url" content="images/milkyway.jpg">
 	<meta property="og:image:width" content="1920">
 	<meta property="og:image:height" content="1080">
+	
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Megrim" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<link rel="stylesheet" href="css/boxes.css">
 	<link rel="stylesheet" href="css/style.css">
@@ -15,9 +17,21 @@
 	<link rel="stylesheet" href="css/chatbox.css">
 	<link rel="icon" href="icons/video-icon.png" type="image/x-icon">
 	<link rel="shortcut icon" href="icons/video-icon.png" type="image/x-icon">
-	<title>Milkyway</title>
+	<title>MILKYWAY</title>
+
+
 </head>
 <body>
+	<header>
+		<img class="rotateicon" src="icons/video-icon.png" height="30px" width="30px" alt="Icon">
+		<p>MILKYWAY</p>
+		<button id="dropdown-toggle" class="nav-right-btn" onclick="toggleDropdown('dropworn')" ><i class="fas fa-bars"></i></button>
+		<ul class="dropdown-menu hide-dropdown" id="dropworn">
+			<li>User Guide</li>
+			<li>About Creator</li>
+		</ul>
+
+	</header>
 	<!-- pop ups -->
 	<div class="alertcontainer center" id="alert-box">
 		<div class="alert-box center">
@@ -26,12 +40,12 @@
 		</div>
 	</div>
 
-	<div id="notificationpopup" class="notificationpopup">
+	<div id="notificationpopup" class="notificationpopup hide">
 		<button onclick="hideNotification()" type="button" class="btn-hover-fx"><i  class="fas fa-times"></i></button>
 		<div id="notificationContent" class="notification">
 		</div>
 	</div>
-	<div id="popupdiv" class="popupdiv">
+	<div id="popupdiv" class="popupdiv zero-height">
 		<div id="popupcontentDiv" class="popupcontent center"></div>
 		<div class="center" id="popupControl">
 			<input id='subtitleTolRange' type='range' min='0' max='30' step='1' value='10'>
@@ -69,16 +83,16 @@
 		<div class="box-element box-2">
 			<div class="playFrom">
 				<span>
-					<button id="src-option-button"class="src-btn btn-hover-fx src-local" type="button" onclick="src_option_clicked()"><i class="fas fa-desktop"></i></button>
+					<button id="src-option-button"class="src-btn btn-hover-fx src-local src-full-width" type="button" onclick="src_option_clicked()"><i class="fas fa-desktop"></i></button>
 				</span>
 				<span id ="source-options" class="source-options">
-					<button onclick="selectSource('src-local')" id="src-local" class="src-btn btn-hover-fx src-local" type="button">
+					<button onclick="selectSource('src-local')" id="src-local" class="src-btn btn-hover-fx src-local src-zero-width" type="button">
 						<i class="fas fa-desktop bounceable"></i>
 					</button>
-					<button onclick="selectSource('src-drive')" id="src-drive" class="src-btn btn-hover-fx src-drive" type="button">
+					<button onclick="selectSource('src-drive')" id="src-drive" class="src-btn btn-hover-fx src-drive src-zero-width" type="button">
 						<i class="fab fa-google-drive bounceable"></i>
 					</button>
-					<button onclick="selectSource('src-youtube')" id="src-youtube" class="src-btn btn-hover-fx src-youtube" type="button">
+					<button onclick="selectSource('src-youtube')" id="src-youtube" class="src-btn btn-hover-fx src-youtube src-zero-width" type="button">
 						<i class="fab fa-youtube bounceable"></i>
 					</button>
 				</span>
@@ -132,17 +146,21 @@
 	<!-- Box - 4 -->
 	<div class="box">
 		<div class="box-element box-4">
-			<div id ="connedtion-status" class = "connedtion-status disconnected"></div>
-			<div id = "connectionInputField" class="inputField">
+			<div id ="connedtion-status" class = "connedtion-status zero-width"></div>
+			
+			<div id = "connectionInputField" class="inputField full-height-10">
 				<span><input id = "usernameInputField" type="text" placeholder="Username"></span>
 				<span><input id ="roomnameInputField" type="text" placeholder="Room"></span>
 				<span><button title="Text to show on hover" class="sync" id = "connectButton" onclick="connect()" type="button">Join</button></span>
 			</div>
+			<div class="room-info inactive" id="room-info">
+				<button id = "connection-username" class="room"><i class="fas fa-globe rotate-globe"></i> Username</button>
+				<button id = "connection-roomname">Room Name</button>
+			</div>
 			<div id = "connectionSettings" class="connectionSettings inactive">
-				<button id = "connection-roomname" class="room"><i class="fas fa-globe rotate-globe"></i> Username</button>
 				<button class="btn-hover-fx" id = "connection-disconnect" onclick="disconnectConnection()" >Disconnect</button>
 				<button class="btn-hover-fx" id = "connection-Activity" onclick="showActivityList()">Activity</button>
-				<button class="btn-hover-fx" id = "connection-sync" onclick="toggleSync()">Room <i class="sync-icon fas fa-sync-alt"></i></button>
+				<button class="btn-hover-fx" id = "connection-sync" onclick="toggleSync()">Sync <i class="sync-icon fas fa-sync-alt"></i></button>
 				<input id = "connection-volume"type="range" min="0" max="1" step="0.01" value="1">
 			</div>
 			<div id ="connectedPeopleList" class="connectedPeople inactive">

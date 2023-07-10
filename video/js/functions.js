@@ -20,34 +20,15 @@ function inputIsValid(username, roomName){
 }
 
 function makeStatusBarFullWidth(){
-  label = document.getElementById('connedtion-status');
-  targetWidth = label.offsetWidth;
-  label.style.width = '0';
-  label.style.opacity = '1';
-  width = 0;
-  var intervalId = setInterval(function() {
-      width += 5;
-      label.style.width = width + 'px';
-      if (width >= targetWidth) {
-        label.style.width = targetWidth + 'px';
-        clearInterval(intervalId);
-      }
-    }, 1);
+   label = document.getElementById('connedtion-status');
+   label.classList.remove('zero-width');
+   label.classList.add('full-width-90');
 }
 
 function makeStatusBarZero(){
-  label = document.getElementById('connedtion-status');
-  width = label.offsetWidth;
-  fullWidth = width;
-  var intervalId = setInterval(function() {
-      width -= 5;
-      label.style.width = width + 'px';
-      if (label.offsetWidth <= 5) {
-        label.style.opacity = '0';
-        label.style.width = fullWidth + 'px';
-        clearInterval(intervalId);
-      }
-    }, 1);
+   label = document.getElementById('connedtion-status');
+   label.classList.add('zero-width');
+   label.classList.remove('full-width-90');
 }
 
 function updateStatusSignal(status){
@@ -129,11 +110,15 @@ function handelFirstTimeConnection(){
   
   document.getElementById('connectButton').innerHTML = 'Join';
 
-  makeDivZero('usernameInputField');
-  makeDivZero('roomnameInputField');
-  makeDivZero('connectButton');
-  makeDivZero('connectionInputField');
-  
+  // makeDivZero('usernameInputField');
+  // makeDivZero('roomnameInputField');
+  // makeDivZero('connectButton');
+  // makeDivZero('connectionInputField');
+  // 
+  inputField = document.getElementById('connectionInputField');
+  inputField.classList.add('zero-height');
+  inputField.classList.remove('full-height-10');
+  // 
   removeClass('connectionSettings', 'inactive');
   addClass('connectionSettings', 'active');
 
@@ -143,13 +128,17 @@ function handelFirstTimeConnection(){
   removeClass('message-box', 'inactive');
   addClass('message-box', 'active');
 
-  addClass('connectionInputField', 'inactive');
+  // addClass('connectionInputField', 'inactive');
 
   ButtonInputOff('connectionSettings', false);
   ButtonInputOff('message-box', false);
+  
+  removeClass('room-info', 'inactive');
+  addClass('room-info', 'active');
 
-  document.getElementById('connection-roomname').innerHTML = '<i class="fas fa-globe rotate-globe"></i> ' + getUsername();
-  document.getElementById('connection-sync').innerHTML = getRoomName()+" <i class='sync-icon fas fa-sync-alt'></i>";
+  document.getElementById('connection-username').innerHTML = '<i class="fas fa-globe rotate-globe"></i> ' + getUsername();
+  document.getElementById('connection-roomname').textContent = getRoomName();
+  // document.getElementById('connection-sync').
   firstHappened();
   existanceBroadcastIntervalId = setInterval(broadCastExistance, 5000);
   refreshConnectedPeopleIntervalId = setInterval(refreshConnectFeed, 12000);
@@ -164,6 +153,10 @@ function resetAllConnection(){
   removeClass('connection-sync', 'noSync');
   removeClass('connection-sync', 'sync');
   
+  addClass('room-info', 'inactive');
+  removeClass('room-info', 'active');
+
+
   removeClass('connectionInputField', 'inactive');
   addClass('connectionInputField', 'active');
   
@@ -175,8 +168,14 @@ function resetAllConnection(){
 
   addClass('message-box', 'inactive');
   removeClass('message-box', 'active');
-  makeDivFullHeight('connectionInputField');
-  document.getElementById('connection-roomname').innerHTML = '<i class="fas fa-globe rotate-globe"></i> Username';
+  
+  // makeDivFullHeight('connectionInputField');
+  inputField = document.getElementById('connectionInputField');
+  inputField.classList.remove('zero-height');
+  inputField.classList.add('full-height-10');
+
+  document.getElementById('connection-username').innerHTML = '<i class="fas fa-globe rotate-globe"></i> Username';
+  document.getElementById('connection-roomname').textContent = "Room Name";
   document.getElementById('peopleRefreshList').innerHTML = '';
   document.getElementById('messageContainer').innerHTML = '';
   makeStatusBarZero();
@@ -475,12 +474,36 @@ function unSqueezeEffect(){
   src_sqeezed(false);
 }
 
+squeezed = true;
+
+function squeeze(){
+  document.getElementById('src-local').classList.remove('src-full-width');
+  document.getElementById('src-drive').classList.remove('src-full-width');
+  document.getElementById('src-youtube').classList.remove('src-full-width');
+
+  document.getElementById('src-local').classList.add('src-zero-width');
+  document.getElementById('src-drive').classList.add('src-zero-width');
+  document.getElementById('src-youtube').classList.add('src-zero-width');
+  squeezed = true;
+
+} 
+
+function unsqueeze(){
+  document.getElementById('src-local').classList.remove('src-zero-width');
+  document.getElementById('src-drive').classList.remove('src-zero-width');
+  document.getElementById('src-youtube').classList.remove('zero-width');
+
+  document.getElementById('src-local').classList.add('src-full-width');
+  document.getElementById('src-drive').classList.add('src-full-width');
+  document.getElementById('src-youtube').classList.add('src-full-width');
+  squeezed = false;
+} 
+
 function src_option_clicked(){
-  if(src_option_is_squeezed()){
-    unSqueezeEffect();
-  }
-  else{
-    squeezeEffect();
+  if(squeezed){
+    unsqueeze();
+  }else{
+    squeeze();
   }
 }
 
@@ -560,19 +583,25 @@ function matchSubtitleTosrcTheme(){
   addSubtlieTheme(source);
 }
 
+
 function selectSource(source){
   const previousButton = document.getElementById(getSelectedSource());
   previousButton.classList.remove('hidden');
-  previousButton
+
   const sourceButton = document.getElementById(source);
   const destinationButton = document.getElementById('src-option-button');
+
   selectedSource(source);
+
   destinationButton.innerHTML = sourceButton.innerHTML;
   destinationButton.className = sourceButton.className;
   destinationButton.classList.add('playing');
-  sourceButton.classList.add('hidden');  
-  squeezeEffect();
-  src_sqeezed(true);
+    
+  squeeze();
+  setTimeout(function(){
+    sourceButton.classList.add('hidden');
+  },1000);
+  // // src_sqeezed(true);
   fn = source_select_functions.get(source);
   fn();
 }
@@ -689,36 +718,19 @@ function trimFileName(name){
 
 function hidepopup(){
   const div = document.getElementById('popupdiv');
-  height = div.offsetHeight;
-  storeHeightbyId('popupdiv', height);
-  target =  height;
-  var intervalId = setInterval(function() {
-      height -= 10;
-      div.style.height = height + 'px';
-      if (height <= 0) {
-        div.classList.add('hiddenpopup');
-        clearInterval(intervalId);
-        document.getElementById('popupcontentDiv').innerHTML = '';
-      }
-    }, 1);
+  div.classList.remove('full-height-92');
+  div.classList.add('zero-height');
 
   subtitleVisible(false);
   notificationShowMode(false);
   addClass('subtitleTolRange', 'hidden');
 }
 function showpopup(){
+  document.getElementById('popupcontentDiv').innerHTML = '';
   const div = document.getElementById('popupdiv');
-  target = getHeightById('popupdiv');
-  height = 0;
-  div.style.height = '0px';
-  document.getElementById('popupdiv').classList.remove('hiddenpopup');
-  var intervalId = setInterval(function() {
-      height += 10;
-      div.style.height = height + 'px';
-      if (height >= target) {
-        clearInterval(intervalId);
-      }
-    }, 1);
+
+  div.classList.remove('zero-height');
+  div.classList.add('full-height-92');
 }
 
 function formatDuration(duration) {
@@ -749,6 +761,7 @@ function getTimeFromDateHMS(date) {
 function showActivityList(){
   
   showpopup();
+
 
   container = document.createElement('div');
   container.classList.add('table-container');
@@ -1136,38 +1149,14 @@ function hideNotification(){
    clearInterval(onscreenTimerId);
    document.getElementById('notificationContent').innerHTML = '';
    PreviouslyAddedNotification = '#$';
-  // height = div.offsetHeight;
-  // // storeHeightbyId('notificationpopup', height);
-  // target =  height;
-  // var intervalId = setInterval(function() {
-  //     height -= 3;
-  //     div.style.height = height + 'px';
-  //     if (height <= 0) {
-  //       div.classList.add('hide');
-  //       clearInterval(intervalId);
-  //     }
-  //   }, 1);
    div.classList.add('hide');
   document.getElementById('notificationContent').innerHTML = '';
 }
 
-hideNotification();
 function showNotification(){
   const div = document.getElementById('notificationpopup');
-  
   div.classList.remove('hide');
-  // target = getHeightById('notificationpopup');
-  // height = 0;
-  // div.style.height = '0px';
-  // div.classList.remove('hide');
-  // var intervalId = setInterval(function() {
-  //     height += 3;
-  //     div.style.height = height + 'px';
-  //     if (height >= target) {
-  //       div.style.height = target + 'px';
-  //       clearInterval(intervalId);
-  //     }
-  //   }, 1);
+
 }
 
 function poke(username){
@@ -1225,3 +1214,16 @@ function isVideoPlayerFullScreen() {
     document.msFullscreenElement === videoPlayer
   );
 }
+
+function toggleDropdown(id){
+  div = document.getElementById(id);
+  div.classList.toggle('hide-dropdown');
+}
+
+const dropdownToggle = document.getElementById('dropdown-toggle');
+const dropdownMenu = document.getElementById('dropworn');
+window.addEventListener('click', function (event) {
+  if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+    dropdownMenu.classList.add('hide-dropdown');
+  }
+});
