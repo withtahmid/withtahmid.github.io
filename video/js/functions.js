@@ -197,10 +197,10 @@ function toggleSync(){
     setSync(false);
   }
   else{
-    makeUniqueKey();
     addClass('connection-sync', 'sync');
     removeClass('connection-sync', 'noSync');
     setSync(true);
+    requestForSync();
   }
 }
 
@@ -297,9 +297,9 @@ function createPeopleForList(username, now){
     // click =`onclick = "putNotificationOnScreen('${getUserVideoFileName(username)}')"`;
     
 
-    videoFile = "<span><button " + click + " title ='"+title+"'><i class='fas fa-film'></i>"+subtitle+ " " + screenMode +"</button></span>";
+    videoFile = "<span><label " + click + " title ='"+title+"'><i class='fas fa-film'></i>"+subtitle+ " " + screenMode +"</label></span>";
   }else{
-    videoFile = "<span><button " + click + " title ='Not playing'><i class='fas fa-exclamation-circle'></i></button></span>";
+    videoFile = "<span><lebel " + click + " title ='Not playing'><i class='fas fa-exclamation-circle'></i></label></span>";
   }
 
 
@@ -317,20 +317,20 @@ function createPeopleForList(username, now){
     people.classList.add('disconnected');
   }
   else if(timeAgo > 5){
-    timeMessage = 'Few seconds ago';
+    timeMessage = 'Connecting';
     people.classList.add('late');
   }
   else{
-    timeMessage = 'Just Now';
+    timeMessage = 'Active';
     people.classList.add('active')
   }
-  people.innerHTML = "<span>" + username + "</span><span>" + timeMessage +"</span> " +  media  + "<span><button onclick='poke(\"" + username + "\")'><i class='fas fa-hand-point-right'></i></button></span>";
+  people.innerHTML = "<span>" + username + "</span><span>" + timeMessage +"</span> " +  media;//  + "<span><button onclick='poke(\"" + username + "\")'><i class='fas fa-hand-point-right'></i></button></span>";
   if(username == getUsername()){
     people.classList.remove('disconnected');
     people.classList.remove('late');
     people.classList.remove('active');
     people.classList.add('thisUser');
-    people.innerHTML = "<span>" + username + " (you) </span><span>" + timeMessage+ "</span> " +  media  + "<span><button><i class='fas fa-user-circle'></i></button></span>";
+    people.innerHTML = "<span> You </span><span>" + timeMessage+ "</span> " +  media;//  + "<span><button><i class='fas fa-user-circle'></i></button></span>";
   }
  
   return people;
@@ -871,7 +871,6 @@ function handleMediaResponseMessage(message){
   if(message.event != getUsername()){
     return;
   }
-  console.log("got response");
   if(message.text === 'null'){
     putNotificationOnScreen(`${message.user}\n not playing \n or not in sync`);
     return;
@@ -918,7 +917,7 @@ function handleMediaMessage(message){
   fn((message.playTime));
   setTimeout(function(){
       setPublishFlag(true);
-  },500);
+  },1200);
 }
 function handleJoinMessage(message){
   broadCastExistance();
@@ -929,26 +928,7 @@ function handleJoinMessage(message){
   notification = "'" + message.user + "' joined the room";
   putNotification(notification);
 }
-function adjustPlayTimeAutomatic(message, paused){
-  if((!isPlaying()) || (!iJoinedLate(message)) || (!sync())){
-    return;
-  }
-  if(Math.abs(videoPlayer.currentTime - message.playTime) <= 3){
-    return;
-  }
 
-  setPublishFlag(false);
-  videoPlayer.currentTime = message.playTime;
-  if(info.paused){
-    videoPlayer.pause();
-  }else{
-    videoPlayer.play();
-  }
-  setTimeout(function(){
-      setPublishFlag(true);
-  },800);
-  putNotification(`Syncing with ${message.user}`);
-}
 function decodeExistanceMessage(message){
   array = message.event.split('$');
   videoName = array[0];
@@ -971,8 +951,8 @@ function handleExistMessage(message){
   setUserVideoFileName(message.user, info.videoName);
   setUserSubtitleName(message.user, info.subtitleName);
   setUserScreenMode(message.user, info.screenMode);
-  adjustPlayTimeAutomatic(message, info.paused);
 }
+
 function handleReconnectMessage(message){
   return;
 }
@@ -1057,10 +1037,68 @@ function handleTextMessage(message){
   putNotificationOnVideo(notification)
 }
 
+function adjustPlayTimeAutomatic(message, paused){
+  if((!isPlaying()) || (!sync())){
+    return;
+  }
+  setPublishFlag(false);
+  videoPlayer.currentTime = message.playTime;
+  if(info.paused){
+    videoPlayer.pause();
+  }else{
+    videoPlayer.play();
+  }
+  setTimeout(function(){
+      setPublishFlag(true);
+  },1200);
+  putNotification(`Syncing with ${message.user}`);
+}
+
+let needToSync = false;
+
+function requestForSync(){
+  if(!isPlaying()){
+    return;
+  }
+  needToSync = true;
+  const message = generateMessage('syncRequest', 'null', 'null');
+  publishMessage(message);
+}
+
+function handleSyncRequest(message){
+  if((!isPlaying() )|| (!sync()) || (message.user === getUsername())){
+    return;
+  }
+  let media = 'play';
+  if(videoPlayer.paused){
+      media = "pause";
+  }
+  publishMessage(generateMessage('syncResponse', message.user, media));
+}
+
+function handleSyncResponse(message){
+  if((!isPlaying()) || (!sync()) || (message.event !== getUsername()) || (!needToSync)){
+    return;
+  }
+  needToSync = false;  
+  setPublishFlag(false);
+  putNotification(`Syncing with ${message.user}`);
+  videoPlayer.currentTime = message.playTime;
+  if(message.text == 'pause'){
+    videoPlayer.pause();
+  }else{
+    videoPlayer.play();
+  }
+  setTimeout(function(){
+      setPublishFlag(true);
+  },1200);
+}
+
 function putNotification(notification){
   putNotificationOnVideo(notification);
   putNotificationOnScreen(notification);
 }
+
 
 
 function convertTextToWebVTT(text) {

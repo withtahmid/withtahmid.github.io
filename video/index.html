@@ -86,7 +86,7 @@
 					<button id="src-option-button"class="src-btn btn-hover-fx src-local src-full-width" type="button" onclick="src_option_clicked()"><i class="fas fa-desktop"></i></button>
 				</span>
 				<span id ="source-options" class="source-options">
-					<button onclick="selectSource('src-local')" id="src-local" class="src-btn btn-hover-fx src-local src-zero-width" type="button">
+					<button onclick="selectSource('src-local')" id="src-local" class="src-btn btn-hover-fx src-local src-zero-width hidden" type="button">
 						<i class="fas fa-desktop bounceable"></i>
 					</button>
 					<button onclick="selectSource('src-drive')" id="src-drive" class="src-btn btn-hover-fx src-drive src-zero-width" type="button">
@@ -113,15 +113,19 @@
 			    <div class="file-input hidden" id="youtubeLabel">
 			    	<label  class="file-input-label btn-hover-fx src-youtube">Working On it</label>
 			    </div>
-			    <div id="subtitleBox" class="subtitle-box ">
+			   
+
+			    <div id="subtitleBox" class="subtitle-box inactive">
 					<input id="subtitleFileInput" type="file" class="file-input">
-			    	<label for="subtitleFileInput" id="subtitleFileInputLabel" class="file-input-label  btn-hover-fx"><i class="fas fa-closed-captioning"></i> Add subtitle</label>
-			    	<button id="showSubBtn" class="inactive btn-hover-fx" onclick="showSubtitle()">Show subtile</button>
+			    	<label for="subtitleFileInput" id="subtitleFileInputLabel" class="default file-input-label  btn-hover-fx"><i class="fas fa-closed-captioning"></i> Add subtitle</label>
+			    	<button id="showSubBtn" class="default inactive btn-hover-fx" onclick="showSubtitle()">Show subtile</button>
 			    	<div class="gap">
-			    		<button onclick="createAncore()" class="btn-hover-fx"><i class="fas fa-anchor"></i> Ancore</button>
-			    		<button id="releaseAncore" onclick="playFromAncore()" class="btn-hover-fx">00:00:0</button>
+			    		<button onclick="createAncore()" class="default btn-hover-fx"><i class="fas fa-anchor"></i> Ancore</button>
+			    		<button id="releaseAncore" onclick="playFromAncore()" class="default btn-hover-fx">00:00:0</button>
 			    	</div>
 				</div>
+
+
 			</div>
 			<div class="mediaNames">
 		    	<label class="btn-hover-fx" id="videoFileNameLabel"></label>
@@ -166,9 +170,9 @@
 			<div id ="connectedPeopleList" class="connectedPeople inactive">
 				<div class="eachPeople heading">
 					<span>People</span>
-					<span>Last Seen</span>
+					<span>Status</span>
 					<span>Media</span>
-					<span><button>Poke</button></span>
+					<!-- <span><button>Poke</button></span> -->
 				</div>
 				<div id ="peopleRefreshList"></div>
 			</div>

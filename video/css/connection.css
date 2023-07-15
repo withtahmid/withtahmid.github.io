@@ -266,9 +266,10 @@
   text-align: center;
   border-radius: 10px;
   margin-top: 2%;
-  padding: .5%;
+  padding: 1%;
   opacity: 0.7;
   transition: opacity .6s ease;
+/*  border: 1px solid red;*/
 }
 
 .box-4 .connectedPeople .active{
@@ -294,12 +295,11 @@
   font-weight: bold;
   background-color: #111;
   width: 100%;
-  padding: 1%;
-
 }
 
 .box-4 .connectedPeople .eachPeople span{
   flex: 1;
+/*  border: 1px solid red;*/
 }
 
 .box-4 .connectedPeople .eachPeople button{

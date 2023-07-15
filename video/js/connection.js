@@ -102,7 +102,9 @@ messageHandeler.set('reconnect', handleReconnectMessage);
 messageHandeler.set('conflict', handleConflictMessage);
 messageHandeler.set('mediaReguest', hadleMediaReguestMessage);
 messageHandeler.set('mediaResponse', handleMediaResponseMessage);
-ignoreMessage = ['exist', 'reconnect', 'mediaReguest', 'mediaResponse', 'poke'];
+messageHandeler.set('syncRequest', handleSyncRequest);
+messageHandeler.set('syncResponse', handleSyncResponse);
+ignoreMessage = ['exist', 'reconnect', 'mediaReguest', 'mediaResponse', 'poke', 'syncRequest','syncResponse'];
 function resgisterActivity(message){
     if(ignoreMessage.includes(message.type)){
        return;
