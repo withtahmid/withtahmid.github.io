@@ -886,7 +886,6 @@ function hadleMediaReguestMessage(message){
   if(message.event !== getUsername()){
     return;
   }
-  console.log("got request");
   media = 'null';
   if(isPlaying() && sync()){
     media = videoFileName();
@@ -906,18 +905,28 @@ function hadleMediaReguestMessage(message){
   publishMessage(message);
 }
 
+function mediaControl(message){
+  fn = mediaHandeler.get(message.event);
+  fn((message.playTime));
+  return new Promise(resolve =>{
+    setTimeout(()=>{
+      resolve();
+    },1200);
+  });
+}
+
+async function takeMediaAction(message){
+  setPublishFlag(false);
+  await mediaControl(message);
+  setPublishFlag(true);
+}
+
 function handleMediaMessage(message){
   if(!isPlaying() || message.user == getUsername() || (!sync())){
     return;
   }
-  setPublishFlag(false);
-  fn = mediaHandeler.get(message.event);
-  notification = createMediaNotification(message)  
-  putNotification(notification);
-  fn((message.playTime));
-  setTimeout(function(){
-      setPublishFlag(true);
-  },1200);
+  putNotification(createMediaNotification(message) );
+  takeMediaAction(message);  
 }
 function handleJoinMessage(message){
   broadCastExistance();
