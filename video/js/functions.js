@@ -1203,7 +1203,7 @@ function poke(username){
 
 function sendMessage(){
   const text = document.getElementById('chatInput');
-  if(text == ''){
+  if(text.value == ''){
         return;
   }
   publishMessage(generateMessage('text', 'null', text.value));
