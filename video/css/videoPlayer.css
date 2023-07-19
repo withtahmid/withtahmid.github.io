@@ -84,6 +84,18 @@
 /*  margin-right: 2%;*/
 }
 
+.box-2 .src-choose{
+  height: 35px;
+  width: 200px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  margin-left: 20px;
+  flex: 1;
+  background-color: #000;
+  color: white;
+}
+
 .box-2 .playFrom .src-btn{
   height: 35px;
   border: none;
@@ -135,7 +147,6 @@
   background-color: #FF0000;
   color: white;
 }
-
 .box-2 .playFrom .default{
   margin-left: 0;
   width: 100px;
@@ -193,7 +204,6 @@
   outline: none;
   border-radius: 10px;
   margin: 0;
-  
 }
 
 .box-2  .videoFileInput input[type="text"]:hover{

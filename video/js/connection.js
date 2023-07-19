@@ -104,6 +104,8 @@ messageHandeler.set('mediaReguest', hadleMediaReguestMessage);
 messageHandeler.set('mediaResponse', handleMediaResponseMessage);
 messageHandeler.set('syncRequest', handleSyncRequest);
 messageHandeler.set('syncResponse', handleSyncResponse);
+messageHandeler.set('change', handleChangeMessage);
+
 ignoreMessage = ['exist', 'reconnect', 'mediaReguest', 'mediaResponse', 'poke', 'syncRequest','syncResponse'];
 function resgisterActivity(message){
     if(ignoreMessage.includes(message.type)){

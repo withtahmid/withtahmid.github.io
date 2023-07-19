@@ -55,8 +55,8 @@
 	<!-- Box - 1 -->
 	<div class="box" >
 		<div class="box-element box-1 inactive" id="videoContainer">
-			<video id="videoPlayer" controls>
-              <source id="videoSource" src="" type="video/mp4">
+			<video id="videoPlayer" data-yt2html5="" controls>
+              <source id="videoSource" src=""  type="video/mp4">
               <track id="subtitlesTrack" kind="captions" srclang="en" label="English" default>
               Your browser does not support the video tag.
             </video>
@@ -80,35 +80,37 @@
 		<div class="box-element box-2">
 			<div class="playFrom">
 				<span>
-					<button id="src-option-button"class="src-btn btn-hover-fx src-local src-full-width" type="button" onclick="src_option_clicked()"><i class="fas fa-desktop"></i></button>
+					<button id="src-option-button"class="src-choose btn-hover-fx" type="button" onclick="src_option_clicked()">Select Source</button>
 				</span>
 				<span id ="source-options" class="source-options">
-					<button onclick="selectSource('src-local')" id="src-local" class="src-btn btn-hover-fx src-local src-zero-width hidden" type="button">
+					<button title="Play local file" onclick="selectSource('src-local')" id="src-local" class="src-btn btn-hover-fx src-local src-zero-width" type="button">
 						<i class="fas fa-desktop bounceable"></i>
 					</button>
-					<button onclick="selectSource('src-drive')" id="src-drive" class="src-btn btn-hover-fx src-drive src-zero-width" type="button">
+					<button title="Play from Google Drive" onclick="selectSource('src-drive')" id="src-drive" class="src-btn btn-hover-fx src-drive src-zero-width" type="button">
 						<i class="fab fa-google-drive bounceable"></i>
 					</button>
-					<button onclick="selectSource('src-youtube')" id="src-youtube" class="src-btn btn-hover-fx src-youtube src-zero-width" type="button">
+					<button title="Play YouTube video" onclick="selectSource('src-youtube')" id="src-youtube" class="src-btn btn-hover-fx src-youtube src-zero-width" type="button">
 						<i class="fab fa-youtube bounceable"></i>
 					</button>
 				</span>
 			</div>
 			<div class="videoFileInput">
-				<div id="videoFileInputdiv"  class="file-input">
+				<div id="videoFileInputdiv"  class="file-input hidden">
 					<input id="videoFileInput" type="file" class="file-input">
 			    	<label for="videoFileInput" id="videoFileInputLabel" class="file-input-label  btn-hover-fx src-local">  <i class="fas fa-file-video"></i> Open Video</label>
 			    	
 			    </div>
 			    <div class="file-input hidden" id="driveLinkInputField">
 			    	<label onclick="driveLinkInputClipboard()" class="file-input-label btn-hover-fx src-drive"><i class="fas fa-clipboard"></i> Link</label>
-			    	 OR 
+			    	 OR
  			    	<input placeholder="G-Drive link" type="text" id="driveTextInputField">
-			    	<button onclick="playFromDriveClick()" class="src-drive btn-hover-fx"><i class="fas fa-play"></i></button>
-			    	
+			    	<button onclick="playFromDriveClick()" class="src-drive btn-hover-fx"><i class="fas fa-play"></i></button>	
 			    </div>
 			    <div class="file-input hidden" id="youtubeLabel">
-			    	<label  class="file-input-label btn-hover-fx src-youtube">Working On it</label>
+			    	<label onclick="youtubeLinkInputClipboard()" class="file-input-label btn-hover-fx src-youtube"><i class="fas fa-clipboard"></i> Link</label>
+			    	 OR 
+ 			    	<input placeholder="G-Drive link" type="text" id="youtubeTextInputField">
+			    	<button onclick="playFromYoutubeClick()" class="src-youtube btn-hover-fx"><i class="fas fa-play"></i></button>
 			    </div>
 			   
 
@@ -188,4 +190,5 @@
 <script src="js/functions.js"></script>
 <script src="js/connection.js"></script>
 <script src="js/declearations.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/thelevicole/youtube-to-html5-loader@4.0.1/dist/YouTubeToHtml5.js"></script>
 </html>

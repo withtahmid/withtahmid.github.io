@@ -107,7 +107,7 @@ function ButtonInputOff(id, val){
 
 function handelFirstTimeConnection(){
   makeUniqueKey();
-  
+  requestForSync();
   document.getElementById('connectButton').innerHTML = 'Join';
 
   // makeDivZero('usernameInputField');
@@ -620,6 +620,17 @@ function showVideoFileName(){
     }, 20);
 }
 function videoFileChanged(){
+
+  setPlaying(true);
+
+  container = document.getElementById('videoContainer');
+  container.classList.remove('inactive');
+  container.classList.add('active');
+  document.getElementById('subtitleFileNameLabel').textContent = '';
+  removeClass('subtitleFileNameLabel', 'src-local');
+  removeClass('subtitleFileNameLabel', 'src-drive');
+  removeClass('subtitleFileNameLabel', 'src-youtube');
+
   document.getElementById('subtitlesTrack').src = '';
   document.getElementById('subtitleFileNameLabel').textContent = '';
   ButtonInputOff('subtitleBox', false);
@@ -630,6 +641,7 @@ function videoFileChanged(){
   matchSubtitleTosrcTheme();
   showVideoFileName();
   document.getElementById('showSubBtn').disabled = true;
+  publishMessage(generateMessage('change', getSelectedSource() , getFileLink()));
 }
 
 
@@ -1066,9 +1078,6 @@ function adjustPlayTimeAutomatic(message, paused){
 let needToSync = false;
 
 function requestForSync(){
-  if(!isPlaying()){
-    return;
-  }
   needToSync = true;
   const message = generateMessage('syncRequest', 'null', 'null');
   publishMessage(message);
@@ -1082,31 +1091,103 @@ function handleSyncRequest(message){
   if(videoPlayer.paused){
       media = "pause";
   }
-  publishMessage(generateMessage('syncResponse', message.user, media));
+  const response = `${getSelectedSource()}$${getFileLink()}$${media}`;
+  publishMessage(generateMessage('syncResponse', message.user, response));
 }
 
-function handleSyncResponse(message){
-  if((!isPlaying()) || (!sync()) || (message.event !== getUsername()) || (!needToSync)){
+
+const syncResponseHandeler = new Map();
+syncResponseHandeler.set('src-local', (link)=>{
+  if(!isPlaying()){
+    return;
+  }
+});
+
+syncResponseHandeler.set('src-drive', (link)=>{
+  playFromDriveLink(link);
+  src_option_clicked();
+  selectSource('src-drive');
+});
+
+syncResponseHandeler.set('src-youtube', (link)=>{
+  processyoutubeLink(link);
+  src_option_clicked();
+  selectSource('src-youtube');
+});
+
+function sleep(milliseconds){
+  return new Promise(resolve =>{
+    setTimeout(()=>{
+      resolve();
+    },milliseconds);
+  });
+}
+
+
+async function handleSyncResponse(message){
+  if((!sync()) || (message.event !== getUsername()) || (!needToSync)){
     return;
   }
   needToSync = false;  
   setPublishFlag(false);
   putNotification(`Syncing with ${message.user}`);
-  videoPlayer.currentTime = message.playTime;
-  if(message.text == 'pause'){
+
+  const arr = message.text.split('$');
+  syncResponseHandeler.get(arr[0])(arr[1]);
+
+  await sleep(1000);
+  if(isPlaying()){
     videoPlayer.pause();
-  }else{
-    videoPlayer.play();
+    videoPlayer.currentTime = message.playTime;
+    if(arr[2] === 'play'){
+      await videoPlayer.play();
+    } 
   }
   setTimeout(function(){
       setPublishFlag(true);
-  },1200);
+  },2000);
 }
 
 function putNotification(notification){
   putNotificationOnVideo(notification);
   putNotificationOnScreen(notification);
 }
+
+const sourceChange = new Map();
+sourceChange.set('src-local', message=>{
+  if(!isPlaying()){
+    return;
+  }
+  putNotification(`${message.user} played new video from Computer`);
+  videoPlayer.pause();
+});
+sourceChange.set('src-drive', message=>{
+  src_option_clicked();
+  selectSource(message.event);
+
+  playFromDriveLink(message.text);
+  putNotification(`${message.user} played new Drive video`);
+});
+sourceChange.set('src-youtube', message=>{
+  src_option_clicked();
+  selectSource(message.event);
+
+  processyoutubeLink(message.text);
+  putNotification(`${message.user} played new YouTube video`);
+});
+
+function handleChangeMessage(message){
+  if(message.user === getUsername() || (!sync)){
+    return;
+  }
+  
+  setPublishFlag(false);
+  sourceChange.get(message.event)(message);
+  setTimeout(()=>{
+    setPublishFlag(true)
+  },2000);
+}
+
 
 
 

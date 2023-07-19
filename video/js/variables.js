@@ -12,6 +12,7 @@ globalDisconnecion = false;
 global_src_option_is_squeezed = true;
 let existanceBroadcastIntervalId;
 let refreshConnectedPeopleIntervalId;
+let fileLink = 'local';
 glbalVideoPlaying = false;
 globalAncoredTime = 0;
 globalSubtitleTolRange = 10;
@@ -19,6 +20,7 @@ globalSubtitleFileName = '';
 globalMyUniqueKey = '';
 globalshowingNotifications = false;
 separator = '~';
+
 
 publishFlag = true;
 
@@ -34,6 +36,14 @@ usersVideoFileName = new Map();
 usersSubFileName = new Map();
 userScreenMode = new Map();
 notifications = [];
+
+function setFileLink(val){
+	fileLink = val;
+}
+function getFileLink(){
+	return fileLink;
+}
+
 
 function setUserScreenMode(username, val){
 	userScreenMode.set(username, val);

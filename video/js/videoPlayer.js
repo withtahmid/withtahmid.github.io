@@ -35,19 +35,14 @@ function backward(){
 skipValueInput.addEventListener('change', handleSkipValueChange);
 
 videoFileInput.addEventListener('change', function() {
+    videoPlayer.setAttribute('data-yt2html5', '');
+    videoPlayer.removeAttribute('src');
     const file = videoFileInput.files[0];
     videoSource.src = URL.createObjectURL(file);
     videoPlayer.load();
-    setPlaying(true);
     setVideoFineName(file.name);
     videoFileChanged();
-    container = document.getElementById('videoContainer');
-    container.classList.remove('inactive');
-    container.classList.add('active');
-    document.getElementById('subtitleFileNameLabel').textContent = '';
-    removeClass('subtitleFileNameLabel', 'src-local');
-    removeClass('subtitleFileNameLabel', 'src-drive');
-    removeClass('subtitleFileNameLabel', 'src-youtube');
+    
 });
 chatInput.addEventListener('keypress', function(event) {
   if (event.key === 'Enter') {
@@ -144,10 +139,43 @@ function driveLinkInputClipboard(){
     });
 }
 
+function processyoutubeLink(link){
+    playYoutubeLink(link, 'Playing from youtube');
+}
+
+function youtubeLinkInputClipboard(){
+     navigator.clipboard.readText()
+        .then(function(text) {
+            processyoutubeLink(text);
+    })
+    .catch(function(error) {
+        alertUser('Failed to read clipboard contents: ', error);
+    });
+}
+
+function playFromYoutubeClick(){
+    const link = document.getElementById('youtubeTextInputField').value;
+    processyoutubeLink(link);
+}
+
+function playYoutubeLink(link, name){
+    setVideoFineName(name);
+    setFileLink(link);
+    videoSource.setAttribute('src', '');
+    videoPlayer.setAttribute('data-yt2html5', link);
+    new YouTubeToHtml5({
+        withAudio:true
+    });
+    setTimeout(()=>{
+        videoPlayer.load();
+        videoFileChanged();
+    },200);
+}
+
 async function tryDriveLink(link) {
   const fileID = link.match(/[-\w]{25,}/);
   if (!fileID) {
-    alertUser('Invalid Google Drive link');
+    alertUser("Invalid Google Drive link\n"+ link);
   }
 
   const metadataEndpoint = `https://www.googleapis.com/drive/v3/files/${fileID[0]}?fields=name&key=AIzaSyDUjyB82R7zwWccZtIkZUQsVPAI6g_u-4s`;
@@ -158,18 +186,17 @@ async function tryDriveLink(link) {
       throw new Error('Failed to fetch file metadata');
     }
 
+    videoPlayer.setAttribute('data-yt2html5', '');
+    videoPlayer.removeAttribute('src');
+    setFileLink(link);
     const data = await response.json();
     const filename = data.name;
     const source = `https://drive.google.com/uc?export=download&id=${fileID[0]}`;
     document.getElementById('driveTextInputField').value = link;
     videoSource.src = source;
     videoPlayer.load();
-    setPlaying(true);
     setVideoFineName(filename);
     videoFileChanged();
-    container = document.getElementById('videoContainer');
-    container.classList.remove('inactive');
-    container.classList.add('active');
   } catch (error) {
     console.error('Error fetching file metadata:', error);
     alertUser('Error fetching file metadata');
@@ -177,25 +204,7 @@ async function tryDriveLink(link) {
 }
 
 function playFromDriveLink(link){
-    if(!tryDriveLink(link)){
-        alertUser("Invalid Google Drive link\n"+ link);
-    }
-
-    // result  = getVideoSourceFromGoogleDriveLink(link);
-    // if(!result){
-    //     alertUser('Invalid Google Drive Link\n' + trimFileName(link));
-    //     return;
-    // }
-    // document.getElementById('driveTextInputField').value = link;
-    // videoSource.src = result;
-    // videoPlayer.load();
-    // setPlaying(true);
-    // setVideoFineName(result);
-    // videoFileChanged();
-    // container = document.getElementById('videoContainer');
-    // container.classList.remove('inactive');
-    // container.classList.add('active');
-
+    tryDriveLink(link);
 }
 
 subTolRangeInput.addEventListener("input", function() {
