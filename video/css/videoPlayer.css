@@ -24,6 +24,8 @@
   background-color: black;
   padding-left: 2%;
 }
+
+
 .box-1:hover > .below-video {
   opacity: 1;
   transition: opacity 0s;
@@ -301,4 +303,9 @@
   border-radius: 10px;
 }
 
+.box-2 ul{
+/*  display: inline-block;*/
+}
+.box-2 li{
 
+}

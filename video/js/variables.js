@@ -19,7 +19,10 @@ globalSubtitleTolRange = 10;
 globalSubtitleFileName = '';
 globalMyUniqueKey = '';
 globalshowingNotifications = false;
-separator = '~';
+const separator = '~';
+
+let mediaSource;
+
 
 
 publishFlag = true;

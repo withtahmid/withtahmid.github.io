@@ -158,14 +158,16 @@ function playFromYoutubeClick(){
     processyoutubeLink(link);
 }
 
-function playYoutubeLink(link, name){
+async function playYoutubeLink(link, name){
     setVideoFineName(name);
     setFileLink(link);
     videoSource.setAttribute('src', '');
     videoPlayer.setAttribute('data-yt2html5', link);
-    new YouTubeToHtml5({
-        withAudio:true
-    });
+    const temp = await new YouTubeToHtml5(
+        {
+            withAudio:true
+        }
+    );
     setTimeout(()=>{
         videoPlayer.load();
         videoFileChanged();

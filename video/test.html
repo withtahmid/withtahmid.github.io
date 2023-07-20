@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+<video data-yt2html5="https://www.youtube.com/watch?v=FJB7gbjiJKw"   controls></video>
+
+<script src="https://cdn.jsdelivr.net/gh/thelevicole/youtube-to-html5-loader@4.0.1/dist/YouTubeToHtml5.js"></script>
+<script>
+	async function playLink(){
+		const information = await new YouTubeToHtml5(
+			{
+				withAudio:true,
+				formats:['1080p']
+
+			}
+		);
+
+		// console.log(information);
+
+		// console.log(information['itagMap']);
+		// let i  = 0;
+		// let temp;
+		// for (const property in information) {
+		//   // console.log('property-> ' + property, ':', information[property]);
+		//   if(property === 'itagMap'){
+		//   	temp = information['itagMap'];
+		//   	break;
+		//   }
+		//   // console.log(i++);
+		//   // console.log('------------------------------------------\n');
+		// }
+		// console.log(temp);
+	}
+	playLink();
+</script>
+</body>
+</html>

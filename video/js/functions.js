@@ -641,7 +641,11 @@ function videoFileChanged(){
   matchSubtitleTosrcTheme();
   showVideoFileName();
   document.getElementById('showSubBtn').disabled = true;
-  publishMessage(generateMessage('change', getSelectedSource() , getFileLink()));
+  mediaSource = getSelectedSource();
+  if(sync() && isConnected()){
+    publishMessage(generateMessage('change', mediaSource , getFileLink()));
+  }
+  
 }
 
 
@@ -1091,7 +1095,7 @@ function handleSyncRequest(message){
   if(videoPlayer.paused){
       media = "pause";
   }
-  const response = `${getSelectedSource()}$${getFileLink()}$${media}`;
+  const response = `${mediaSource}$${getFileLink()}$${media}`;
   publishMessage(generateMessage('syncResponse', message.user, response));
 }
 
@@ -1355,3 +1359,20 @@ window.addEventListener('click', function (event) {
     dropdownMenu.classList.add('hide-dropdown');
   }
 });
+
+async function ChangeYoutubeQuality(quality){
+  const currentTime = videoPlayer.currentTime;
+  console.log(currentTime);
+  setTimeout(()=>{},500);
+  const temp = await new YouTubeToHtml5(
+        {
+            withAudio:true,
+            formats:[quality]
+
+        }
+    );
+    setTimeout(()=>{
+        videoPlayer.load();
+        videoPlayer.currentTime = currentTime;
+    },2000);
+}
