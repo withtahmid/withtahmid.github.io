@@ -82,10 +82,6 @@
 }
 
 
-.box-2 .playFrom span{
-/*  flex: 1;*/
-/*  margin-right: 2%;*/
-}
 
 .box-2 .src-choose{
   height: 35px;
@@ -307,11 +303,4 @@
   overflow: hidden;
   white-space: nowrap; /* Prevent wrapping of the label text */
   text-overflow: ellipsis; /* Show ellipsis (...) for truncated text */
-}
-
-.box-2 ul{
-/*  display: inline-block;*/
-}
-.box-2 li{
-
 }
