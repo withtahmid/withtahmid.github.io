@@ -23,8 +23,8 @@ body {
   margin-bottom: 0.15%;
 }
 
-/*@media screen and (orientation: portrait) {*/
-@media (max-aspect-ratio: 1.4/1) {
+@media screen and (orientation: portrait) {
+/*@media (max-aspect-ratio: 1.4/1) {*/
   .box {
     min-width: 100%;
   }
@@ -52,8 +52,8 @@ body {
 
 }
 
-/*@media screen and (orientation: landscape) {*/
-  @media (max-aspect-ratio: 1/1.4) {
+@media screen and (orientation: landscape) {
+/*  @media (max-aspect-ratio: 1/1.4) {*/
   .box {
     min-width: 49.9%;
   }
