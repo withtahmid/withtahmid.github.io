@@ -56,14 +56,16 @@
   flex-grow: 1;
 }
 .box-4 .connectionSettings{
-  width: 90%;
+  width: 70%;
   margin: 0 auto;
+  margin-top: 2%;
   height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1%;
 }
-.box-4 .connectionSettings *{
-  margin-right: 5%;
-  margin-top: 3%;
-}
+
 .inactive, .inactive *, .inactive:hover, .inactive *:hover, .active .inactive{
   opacity: 0.4;
   cursor: not-allowed;
@@ -156,7 +158,6 @@
 }
 
 .box-4 .connectionSettings button{
-/*  width: auto;*/
   padding: 10px;
   background-color: #000;
   color:#aaa;
@@ -166,7 +167,6 @@
   opacity: 0.7;
   transition: opacity .6s ease;
   min-width: 100px;
-/*  border: 1px solid red;*/
 }
 .box-4 .connectionSettings button:hover{
   opacity: 1;

@@ -18,7 +18,7 @@
   width: 100%;
   padding-bottom: 2%;
   opacity: 0;
-  transition: opacity 1s ease-out;
+  transition: opacity .5s ease-out;
   align-items: center; 
   justify-content: space-between;
   background-color: black;
@@ -28,7 +28,7 @@
 
 .box-1:hover > .below-video {
   opacity: 1;
-  transition: opacity 0s;
+  transition: opacity .3s;
 }
 .below-video button{
   height: auto;
@@ -299,8 +299,13 @@
   margin: 0 auto;
 }
 .box-2 .mediaNames label{
+  max-width: 90%;
   padding: 10px 20px;
   border-radius: 10px;
+  display: inline-block; /* This is to allow wrapping and truncating */
+  overflow: hidden;
+  white-space: nowrap; /* Prevent wrapping of the label text */
+  text-overflow: ellipsis; /* Show ellipsis (...) for truncated text */
 }
 
 .box-2 ul{

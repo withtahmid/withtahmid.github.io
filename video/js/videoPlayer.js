@@ -42,6 +42,7 @@ videoFileInput.addEventListener('change', function() {
     videoPlayer.load();
     setVideoFineName(file.name);
     videoFileChanged();
+    setFileLink('src-local')
     
 });
 chatInput.addEventListener('keypress', function(event) {
@@ -79,7 +80,6 @@ function convertSrtToVtt(srtData) {
 
 function showSubtitleName(filename){
     setSubtitleName(filename);
-    filename = trimFileName(filename);
     addClass('subtitleFileNameLabel', getSelectedSource());
     label = document.getElementById('subtitleFileNameLabel');
     label.textContent = '';
@@ -127,11 +127,20 @@ subtitlesFileInput.addEventListener('change', function() {
     }
 });
 
+function getClipboard(){
+    navigator.clipboard.readText()
+    .then(function(text) {
+        return text.toString();
+    })
+    .catch(function(error) {
+            return null;
+        alertUser('Failed to read clipboard contents: ', error);
+    });   
+}
 
 function driveLinkInputClipboard(){
     navigator.clipboard.readText()
         .then(function(text) {
-        // chatInput.value = text;
         playFromDriveLink(text);
     })
     .catch(function(error) {
@@ -139,18 +148,41 @@ function driveLinkInputClipboard(){
     });
 }
 
-function processyoutubeLink(link){
-    playYoutubeLink(link, 'Playing from youtube');
+function isYoutubeLink(link){
+   const regex = /^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|(?:(?:youtube-nocookie\.com\/|youtube\.com\/)(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/)))([a-zA-Z0-9\-_]*)/;
+   return regex.test(link);
+}
+
+async function getYouTubeVideoTitle(link) {
+    const videoId = link.match(/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|(?:(?:youtube-nocookie\.com\/|youtube\.com\/)(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/)))([a-zA-Z0-9\-_]*)/)[1];
+    const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=AIzaSyDUjyB82R7zwWccZtIkZUQsVPAI6g_u-4s`;
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        return data.items[0].snippet.title;
+    } 
+    catch (error) {
+        console.error("Error fetching video details:", error);
+        return "Couldn't fetch video title";
+    }
+}
+
+async function processyoutubeLink(link){
+    if(!isYoutubeLink(link)){
+        alertUser('Invalid YouTube Link!');
+        return;
+    }
+    playYoutubeLink(link);
 }
 
 function youtubeLinkInputClipboard(){
      navigator.clipboard.readText()
         .then(function(text) {
             processyoutubeLink(text);
-    })
-    .catch(function(error) {
-        alertUser('Failed to read clipboard contents: ', error);
-    });
+        })
+        .catch(function(error) {
+            alertUser('Failed to read clipboard contents: ', error);
+        });
 }
 
 function playFromYoutubeClick(){
@@ -158,20 +190,22 @@ function playFromYoutubeClick(){
     processyoutubeLink(link);
 }
 
-async function playYoutubeLink(link, name){
-    setVideoFineName(name);
-    setFileLink(link);
+async function playYoutubeLink(link){
     videoSource.setAttribute('src', '');
     videoPlayer.setAttribute('data-yt2html5', link);
-    const temp = await new YouTubeToHtml5(
-        {
-            withAudio:true
-        }
-    );
-    setTimeout(()=>{
-        videoPlayer.load();
-        videoFileChanged();
-    },200);
+    try{
+        const temp = await Promise.all([getYouTubeVideoTitle(link), new YouTubeToHtml5()]);
+        setVideoFineName(temp[0].toString());
+        setFileLink(link);
+        setTimeout(()=>{
+            videoPlayer.load();
+            videoFileChanged();
+        },200);
+    }
+    catch(e){
+        alertUser('Something went wront :(');
+    }
+    
 }
 
 async function tryDriveLink(link) {

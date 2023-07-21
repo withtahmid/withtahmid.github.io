@@ -9,8 +9,8 @@ function inputIsValid(username, roomName){
     if(username == "" || username.includes(' ')){
       warning += "Username is empty or contains space\n";
     }
-    if(roomName.length < 6 || roomName.length > 10 || roomName.includes(' ')){
-      warning += "room name must be between 6 and 10 character without space\n";
+    if(roomName.length < 5 || roomName.length > 10 || roomName.includes(' ')){
+      warning += "Room name must be between 5 and 10 character without space\n";
     }
     if(warning !== ""){
       alertUser(warning);
@@ -110,11 +110,7 @@ function handelFirstTimeConnection(){
   requestForSync();
   document.getElementById('connectButton').innerHTML = 'Join';
 
-  // makeDivZero('usernameInputField');
-  // makeDivZero('roomnameInputField');
-  // makeDivZero('connectButton');
-  // makeDivZero('connectionInputField');
-  // 
+
   inputField = document.getElementById('connectionInputField');
   inputField.classList.add('zero-height');
   inputField.classList.remove('full-height-10');
@@ -350,140 +346,19 @@ function refreshConnectFeed(){
   peopleList.innerHTML = temp.innerHTML;
 }
 
-function src_loacl_unsqueeze(){ 
-  button_local = document.getElementById('src-local');
-  button_local.disabled = false;
-  targetWidth_local = getWidthById('src-local');
-  button_local.style.width = '25px';
-  button_local.classList.remove('hidden');
-  width_local = 25;
-  intervalId_local = setInterval(function() {
-    width_local += 1;
-    button_local.style.width = width_local + 'px';
-    if (width_local >= targetWidth_local) {
-      button_local.style.width = targetWidth_local + 'px';
-      clearInterval(intervalId_local);
-    }
-  }, 1);
- 
-}
 
-function src_drive_unsqueeze(){
-  button_drive = document.getElementById('src-drive');
-  button_drive.disabled = false;
-  targetWidth_drive = getWidthById('src-drive');
-  button_drive.classList.remove('hidden');
-  width_drive = 25;
-  intervalId_drive = setInterval(function() {
-    width_drive += 1;
-    button_drive.style.width = width_drive + 'px';
-    if (width_drive >= targetWidth_drive) {
-      button_drive.style.width = targetWidth_drive + 'px';
-      clearInterval(intervalId_drive);
-    }
-  }, 1);
-  
-}
-
-function src_youtube_unsqueeze(){
-  button_youtube = document.getElementById('src-youtube');
-  button_youtube.disabled = false;
-  targetWidth_youtube = getWidthById('src-youtube');
-  button_youtube.style.width = '25px';
-  button_youtube.classList.remove('hidden');
-  width_youtube = 25;
-  intervalId_youtube = setInterval(function() {
-    width_youtube += 1;
-    button_youtube.style.width = width_youtube + 'px';
-    if (width_youtube >= targetWidth_youtube) {
-      button_youtube.style.width = targetWidth_youtube + 'px';
-      clearInterval(intervalId_youtube);
-    }
-  }, 1);
-  
-}
-
-function src_local_squeeze(){
-  button_local_sq = document.getElementById('src-local');
-  button_local_sq.disabled = true;
-  targetWidth_local_sq = getWidthById('src-local');
-  width_local_sq = targetWidth_local_sq;
-  intervalId_local_sq = setInterval(function() {
-    width_local_sq -= 1;
-    button_local_sq.style.width = width_local_sq + 'px';
-    if (width_local_sq <= 25) {
-      button_local_sq.classList.add('hidden');
-      clearInterval(intervalId_local_sq);
-    }
-  }, 1);
-}
-function src_drive_squeeze(){
-  button_drive_sq = document.getElementById('src-drive');
-  button_drive_sq.disabled = true;
-  targetWidth_drive_sq = getWidthById('src-drive');
-  width_drive_sq = targetWidth_drive_sq;
-  intervalId_drive_sq = setInterval(function() {
-    width_drive_sq -= 1;
-    button_drive_sq.style.width = width_drive_sq + 'px';
-    if (width_drive_sq <= 25) {
-      button_drive_sq.classList.add('hidden');
-      clearInterval(intervalId_drive_sq);
-    }
-  }, 1);
-}
-function src_youtube_squeeze(){
-  button_youtube_sq = document.getElementById('src-youtube');
-  button_youtube_sq.disabled = true;
-  targetWidth_youtube_sq = getWidthById('src-youtube');
-  width_youtube_sq = targetWidth_youtube_sq;
-  intervalId_youtube_sq = setInterval(function() {
-    width_youtube_sq -= 1;
-    button_youtube_sq.style.width = width_youtube_sq + 'px';
-    if (width_youtube_sq <= 25) {
-      button_youtube_sq.classList.add('hidden');
-      clearInterval(intervalId_youtube_sq);
-    }
-  }, 1);
-}
-
-
-function squeezeEffect(){
-  if(getSelectedSource() !== 'src-local'){
-     src_local_squeeze();
-  }
-  if(getSelectedSource() !== 'src-drive'){
-     src_drive_squeeze();
-  }
-   if(getSelectedSource() !== 'src-youtube'){
-     src_youtube_squeeze();
-  }
-  src_sqeezed(true);
-}
-
-function unSqueezeEffect(){
-  if(getSelectedSource() !== 'src-local'){
-     src_loacl_unsqueeze();
-  }
-  if(getSelectedSource() !== 'src-drive'){
-     src_drive_unsqueeze();
-  }
-   if(getSelectedSource() !== 'src-youtube'){
-     src_youtube_unsqueeze();
-  }
-  // document.getElementById('source-options').style.opacity = '1';
-  src_sqeezed(false);
-}
 
 squeezed = true;
 
 function squeeze(){
-  document.getElementById('src-local').classList.remove('src-full-width');
-  document.getElementById('src-drive').classList.remove('src-full-width');
-  document.getElementById('src-youtube').classList.remove('src-full-width');
 
   document.getElementById('src-local').classList.add('src-zero-width');
   document.getElementById('src-drive').classList.add('src-zero-width');
   document.getElementById('src-youtube').classList.add('src-zero-width');
+  
+  document.getElementById('src-local').classList.remove('src-full-width');
+  document.getElementById('src-drive').classList.remove('src-full-width');
+  document.getElementById('src-youtube').classList.remove('src-full-width');
   squeezed = true;
 
 } 
@@ -596,18 +471,15 @@ function selectSource(source){
   destinationButton.innerHTML = sourceButton.innerHTML;
   destinationButton.className = sourceButton.className;
   destinationButton.classList.add('playing');
-    
+  sourceButton.classList.add('hidden');
   squeeze();
-  setTimeout(function(){
-    sourceButton.classList.add('hidden');
-  },1000);
-  // // src_sqeezed(true);
   fn = source_select_functions.get(source);
   fn();
+
 }
 
 function showVideoFileName(){
-  filename = trimFileName(videoFileName());
+  filename = videoFileName();
   label = document.getElementById('videoFileNameLabel');
   label.textContent = '';
   i = 0;
@@ -647,43 +519,6 @@ function videoFileChanged(){
   }
   
 }
-
-
-// function getVideoSourceFromGoogleDriveLink(link) {
-//   const fileID = link.match(/[-\w]{25,}/);
-//   if (!fileID) {
-//     console.error('Invalid Google Drive link');
-//     return null;
-//   }
-
-//   return `https://drive.google.com/uc?export=download&id=${fileID[0]}`;
-// }
-
-// async function tryDriveLink(link) {
-//   const fileID = link.match(/[-\w]{25,}/); // Extract the file ID from the link
-//   if (!fileID) {
-//     console.error('Invalid Google Drive link');
-//     return null;
-//   }
-
-//   const metadataEndpoint = `https://www.googleapis.com/drive/v3/files/${fileID[0]}?fields=name&key=YOUR_API_KEY`;
-
-//   try {
-//     const response = await fetch(metadataEndpoint);
-//     if (!response.ok) {
-//       throw new Error('Failed to fetch file metadata');
-//     }
-
-//     const data = await response.json();
-//     const filename = data.name;
-//     const source = `https://drive.google.com/uc?export=download&id=${fileID[0]}`;
-//     return filename;
-
-//   } catch (error) {
-//     console.error('Error fetching file metadata:', error);
-//     return null;
-//   }
-// }
 
 function displaySubtitles() {
   subtitleContainer = document.createElement('div');
@@ -771,7 +606,7 @@ function getTimeFromDateHMS(date) {
     hours = 12;
   }
 
-  return hours + ':' + minutes + ':' + seconds + ' ' + amPm;
+  return hours + ':' + minutes + ':' + seconds;
 }
 
 function showActivityList(){
@@ -793,19 +628,19 @@ function showActivityList(){
   const headingRow = document.createElement('tr');
   
   cell = document.createElement('th');
-  cell.textContent = 'Username';
+  cell.textContent = 'User';
   headingRow.appendChild(cell);
 
   cell = document.createElement('th');
-  cell.textContent = 'Activity Type';
+  cell.textContent = 'Type';
   headingRow.appendChild(cell);
 
   cell = document.createElement('th');
-  cell.textContent = 'Media Event';
+  cell.textContent = 'Event';
   headingRow.appendChild(cell);
 
   cell = document.createElement('th');
-  cell.textContent = 'Playback';
+  cell.textContent = 'Play';
   headingRow.appendChild(cell);
 
   cell = document.createElement('th');
@@ -1137,9 +972,11 @@ async function handleSyncResponse(message){
   putNotification(`Syncing with ${message.user}`);
 
   const arr = message.text.split('$');
-  syncResponseHandeler.get(arr[0])(arr[1]);
+  if(arr[1] !== getFileLink()){  
+    syncResponseHandeler.get(arr[0])(arr[1]);
+  }
 
-  await sleep(1000);
+  await sleep(2000);
   if(isPlaying()){
     videoPlayer.pause();
     videoPlayer.currentTime = message.playTime;
@@ -1332,11 +1169,27 @@ function ringNotification(){
   notificationSound.play();
 }
 
-const volumeRange = document.getElementById("connection-volume");
-volumeRange.addEventListener("input", function() {
-  const volumeValue = volumeRange.value;
-  notificationSound.volume = volumeValue;
-});
+// const volumeRange = document.getElementById("connection-volume");
+// volumeRange.addEventListener("input", function() {
+//   const volumeValue = volumeRange.value;
+//   notificationSound.volume = volumeValue;
+// });
+
+let notiIndx = 4;
+const volumerange = [0, 0.25, 0.5, 0.75, 1.0];
+const volumeIcons = [
+    "<i class='fas fa-volume-mute'></i>",
+    "<i class='fas fa-volume-off'></i>",
+    "<i class='fas fa-volume-down'></i>",
+    "<i class='fas fa-volume-down'></i>",
+    "<i class='fas fa-volume-up'></i>"
+  ]
+function changeNotificationVolume(){
+  notiIndx = (notiIndx + 1) % volumerange.length;
+  document.getElementById('notificationVolumeButton').innerHTML = `${volumeIcons[notiIndx]} ${Math.floor(volumerange[notiIndx]*100)}%`;
+  notificationSound.volume = volumerange[notiIndx];
+}
+
 
 function isVideoPlayerFullScreen() {
   return (
@@ -1372,7 +1225,11 @@ async function ChangeYoutubeQuality(quality){
         }
     );
     setTimeout(()=>{
+      setPublishFlag(false);
         videoPlayer.load();
         videoPlayer.currentTime = currentTime;
+        setTimeout(()=>{
+          setPublishFlag(true);
+        },1000);
     },2000);
 }

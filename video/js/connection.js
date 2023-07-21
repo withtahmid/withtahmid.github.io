@@ -1,9 +1,20 @@
+function handleConnectTimeout(){
+    if(isConnected()){
+        return;
+    }
+    mqttClient.end();
+    alertUser(`failed to join room! \n Check internet connection.`);
+    document.getElementById('connectButton').innerHTML = 'Join';
+}
+
+let timeouttimer;
+
 function connect() {
     button = document.getElementById('connectButton');
     button.disabled = true;
     setTimeout(function(){
         document.getElementById('connectButton').disabled = false;
-    }, 100);
+    }, 1000);
     var username = document.getElementById("usernameInputField").value;
     var roomName = document.getElementById("roomnameInputField").value;
     
@@ -16,6 +27,7 @@ function connect() {
     setUsername(username);
     setTopic(topic);
     connectToMQTT(topic);
+    timeouttimer = setTimeout(handleConnectTimeout, 10000);
 }
 function connectToMQTT(topic){
     mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
@@ -43,6 +55,7 @@ function handelConnect(){
     updateStatusSignal('connected');
     activateConnectionButtons();
     if(firstConncet()){
+        clearTimeout(timeouttimer);
        handelFirstTimeConnection();
        publishMessage(generateMessage('join', 'null', getUniqueKey()));
     }else{

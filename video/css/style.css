@@ -23,10 +23,18 @@ body {
   }
   
   .popupdiv{
-/*    height: 100%;*/
     min-width: 100%;
     left: 0;
     top: 0;
+  }
+  .notificationpopup{
+    min-width: 85%;
+  }
+  .alert-box{
+    min-width: 85%;
+  }
+  .box-4 .connectionSettings{
+    min-width: 90%;
   }
 
 }
@@ -152,9 +160,10 @@ body {
   border-radius: 20px;
   bottom: 5%;
   right: 2%;
+  
   width: 25%;
-  min-width: 400px;
   height: 20%;
+  
   color: #aaa;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.5);
@@ -175,7 +184,7 @@ body {
   overflow: hidden;
 }
 .notificationpopup button{
-   margin-top: 2%;
+  margin-top: 2%;
   margin-left: 2%;
   background-color: transparent;
   border: none;
@@ -207,7 +216,7 @@ body {
   overflow: hidden;
   
   display: flex;
-  min-width: 500px;
+/*  min-width: 500px;*/
   flex-direction: column;
 }
 .alert-box button{
