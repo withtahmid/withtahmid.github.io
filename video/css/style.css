@@ -36,6 +36,9 @@ body {
   .box-4 .connectionSettings{
     min-width: 100%;
   }
+  .box-4 .connectedPeople{
+    min-width: 100%;
+  }
 
 }
 
