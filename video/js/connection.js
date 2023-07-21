@@ -7,8 +7,6 @@ function handleConnectTimeout(){
     document.getElementById('connectButton').innerHTML = 'Join';
 }
 
-let timeouttimer;
-
 function connect() {
     button = document.getElementById('connectButton');
     button.disabled = true;
@@ -27,7 +25,6 @@ function connect() {
     setUsername(username);
     setTopic(topic);
     connectToMQTT(topic);
-    timeouttimer = setTimeout(handleConnectTimeout, 10000);
 }
 function connectToMQTT(topic){
     mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
@@ -55,7 +52,6 @@ function handelConnect(){
     updateStatusSignal('connected');
     activateConnectionButtons();
     if(firstConncet()){
-        clearTimeout(timeouttimer);
        handelFirstTimeConnection();
        publishMessage(generateMessage('join', 'null', getUniqueKey()));
     }else{
@@ -119,7 +115,7 @@ messageHandeler.set('syncRequest', handleSyncRequest);
 messageHandeler.set('syncResponse', handleSyncResponse);
 messageHandeler.set('change', handleChangeMessage);
 
-ignoreMessage = ['exist', 'reconnect', 'mediaReguest', 'mediaResponse', 'poke', 'syncRequest','syncResponse'];
+ignoreMessage = ['exist', 'reconnect', 'mediaReguest', 'mediaResponse', 'poke', 'syncRequest','syncResponse', 'change'];
 function resgisterActivity(message){
     if(ignoreMessage.includes(message.type)){
        return;
@@ -131,18 +127,26 @@ function resgisterActivity(message){
        }, 50);
     }
 }
+
+needtorefresh = true;
 function handelMessage(message){
     message = decodeMessage(message);
     resgisterActivity(message);
     registerLastResponseOfUser(message.user);
     typefn = messageHandeler.get(message.type);
     typefn(message);
-    refreshConnectFeed();
+    
     if(message.type == 'join' || message.type == 'reconnect' || message.type == 'exist'){
-
         if(message.user == getUsername() && message.text != getUniqueKey()){
             handleConflict(message);
         }
+    }
+    if(needtorefresh){
+        refreshConnectFeed();
+        needtorefresh = false;
+        setTimeout(()=>{
+            needtorefresh = true;
+        },2000);
     }
 }
 

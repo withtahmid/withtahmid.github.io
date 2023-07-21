@@ -93,7 +93,12 @@ function showSubtitleName(filename){
     }, 20);
 }
 
+document.addEventListener('fullscreenchange', ()=>{
+    broadCastExistance();
+});
+
 function addUrlToTrack(subtitleURL){
+    broadCastExistance();
     subtitlesTrack.src = subtitleURL;
     videoPlayer.textTracks[0].mode = 'showing';
     subtitleStatus(true);

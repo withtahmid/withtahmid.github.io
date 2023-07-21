@@ -137,7 +137,7 @@ function handelFirstTimeConnection(){
   // document.getElementById('connection-sync').
   firstHappened();
   existanceBroadcastIntervalId = setInterval(broadCastExistance, 5000);
-  refreshConnectedPeopleIntervalId = setInterval(refreshConnectFeed, 12000);
+  refreshConnectedPeopleIntervalId = setInterval(refreshConnectFeed, 4000);
 }
 
 function resetAllConnection(){
@@ -312,7 +312,7 @@ function createPeopleForList(username, now){
     timeMessage = 'Disconnected';
     people.classList.add('disconnected');
   }
-  else if(timeAgo > 5){
+  else if(timeAgo > 8){
     timeMessage = 'Connecting';
     people.classList.add('late');
   }
@@ -333,6 +333,9 @@ function createPeopleForList(username, now){
 }
 
 function refreshConnectFeed(){
+  if(isVideoPlayerFullScreen()){
+    return;
+  }
   peoples = [];
   const now = currentTime();
   for (const [username, lastResponseTime] of getPeopleList()) {
@@ -345,8 +348,6 @@ function refreshConnectFeed(){
   });
   peopleList.innerHTML = temp.innerHTML;
 }
-
-
 
 squeezed = true;
 
@@ -517,7 +518,7 @@ function videoFileChanged(){
   if(sync() && isConnected()){
     publishMessage(generateMessage('change', mediaSource , getFileLink()));
   }
-  
+  broadCastExistance();
 }
 
 function displaySubtitles() {

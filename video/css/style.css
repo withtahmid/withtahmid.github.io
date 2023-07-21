@@ -6,20 +6,27 @@ body {
   overflow-x: hidden;
   background-color: rgb(50,50,50);
   padding-top: 45px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  justify-items: space-between;
 }
 .box{
   background-color: transparent;
-  width: 49.73%;
-  height: 47vh;
+  width: 49.9%;
+  height: 47.5vh;
   display: inline-block;
   overflow: hidden;
   margin: 0 0;
   padding: 0 0;
+  margin-bottom: 0.15%;
 }
 
-@media screen and (orientation: portrait) {
+/*@media screen and (orientation: portrait) {*/
+@media (max-aspect-ratio: 1.4/1) {
   .box {
-    width: 100%;
+    min-width: 100%;
   }
   
   .popupdiv{
@@ -34,23 +41,26 @@ body {
     min-width: 85%;
   }
   .box-4 .connectionSettings{
-    min-width: 100%;
+    min-width: 95%;
   }
   .box-4 .connectedPeople{
-    min-width: 100%;
+    min-width: 95%;
+  }
+  .box-element{
+    border-radius: none;
   }
 
 }
 
-@media screen and (orientation: landscape) {
+/*@media screen and (orientation: landscape) {*/
+  @media (max-aspect-ratio: 1/1.4) {
   .box {
-    width: 49.73%;
+    min-width: 49.9%;
   }
 }
 
 .box-element{
   background-color: #222;
-  border-radius: 20px ;
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -72,7 +82,6 @@ body {
 
 .popupdiv {
   position: fixed;
-  border-radius: 20px;
   top: 5%;
   right: 2%;
   width: 46vw;
@@ -273,7 +282,7 @@ header{
   width: 100%;
   min-height: 45px;
 /*  border: 1px solid red;*/
-  border-radius: 22px;
+/*  border-radius: 22px;*/
   top:0;
   display: flex;
   flex-direction: row;
