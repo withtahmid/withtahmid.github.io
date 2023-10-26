@@ -51,7 +51,7 @@
       align-content: center;
     }
     .each_box{
-      
+
     }
     .on {
       background-color: green;
@@ -77,18 +77,18 @@
   <script>
     start = new Date("2023-01-01");
     prev = "";
-    const topic = "tahmid/okbai";
+    const topic = "CSE323/SEC07";
     mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
     mqttClient.subscribe(topic);
-    
+
     mqttClient.on('message', function (topic, message){
       payload = message.toString();
       processMessage(payload);
     });
-    
+
     mqttClient.on('connect', () => {
       console.log('Connected to MQTT broker');
-       
+
     });
     mqttClient.on('error', (error) => {
       console.error('Error:', error);
@@ -104,11 +104,11 @@
       setTimeout(function(){}, 1000);
     }
     function processMessage(message){
-      // console.log(message);
+      console.log(message);
       if(message[0] == "u" || message[0] != 'm') {
         return
       }
-      
+
       start = new Date();
       if(message == prev){
         return;
@@ -122,7 +122,7 @@
           turnOff("button"+i.toString());
         }
       }
-    } 
+    }
     function toggleState(buttonid) {
       let message;
       const button = document.getElementById(buttonid);
@@ -137,7 +137,7 @@
       document.getElementById('login-form').style.display = 'flex';
       document.querySelector('.buttons').style.display = 'none';
     }
-    
+
     function turnOn(buttonid){
         const button = document.getElementById(buttonid);
         button.classList.remove('on');
@@ -152,7 +152,7 @@
         button.classList.remove('no');
         button.classList.add('on');
         button.textContent = 'Turn On';
-      
+
     }
 
     function disconnect(){
@@ -185,4 +185,3 @@
   </script>
 </body>
 </html>
-

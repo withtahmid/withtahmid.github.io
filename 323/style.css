@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #111;
+  font-family: "system-ui";
+}
+h1 {
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.grid-item {
+  margin: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  text-align: center;
+  background-color: #111;
+  border-radius: 15px;
+}
+.switch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-size: contain;
+  background-position: top center;
+  background-repeat: no-repeat;
+  width: 150px;
+  height: 210px;
+  margin: 0 auto;
+}
+.on {
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.8);
+  color: #ccc;
+  transition: box-shadow 1s ease;
+}
+.off {
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+  color: #aaa;
+  transition: box-shadow 1s;
+}
+.disconnect {
+  box-shadow: 0 10px 20px rgba(255, 120, 120, 0.3);
+  color: rgba(255, 120, 120, 0.7);
+  transition: box-shadow 1s;
+}
+.on .switch {
+  background-image: url("src/bulb-on.png");
+  transition: background-image 1s ease;
+}
+
+.off .switch {
+  background-image: url("src/bulb-off-2.png");
+  transition: background-image 1s ease;
+}
+
+.disconnect .switch {
+  background-image: url("src/bulb-not.png");
+  transition: background-image 1s ease;
+}
+
+.off .bulb-btn {
+  background-image: url("src/switch-on.png");
+  transition: background-image 1s ease;
+}
+.on .bulb-btn {
+  background-image: url("src/switch-off.png");
+  box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+  transition: background-image 1s ease;
+}
+.off .bulb-btn:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+}
+.on .bulb-btn:hover {
+  box-shadow: none;
+}
+.disconnect .bulb-btn {
+  display: none;
+}
+.bulb-btn {
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+  margin-top: auto;
+  width: auto;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  outline: none;
+  border: none;
+}
+.grid-item:hover .bulb-btn {
+  height: 55px;
+  width: 55px;
+}
+.connection-info {
+  position: fixed;
+  top: 50px;
+  color: #aaa;
+}

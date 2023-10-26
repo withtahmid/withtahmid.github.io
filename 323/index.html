@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <title>Smart Switch</title>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="grid-item disconnect" id="switch-1">
+        <h1>Light 1</h1>
+        <div class="switch">
+          <button class="bulb-btn" type="button" onclick="switch_click(1)"></button>
+        </div>
+      </div>
+      <div class="grid-item disconnect" id="switch-2">
+        <h1>Light 2</h1>
+        <div class="switch">
+          <button class="bulb-btn" type="button" onclick="switch_click(2)"></button>
+        </div>
+      </div>
+      <div class="grid-item disconnect" id="switch-3">
+        <h1>Light 3</h1>
+        <div class="switch">
+          <button class="bulb-btn" type="button" onclick="switch_click(3)"></button>
+        </div>
+      </div>
+      <div class="grid-item disconnect" id="switch-4">
+        <h1>Light 4</h1>
+        <div class="switch">
+          <button class="bulb-btn" type="button" onclick="switch_click(4)"></button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" type="text/javascript"></script>
+  <script src="index.js" type="text/javascript"></script>
+</html>
