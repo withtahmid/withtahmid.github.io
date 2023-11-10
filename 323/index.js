@@ -25,16 +25,26 @@ function publishMessage(message) {
     mqttClient.publish(topic, message);
     setTimeout(function() {}, 1000);
 }
+
+async function updateHT(message){
+  const info = message.split('~');
+  const temparature = Number(info[2]);
+  const humidity = Number(info[1]);
+  changeChart(temparature, humidity);
+  document.getElementById('tinfo').textContent = `Temparature: ${temparature} *C`;
+  document.getElementById('hinfo').textContent = `Humidity: ${humidity} %`;
+}
+
 function processMessage(message) {
     if (message[0] == "u" || message[0] != 'm') {
         return
     }
     start = new Date();
+    updateHT(message);
     if (message == prev) {
         return;
     }
     prev = message;
-
     for (i = 1; i <= num_of_switch; ++i) {
         if (message[i] == '1') {
             turn_on_switch(i);
@@ -75,7 +85,7 @@ function refresh_connection() {
     const now = new Date();
     const elapsedSeconds = Math.floor((now - start) / 1000);
     if (elapsedSeconds >= 10) {
-        for (let i = 1; i <= num_of_switch; ++i) {
+        for (let i = 1; i <= num_of_switch; ++i){
             disconnect_switch(i);
         }
     }

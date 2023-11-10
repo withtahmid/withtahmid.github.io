@@ -105,6 +105,7 @@ h1 {
   border-radius: 50%;
   outline: none;
   border: none;
+  cursor: pointer;
 }
 .grid-item:hover .bulb-btn {
   height: 55px;
@@ -114,4 +115,12 @@ h1 {
   position: fixed;
   top: 50px;
   color: #aaa;
+}
+
+.info{
+  margin-left: 80px;
+  border: 1px solid white;
+  width: 40%;
+  color: #aaa;
+  padding: 10px;
 }
