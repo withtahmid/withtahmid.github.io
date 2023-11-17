@@ -894,8 +894,7 @@ function handleTextMessage(message){
   if(message.user == getUsername()){
     return;
   }
-  notification = "" +message.user + ": " + trimFileName(message.text);
-  putNotificationOnVideo(notification)
+  putNotificationOnVideo(`${message.user}: ${message.text}`);
 }
 
 function adjustPlayTimeAutomatic(message, paused){
@@ -1052,36 +1051,56 @@ function formatedTimeforSubtitle(timeInSeconds) {
 
 let addedTrack;
 let subtitle_timeout_id = null;
+const notificationOnVdo = document.querySelector('.notification-on-video');
+// const controles = document.querySelector('.video-controls-container')
 PreviouslyAddedSubtitle = '#$';
 function putNotificationOnVideo(text) {
   if((!isPlaying()) || (!isVideoPlayerFullScreen())){
+    console.log("ehfweui")
     return;
   }
   if (PreviouslyAddedSubtitle !== '#$') {
     clearTimeout(subtitle_timeout_id);
-    text = PreviouslyAddedSubtitle + '\n' + text;
+    text = PreviouslyAddedSubtitle + '<br>' + text;
   }
   PreviouslyAddedSubtitle = text;
 
-  if (addedTrack) {
-    addedTrack.mode = 'disabled';
-  }
+  // if (addedTrack) {
+  //   addedTrack.mode = 'disabled';
+  // }
 
-  const trackBlob = convertTextToWebVTT(text);
-  const trackURL = URL.createObjectURL(trackBlob);
+  // const trackBlob = convertTextToWebVTT(text);
+  // const trackURL = URL.createObjectURL(trackBlob);
 
-  const newTrack = videoPlayer.addTextTrack('subtitles', 'Dynamic Subtitles', 'en');
-  newTrack.mode = 'showing';
-  const cue = new VTTCue(0, videoPlayer.duration, text);
-  newTrack.addCue(cue);
-
-  addedTrack = newTrack;
+  // const newTrack = videoPlayer.addTextTrack('subtitles', 'Dynamic Subtitles', 'en');
+  // newTrack.mode = 'showing';
+  // const cue = new VTTCue(0, videoPlayer.duration, text);
+  // newTrack.addCue(cue);
+  notificationOnVdo.innerHTML = '';
+  notificationOnVdo.classList.remove('hidden')
+  controles.classList.remove("full-screen-control")
+  notificationOnVdo.innerHTML = `<p>${text}</p>`;
+  // addedTrack = newTrack;
   subtitle_timeout_id = setTimeout(function() {
-    newTrack.mode = 'disabled';
-    URL.revokeObjectURL(trackURL);
+    notificationOnVdo.innerHTML = '';
+    controles.classList.add("full-screen-control")
+    notificationOnVdo.classList.add('hidden')
     PreviouslyAddedSubtitle = '#$';
-  }, 3000);
+  }, 5000);
 }
+notificationOnVdo.addEventListener('mouseover',() =>{
+  clearTimeout(subtitle_timeout_id);
+})
+
+notificationOnVdo.addEventListener('mouseout',() =>{
+  subtitle_timeout_id = setTimeout(function() {
+    notificationOnVdo.innerHTML = '';
+    controles.classList.add("full-screen-control")
+    notificationOnVdo.classList.add('hidden')
+    PreviouslyAddedSubtitle = '#$';
+  }, 1000);
+})
+
 
 PreviouslyAddedNotification = '#$';
 let onscreenTimerId = null;

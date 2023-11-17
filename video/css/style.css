@@ -161,9 +161,8 @@ body {
   font-weight: bold;
 }
     
-.popupdiv tr:nth-child(even) {
-/*  background-color: #333;*/
-}
+/* .popupdiv tr:nth-child(even) {
+} */
 
 .popupdiv tr:hover {
   background-color: transparent;
