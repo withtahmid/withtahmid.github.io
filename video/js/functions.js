@@ -871,21 +871,25 @@ function handleTextMessage(message){
   if(message.user == getUsername()){
     container.appendChild(gap);
     messageDiv.classList.add('me');
-    chatOnVideo.innerHTML += `<p style="text-align: right;"><strong>You:</strong> ${message.text}</p>`
+    // chatOnVideo.innerHTML += `<div class="message-on-video" class = "me">
+    //                             <p><strong>${message.user}</strong> ${getTimeFromDateHMS(currentTime())}</p>
+    //                             <p style="margin: 0 20px;">${message.text}</p>
+    //                           </div>`
   }
   else{
-    chatOnVideo.innerHTML += `<p><strong>${message.user}:</strong> ${message.text}</p>`
+    // chatOnVideo.innerHTML += `<div class="message-on-video">
+    //                             <p><strong>${message.user}</strong> ${getTimeFromDateHMS(currentTime())}</p>
+    //                             <p style="margin: 0 20px;">${message.text}</p>
+    //                           </div>`
   }
+  chatOnVideo.scrollTop = chatOnVideo.scrollHeight;
   if(isVideoPlayerFullScreen()){
     chatOnVideoContainer.classList.remove('hidden');
-    chatOnVideo.scrollTop = chatOnVideo.scrollHeight;
     chatOnVideoTimer = setTimeout(()=>{
       chatOnVideoContainer.classList.add('hidden');
     }, 5000);
   }
   
-  
-
   const top = document.createElement('div');
   top.classList.add('top');
   
@@ -907,6 +911,9 @@ function handleTextMessage(message){
 
   container.appendChild(messageDiv);
   box.appendChild(container);
+  
+  chatOnVideo.appendChild(container.cloneNode(true))
+
   box.scrollTop = box.scrollHeight;
   ringNotification();
   if(message.user == getUsername()){

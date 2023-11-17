@@ -60,15 +60,20 @@
 				<!-- <img class="thumbnail-img"> -->
 				<!-- chat -->
 				<div class="chat-on-video hidden">
-					<div style="display: flex; position:absolute; bottom: 0; ">
-						<input id = "send-from-vdo-inpt" type="text"> 
+					
+					<div class="send">
+						<button onclick="document.querySelector('.chat-on-video').classList.add('hidden')">
+							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 12 12"><path fill="white" d="M2.22 2.22a.749.749 0 0 1 1.06 0L6 4.939L8.72 2.22a.749.749 0 1 1 1.06 1.06L7.061 6L9.78 8.72a.749.749 0 1 1-1.06 1.06L6 7.061L3.28 9.78a.749.749 0 1 1-1.06-1.06L4.939 6L2.22 3.28a.749.749 0 0 1 0-1.06Z"/></svg>
+						</button>
+						<input id = "send-from-vdo-inpt" placeholder="write quick reply" type="text"> 
 						<button onclick="sendMessage('send-from-vdo-inpt')">
 							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M3.402 6.673c-.26-2.334 2.143-4.048 4.266-3.042l11.944 5.658c2.288 1.083 2.288 4.339 0 5.422L7.668 20.37c-2.123 1.006-4.525-.708-4.266-3.042L3.882 13H12a1 1 0 1 0 0-2H3.883l-.48-4.327Z" clip-rule="evenodd"/></svg>
 						</button>
 					</div>
 					
-					<div class = "text-on-video">
+					<div class = "text-on-video message-box">
 						<div style="margin-top: 200px;"></div>
+						
 					</div>
 				</div>
 				<div class="video-controls-container">
@@ -116,7 +121,13 @@
 					<!-- <button class="speed-btn wide-btn">
 					  1x
 					</button> -->
+					
 					<button class="video-settings-btn" title="Settings">
+						<!-- <ul class="vdo-settings">
+							<li>Playbck speed</li>
+							<li>settings 1</li>
+							<li>settings 2</li>
+						</ul> -->
 						<svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30"><path fill = "white" d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/></svg>
 					</button>
 					<button class="chat-on-video-btn">
