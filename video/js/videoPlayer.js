@@ -56,6 +56,18 @@ chatInput.addEventListener('keypress', function(event) {
   }
 });
 
+const sendFromVdoBtn = document.getElementById('send-from-vdo-inpt');
+sendFromVdoBtn.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+      const text = event.target.value;
+      if(text == ''){
+          return;
+      }
+      event.target.value = '';
+      publishMessage(generateMessage('text', 'null', text));
+    }
+  });
+
 function convertSrtToVtt(srtData) {
     var vttData = 'WEBVTT\n\n';
     var srtLines = srtData.trim().split('\n\n');

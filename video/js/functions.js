@@ -856,6 +856,9 @@ function handlePokeMessage(message){
   ringNotification();
 
 }
+
+
+
 function handleTextMessage(message){
   const box = document.getElementById('messageContainer');
   const container = document.createElement('div');
@@ -864,10 +867,25 @@ function handleTextMessage(message){
   gap.classList.add('gap-left');
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message');
+
   if(message.user == getUsername()){
     container.appendChild(gap);
     messageDiv.classList.add('me');
+    chatOnVideo.innerHTML += `<p style="text-align: right;"><strong>You:</strong> ${message.text}</p>`
   }
+  else{
+    chatOnVideo.innerHTML += `<p><strong>${message.user}:</strong> ${message.text}</p>`
+  }
+  if(isVideoPlayerFullScreen()){
+    chatOnVideoContainer.classList.remove('hidden');
+    chatOnVideo.scrollTop = chatOnVideo.scrollHeight;
+    chatOnVideoTimer = setTimeout(()=>{
+      chatOnVideoContainer.classList.add('hidden');
+    }, 5000);
+  }
+  
+  
+
   const top = document.createElement('div');
   top.classList.add('top');
   
@@ -894,7 +912,7 @@ function handleTextMessage(message){
   if(message.user == getUsername()){
     return;
   }
-  putNotificationOnVideo(`${message.user}: ${message.text}`);
+  // putNotificationOnVideo(`${message.user}: ${message.text}`);
 }
 
 function adjustPlayTimeAutomatic(message, paused){
@@ -1152,8 +1170,8 @@ function poke(username){
   publishMessage(generateMessage('poke', username, 'null'));
 }
 
-function sendMessage(){
-  const text = document.getElementById('chatInput');
+function sendMessage(id){
+  const text = document.getElementById(id);
   if(text.value == ''){
         return;
   }

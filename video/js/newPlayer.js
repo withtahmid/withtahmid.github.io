@@ -13,6 +13,8 @@ const volumeSlider = document.querySelector(".volume-slider")
 const videoContainer = document.querySelector(".video-container")
 const timelineContainer = document.querySelector(".timeline-container")
 const video = document.querySelector("video")
+const chatOnVideoBtn = document.querySelector('.chat-on-video-btn');
+
 let skipValue = 5;
 
 
@@ -53,6 +55,8 @@ document.addEventListener("keydown", e => {
   }
 })
 
+
+
 // Timeline
 timelineContainer.addEventListener("mousemove", handleTimelineUpdate)
 timelineContainer.addEventListener("mousedown", toggleScrubbing)
@@ -73,8 +77,10 @@ function toggleScrubbing(e) {
   if (isScrubbing) {
     wasPaused = video.paused
     video.pause()
+    setPublishFlag(false)
   } else {
     video.currentTime = percent * video.duration
+    setPublishFlag(true)
     if (!wasPaused) video.play()
   }
 
@@ -184,6 +190,7 @@ video.addEventListener("volumechange", () => {
 // View Modes
 // theaterBtn.addEventListener("click", toggleTheaterMode)
 fullScreenBtn.addEventListener("click", toggleFullScreenMode)
+videoContainer.addEventListener('dblclick', toggleFullScreenMode)
 miniPlayerBtn.addEventListener("click", toggleMiniPlayerMode)
 
 function toggleTheaterMode() {
@@ -205,10 +212,22 @@ function toggleMiniPlayerMode() {
     video.requestPictureInPicture()
   }
 }
+const chatOnVideoContainer = document.querySelector('.chat-on-video');
+const chatOnVideo = document.querySelector('.text-on-video');
+let chatOnVideoTimer;
+chatOnVideoContainer.addEventListener('mouseover', (e)=>{
+  clearTimeout(chatOnVideoTimer);
+})
+
+chatOnVideoBtn.addEventListener('click', (e) =>{
+  chatOnVideoContainer.classList.toggle('hidden')
+})
+
 const controles = document.querySelector('.video-controls-container')
 document.addEventListener("fullscreenchange", () => {
     videoContainer.classList.toggle("full-screen", document.fullscreenElement)
     controles.classList.toggle('full-screen-control')
+    chatOnVideoContainer.classList.add('hidden')
 })
 
 video.addEventListener("enterpictureinpicture", () => {
