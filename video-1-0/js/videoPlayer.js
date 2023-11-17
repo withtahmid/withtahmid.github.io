@@ -13,12 +13,12 @@ const subTolRangeInput = document.getElementById('subtitleTolRange');
 
 skipValue = 5;
 
-// function handleSkipValueChange(){
-//     val = document.getElementById('skipValue').value;
-//     document.getElementById('backward-btn-txt').textContent = ' '+val+'s';
-//     document.getElementById('forward-btn-txt').textContent = ' '+val+'s ';
-//     skipValue = Number(val);
-// }
+function handleSkipValueChange(){
+    val = document.getElementById('skipValue').value;
+    document.getElementById('backward-btn-txt').textContent = ' '+val+'s';
+    document.getElementById('forward-btn-txt').textContent = ' '+val+'s ';
+    skipValue = Number(val);
+}
 
 function forward(){
     if(!isPlaying()){
@@ -32,7 +32,7 @@ function backward(){
     }
     videoPlayer.currentTime -= skipValue;
 }
-// skipValueInput.addEventListener('change', handleSkipValueChange);
+skipValueInput.addEventListener('change', handleSkipValueChange);
 
 videoFileInput.addEventListener('change', function() {
     videoPlayer.setAttribute('data-yt2html5', '');

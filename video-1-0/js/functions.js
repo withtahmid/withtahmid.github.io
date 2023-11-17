@@ -1193,12 +1193,11 @@ function changeNotificationVolume(){
 
 
 function isVideoPlayerFullScreen() {
-  const player = document.querySelector('.video-container')
   return (
-    document.fullscreenElement === player ||
-    document.webkitFullscreenElement === player ||
-    document.mozFullScreenElement === player ||
-    document.msFullscreenElement === player
+    document.fullscreenElement === videoPlayer ||
+    document.webkitFullscreenElement === videoPlayer ||
+    document.mozFullScreenElement === videoPlayer ||
+    document.msFullscreenElement === videoPlayer
   );
 }
 

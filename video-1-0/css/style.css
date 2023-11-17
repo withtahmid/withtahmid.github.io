@@ -17,8 +17,8 @@ body {
   background-color: transparent;
   width: 49.9%;
   height: 47.2vh;
-  /* display: inline-block; */
-  /* overflow: hidden; */
+  display: inline-block;
+  overflow: hidden;
   margin: 0 0;
   padding: 0 0;
   margin-bottom: 0.15%;
