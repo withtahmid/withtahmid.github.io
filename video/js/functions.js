@@ -882,7 +882,7 @@ function handleTextMessage(message){
     //                             <p style="margin: 0 20px;">${message.text}</p>
     //                           </div>`
   }
-  chatOnVideo.scrollTop = chatOnVideo.scrollHeight;
+  
   if(isVideoPlayerFullScreen()){
     chatOnVideoContainer.classList.remove('hidden');
     chatOnVideoTimer = setTimeout(()=>{
@@ -913,7 +913,8 @@ function handleTextMessage(message){
   box.appendChild(container);
   
   chatOnVideo.appendChild(container.cloneNode(true))
-
+  
+  chatOnVideo.scrollTop = chatOnVideo.scrollHeight;
   box.scrollTop = box.scrollHeight;
   ringNotification();
   if(message.user == getUsername()){
