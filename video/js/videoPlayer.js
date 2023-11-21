@@ -150,8 +150,9 @@ function getClipboard(){
         return text.toString();
     })
     .catch(function(error) {
+            alertUser('Failed to read clipboard contents: ', error);
             return null;
-        alertUser('Failed to read clipboard contents: ', error);
+       
     });   
 }
 
@@ -225,36 +226,59 @@ async function playYoutubeLink(link){
     
 }
 
+// async function tryDriveLink(link) {
+//   const fileID = link.match(/[-\w]{25,}/);
+//   if (!fileID) {
+//     alertUser("Invalid Google Drive link\n"+ link);
+//   }
+
+//   const metadataEndpoint = `https://www.googleapis.com/drive/v3/files/${fileID[0]}?fields=name&key=AIzaSyDUjyB82R7zwWccZtIkZUQsVPAI6g_u-4s`;
+
+//   try {
+//     const response = await fetch(metadataEndpoint);
+//     if (!response.ok) {
+//       throw new Error('Failed to fetch file metadata');
+//     }
+
+//     videoPlayer.setAttribute('data-yt2html5', '');
+//     videoPlayer.removeAttribute('src');
+//     setFileLink(link);
+//     const data = await response.json();
+//     const filename = data.name;
+//     const source = `https://drive.google.com/uc?export=download&id=${fileID[0]}`;
+//     // const source = `https://www.googleapis.com/drive/v3/files/${fileID[0]}?alt=media&key=AIzaSyDUjyB82R7zwWccZtIkZUQsVPAI6g_u-4s`
+//     // const source = `https://www.googleapis.com/drive/v3/files/${fileID[0]}?key=AIzaSyDUjyB82R7zwWccZtIkZUQsVPAI6g_u-4s&alt=media`
+//     document.getElementById('driveTextInputField').value = link;
+//     videoSource.src = source;
+//     videoPlayer.load();
+//     setVideoFineName(filename);
+//     videoFileChanged();
+//   } catch (error) {
+//     console.error('Error fetching file metadata:', error);
+//     alertUser('Error fetching file metadata');
+//   }
+// }
+
 async function tryDriveLink(link) {
-  const fileID = link.match(/[-\w]{25,}/);
-  if (!fileID) {
-    alertUser("Invalid Google Drive link\n"+ link);
-  }
+    try {
 
-  const metadataEndpoint = `https://www.googleapis.com/drive/v3/files/${fileID[0]}?fields=name&key=AIzaSyDUjyB82R7zwWccZtIkZUQsVPAI6g_u-4s`;
+      videoPlayer.setAttribute('data-yt2html5', '');
+      videoPlayer.removeAttribute('src');
+      setFileLink(link);
+      document.getElementById('driveTextInputField').value = link;
 
-  try {
-    const response = await fetch(metadataEndpoint);
-    if (!response.ok) {
-      throw new Error('Failed to fetch file metadata');
+    //   const res = await fetch('https://api.ipify.org?format=json');
+    //   data = await res.json()
+      videoSource.src = link//.replace(/ip=[^&]*/, `ip=${data.ip}`);
+      videoPlayer.load();
+      setVideoFineName("Playing directly from URL");
+        
+      videoFileChanged();
+    } catch (error) {
+      console.error('Error fetching file metadata:', error);
+      alertUser('Error fetching file metadata');
     }
-
-    videoPlayer.setAttribute('data-yt2html5', '');
-    videoPlayer.removeAttribute('src');
-    setFileLink(link);
-    const data = await response.json();
-    const filename = data.name;
-    const source = `https://drive.google.com/uc?export=download&id=${fileID[0]}`;
-    document.getElementById('driveTextInputField').value = link;
-    videoSource.src = source;
-    videoPlayer.load();
-    setVideoFineName(filename);
-    videoFileChanged();
-  } catch (error) {
-    console.error('Error fetching file metadata:', error);
-    alertUser('Error fetching file metadata');
   }
-}
 
 function playFromDriveLink(link){
     tryDriveLink(link);
@@ -278,11 +302,11 @@ function decodeMessage(message){
     if(array[0] !== uniqueKey || array.length < 5){
         return null;
     }
-    type = array[1];
-    user = array[2];
-    event = array[3];
-    playTime = Number(array[4]);
-    text = array[5];
+    const type = array[1];
+    const user = array[2];
+    const event = array[3];
+    const playTime = Number(array[4]);
+    const text = array[5];
     return {type, user, event, playTime, text};
 }
 

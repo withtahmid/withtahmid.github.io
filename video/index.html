@@ -177,8 +177,9 @@
 					<button title="Play local file" onclick="selectSource('src-local')" id="src-local" class="src-btn btn-hover-fx src-local src-zero-width" type="button">
 						<i class="fas fa-desktop bounceable"></i>
 					</button>
-					<button title="Play from Google Drive" onclick="selectSource('src-drive')" id="src-drive" class="src-btn btn-hover-fx src-drive src-zero-width" type="button">
-						<i class="fab fa-google-drive bounceable"></i>
+					<button title="Play from Direct Link" onclick="selectSource('src-drive')" id="src-drive" class="src-btn btn-hover-fx src-drive src-zero-width" type="button">
+						<!-- <i class="fab fa-google-drive bounceable"></i> -->
+						<i class="fa fa-link bounceable"></i>
 					</button>
 					<button title="Play YouTube video" onclick="selectSource('src-youtube')" id="src-youtube" class="src-btn btn-hover-fx src-youtube src-zero-width" type="button">
 						<i class="fab fa-youtube bounceable"></i>
@@ -194,7 +195,7 @@
 			    <div class="file-input hidden" id="driveLinkInputField">
 			    	<label onclick="driveLinkInputClipboard()" class="file-input-label btn-hover-fx src-drive"><i class="fas fa-clipboard"></i> Link</label>
 			    	 OR
- 			    	<input placeholder="G-Drive link" type="text" id="driveTextInputField">
+ 			    	<input placeholder="URL" type="text" id="driveTextInputField">
 			    	<button onclick="playFromDriveClick()" class="src-drive btn-hover-fx"><i class="fas fa-play"></i></button>	
 			    </div>
 			    <div class="file-input hidden" id="youtubeLabel">

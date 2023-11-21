@@ -757,7 +757,7 @@ function hadleMediaReguestMessage(message){
   publishMessage(message);
 }
 
-function mediaControl(message){
+async function mediaControl(message){
   fn = mediaHandeler.get(message.event);
   fn((message.playTime));
   return new Promise(resolve =>{

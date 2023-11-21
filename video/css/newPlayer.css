@@ -324,7 +324,7 @@
     min-height: 600px;
     /* width: 25%; */
     min-width: 600px;
-    max-width: 6z00px;
+    max-width: 45%;
     right: 1%;
     bottom: 65px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
@@ -369,7 +369,7 @@
   /* border: 1px dotted white; */
   color: white;
   font-size: 22px;
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(150px6px);
   background-color: rgba(20, 20, 20, 0.5);
   padding: 10px;
   margin: 0;
