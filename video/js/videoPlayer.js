@@ -126,6 +126,7 @@ subtitlesFileInput.addEventListener('change', function() {
         subtitleURL = URL.createObjectURL(subtitleFile);
         addUrlToTrack(subtitleURL);
         showSubtitleName(filename);
+
     } 
     else if (subtitleExtension === 'srt') {
         var reader = new FileReader();
@@ -142,6 +143,7 @@ subtitlesFileInput.addEventListener('change', function() {
         alert('Unsupported subtitle format. Please choose a VTT or SRT file.');
         return;
     }
+    videoContainer.classList.toggle("captions", videoPlayer.textTracks[0].mode !== "hidden" )
 });
 
 function getClipboard(){
