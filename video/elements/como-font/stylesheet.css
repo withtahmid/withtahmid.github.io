@@ -1,0 +1,96 @@
+@font-face {
+    font-family: 'Como';
+    src: url('Como-Light.eot');
+    src: local('Como Light'), local('Como-Light'),
+        url('Como-Light.eot?#iefix') format('embedded-opentype'),
+        url('Como-Light.woff2') format('woff2'),
+        url('Como-Light.woff') format('woff'),
+        url('Como-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Como';
+    src: url('Como-SemiBold.eot');
+    src: local('Como SemiBold'), local('Como-SemiBold'),
+        url('Como-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('Como-SemiBold.woff2') format('woff2'),
+        url('Como-SemiBold.woff') format('woff'),
+        url('Como-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Como';
+    src: url('Como-ExtraBold.eot');
+    src: local('Como Extra Bold'), local('Como-ExtraBold'),
+        url('Como-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('Como-ExtraBold.woff2') format('woff2'),
+        url('Como-ExtraBold.woff') format('woff'),
+        url('Como-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Como';
+    src: url('Como-Heavy.eot');
+    src: local('Como Heavy'), local('Como-Heavy'),
+        url('Como-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('Como-Heavy.woff2') format('woff2'),
+        url('Como-Heavy.woff') format('woff'),
+        url('Como-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Como';
+    src: url('Como-Bold.eot');
+    src: local('Como Bold'), local('Como-Bold'),
+        url('Como-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Como-Bold.woff2') format('woff2'),
+        url('Como-Bold.woff') format('woff'),
+        url('Como-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Como';
+    src: url('Como.eot');
+    src: local('Como'),
+        url('Como.eot?#iefix') format('embedded-opentype'),
+        url('Como.woff2') format('woff2'),
+        url('Como.woff') format('woff'),
+        url('Como.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Como';
+    src: url('Como-Medium.eot');
+    src: local('Como Medium'), local('Como-Medium'),
+        url('Como-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Como-Medium.woff2') format('woff2'),
+        url('Como-Medium.woff') format('woff'),
+        url('Como-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Como';
+    src: url('Como-ExtraLight.eot');
+    src: local('Como Extra Light'), local('Como-ExtraLight'),
+        url('Como-ExtraLight.eot?#iefix') format('embedded-opentype'),
+        url('Como-ExtraLight.woff2') format('woff2'),
+        url('Como-ExtraLight.woff') format('woff'),
+        url('Como-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:image" content="images/milkyway.jpg">
+	<meta property="og:image:secure_url" content="images/milkyway.jpg">
+	<meta property="og:image:width" content="1920">
+	<meta property="og:image:height" content="1080">
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Megrim" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/connection.css">
+	<link rel="stylesheet" href="css/videoPlayer.css">
+	<link rel="stylesheet" href="css/chatbox.css">
+	<link rel="stylesheet" href="css/newPlayer.css">
+	<link rel="icon" href="icons/video-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="icons/video-icon.png" type="image/x-icon">
+	<title>MILKYWAY</title>
+</head>
+<body>
+	<header>
+		<img class="rotateicon" src="icons/video-icon.png" height="30px" width="30px" alt="Icon">
+		<p>MILKYWAY</p>
+		<button id="dropdown-toggle" class="nav-right-btn" onclick="toggleDropdown('dropworn')" ><i class="fas fa-bars"></i></button>
+		<ul class="dropdown-menu hide-dropdown" id="dropworn">
+			<li>User Guide</li>
+			<li>About Creator</li>
+		</ul>
+
+	</header>
+	<!-- pop ups -->
+	<div class="alertcontainer center" id="alert-box">
+		<div class="alert-box center">
+			<div id="alertContent" class="alert-content center"></div>
+			<button onclick="hideAlert()" type="button" class="btn-hover-fx"><i  class="fas fa-times"></i></button>
+		</div>
+	</div>
+
+	<div id="notificationpopup" class="notificationpopup hide">
+		<button onclick="hideNotification()" type="button" class="btn-hover-fx"><i  class="fas fa-times"></i></button>
+		<div id="notificationContent" class="notification">
+		</div>
+	</div>
+	<div id="popupdiv" class="popupdiv zero-height">
+		<div id="popupcontentDiv" class="popupcontent center"></div>
+		<div class="center" id="popupControl">
+			<input id='subtitleTolRange' type='range' min='0' max='30' step='1' value='10'>
+		</div>
+		<div  class="popuptop center">
+			<button class="btn-hover-fx" onclick="hidepopup()">Hide</button>
+		</div>
+	</div>
+
+	<!-- Box - 1 -->
+	<div class="box" >
+		<div class="box-element box-1 " id="videoContainer">
+			<div class="video-container paused" data-volume-level="high">
+				
+				<!-- <img class="thumbnail-img"> -->
+				<!-- chat -->
+				<div class="chat-on-video hidden">
+					
+					<div class="send">
+						<button onclick="document.querySelector('.chat-on-video').classList.add('hidden')">
+							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 12 12"><path fill="white" d="M2.22 2.22a.749.749 0 0 1 1.06 0L6 4.939L8.72 2.22a.749.749 0 1 1 1.06 1.06L7.061 6L9.78 8.72a.749.749 0 1 1-1.06 1.06L6 7.061L3.28 9.78a.749.749 0 1 1-1.06-1.06L4.939 6L2.22 3.28a.749.749 0 0 1 0-1.06Z"/></svg>
+						</button>
+						<input id = "send-from-vdo-inpt" placeholder="write quick reply" type="text"> 
+						<button onclick="sendMessage('send-from-vdo-inpt')">
+							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M3.402 6.673c-.26-2.334 2.143-4.048 4.266-3.042l11.944 5.658c2.288 1.083 2.288 4.339 0 5.422L7.668 20.37c-2.123 1.006-4.525-.708-4.266-3.042L3.882 13H12a1 1 0 1 0 0-2H3.883l-.48-4.327Z" clip-rule="evenodd"/></svg>
+						</button>
+					</div>
+					
+					<div class = "text-on-video message-box">
+						<div style="margin-top: 200px;"></div>
+						
+					</div>
+				</div>
+				<div class="video-controls-container">
+					<!-- notification -->
+					<div class="notification-on-video hidden"></div>
+				  <div class="timeline-container">
+					<div class="timeline">
+					  <!-- <img class="preview-img"> -->
+					  <div class="thumb-indicator"></div>
+					</div>
+				  </div>
+				  <div class="controls">
+					<button class="play-pause-btn">
+					  <svg class="play-icon" viewBox="0 0 24 24">
+						<path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+					  </svg>
+					  <svg class="pause-icon" viewBox="0 0 24 24">
+						<path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+					  </svg>
+					</button>
+					<div class="volume-container">
+					  <button class="mute-btn">
+						<svg class="volume-high-icon" viewBox="0 0 24 24">
+						  <path fill="currentColor" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
+						</svg>
+						<svg class="volume-low-icon" viewBox="0 0 24 24">
+						  <path fill="currentColor" d="M5,9V15H9L14,20V4L9,9M18.5,12C18.5,10.23 17.5,8.71 16,7.97V16C17.5,15.29 18.5,13.76 18.5,12Z" />
+						</svg>
+						<svg class="volume-muted-icon" viewBox="0 0 24 24">
+						  <path fill="currentColor" d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z" />
+						</svg>
+					  </button>
+					  <input class="volume-slider" type="range" min="0" max="1" step="any" value="1">
+					</div>
+					<div class="duration-container">
+					  <div class="current-time">0:00</div>
+					  /
+					  <div class="total-time"></div>
+					</div>
+					<button class="captions-btn">
+					  <svg viewBox="0 0 24 24">
+						<path fill="currentColor" d="M18,11H16.5V10.5H14.5V13.5H16.5V13H18V14A1,1 0 0,1 17,15H14A1,1 0 0,1 13,14V10A1,1 0 0,1 14,9H17A1,1 0 0,1 18,10M11,11H9.5V10.5H7.5V13.5H9.5V13H11V14A1,1 0 0,1 10,15H7A1,1 0 0,1 6,14V10A1,1 0 0,1 7,9H10A1,1 0 0,1 11,10M19,4H5C3.89,4 3,4.89 3,6V18A2,2 0 0,0 5,20H19A2,2 0 0,0 21,18V6C21,4.89 20.1,4 19,4Z" />
+					  </svg>
+					</button>
+					<!-- <button class="speed-btn wide-btn">
+					  1x
+					</button> -->
+					
+					<button class="video-settings-btn" title="Settings">
+						<svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30"><path fill = "white" d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/></svg>
+					</button>
+					<button class="chat-on-video-btn">
+						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><g transform="translate(24 0) scale(-1 1)"><path fill="white" d="M12 3C6.5 3 2 6.58 2 11a7.218 7.218 0 0 0 2.75 5.5c0 .6-.42 2.17-2.75 4.5c2.37-.11 4.64-1 6.47-2.5c1.14.33 2.34.5 3.53.5c5.5 0 10-3.58 10-8s-4.5-8-10-8m0 14c-4.42 0-8-2.69-8-6s3.58-6 8-6s8 2.69 8 6s-3.58 6-8 6Z"/></g></svg>
+					</button>
+					<button class="mini-player-btn">
+					  <svg viewBox="0 0 24 24">
+						<path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zm-10-7h9v6h-9z"/>
+					  </svg>
+					</button>
+					<!-- <button class="theater-btn">
+					  <svg class="tall" viewBox="0 0 24 24">
+						<path fill="currentColor" d="M19 6H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H5V8h14v8z"/>
+					  </svg>
+					  <svg class="wide" viewBox="0 0 24 24">
+						<path fill="currentColor" d="M19 7H5c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 8H5V9h14v6z"/>
+					  </svg>
+					</button> -->
+					
+					<button class="full-screen-btn">
+					  <svg class="open" viewBox="0 0 24 24">
+						<path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+					  </svg>
+					  <svg class="close" viewBox="0 0 24 24">
+						<path fill="currentColor" d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+					  </svg>
+					</button>
+				  </div>
+				</div>
+				<video video id="videoPlayer" data-yt2html5="">
+					<source id="videoSource"  src="video.mp4" type="video/mp4">
+					<track id="subtitlesTrack" kind="captions" srclang="en" label="English" default>
+				</video>
+			  </div>
+		</div>
+	</div>
+
+
+	<!-- Box - 2 -->
+	<div class="box">
+		<div class="box-element box-2">
+			<div class="playFrom">
+				<span>
+					<button id="src-option-button"class="src-choose btn-hover-fx" type="button" onclick="src_option_clicked()">Select Source</button>
+				</span>
+				<span id ="source-options" class="source-options">
+					<button title="Play local file" onclick="selectSource('src-local')" id="src-local" class="src-btn btn-hover-fx src-local src-zero-width" type="button">
+						<i class="fas fa-desktop bounceable"></i>
+					</button>
+					<button title="Play from Direct Link" onclick="selectSource('src-drive')" id="src-drive" class="src-btn btn-hover-fx src-drive src-zero-width" type="button">
+						<!-- <i class="fab fa-google-drive bounceable"></i> -->
+						<i class="fa fa-link bounceable"></i>
+					</button>
+					<button title="Play YouTube video" onclick="selectSource('src-youtube')" id="src-youtube" class="src-btn btn-hover-fx src-youtube src-zero-width" type="button">
+						<i class="fab fa-youtube bounceable"></i>
+					</button>
+				</span>
+			</div>
+			<div class="videoFileInput">
+				<div id="videoFileInputdiv"  class="file-input hidden">
+					<input id="videoFileInput" type="file" class="file-input">
+			    	<label for="videoFileInput" id="videoFileInputLabel" class="file-input-label  btn-hover-fx src-local">  <i class="fas fa-file-video"></i> Open Video</label>
+			    	
+			    </div>
+			    <div class="file-input hidden" id="driveLinkInputField">
+			    	<label onclick="driveLinkInputClipboard()" class="file-input-label btn-hover-fx src-drive"><i class="fas fa-clipboard"></i> Paste</label>
+			    	 OR
+ 			    	<input placeholder="URL" type="text" id="driveTextInputField">
+			    	<button onclick="playFromDriveClick()" class="src-drive btn-hover-fx"><i class="fas fa-play"></i></button>	
+			    </div>
+			    <div class="file-input hidden" id="youtubeLabel">
+			    	<label onclick="youtubeLinkInputClipboard()" class="file-input-label btn-hover-fx src-youtube"><i class="fas fa-clipboard"></i> Paste</label>
+			    	 OR 
+ 			    	<input placeholder="YouTube link" type="text" id="youtubeTextInputField">
+			    	<button onclick="playFromYoutubeClick()" class="src-youtube btn-hover-fx"><i class="fas fa-play"></i></button>
+			    	<br>
+			    	<!-- <button class="src-youtube btn-hover-fx">Quality</button> -->
+	            	<button onclick="ChangeYoutubeQuality('1080p')" class="src-youtube btn-hover-fx inactive" disabled>1080</button>
+	            	<button onclick="ChangeYoutubeQuality('720p')" class="src-youtube btn-hover-fx">720p</button>
+	            	<button onclick="ChangeYoutubeQuality('360p')" class="src-youtube btn-hover-fx">360p</button>
+
+			    </div>
+			   
+			    <div id="subtitleBox" class="subtitle-box inactive">
+					<input id="subtitleFileInput" type="file" class="file-input">
+			    	<label title="Add subtile file" for="subtitleFileInput" id="subtitleFileInputLabel" class="default file-input-label  btn-hover-fx"><i class="fas fa-closed-captioning"></i> Subtitle</label>
+			    	<button id="showSubBtn" class="default inactive btn-hover-fx" onclick="showSubtitle()">Show subtile</button>
+
+			    	<div class="gap">
+				    	<button onclick="createAncore()" class="default btn-hover-fx"><i class="fas fa-anchor"></i> Ancore</button>
+				    	<button id="releaseAncore" onclick="playFromAncore()" class="default btn-hover-fx">00:00:0</button>
+			    	</div>
+				</div>
+
+
+			</div>
+			<div class="mediaNames">
+		    	<label class="btn-hover-fx" id="videoFileNameLabel"></label>
+		    	<br><br><br>
+		    	<label class="btn-hover-fx" id="subtitleFileNameLabel"></label>
+			</div>
+		</div>
+	</div>
+
+	<!-- Box - 3 -->
+	<div class="box">
+		<div class="box-element box-3" >
+			<div class="message-box" id="messageContainer">
+				<!-- Messages appear here -->
+			</div>
+			<div class="below-message center  inactive" id="message-box">
+				<input id="chatInput" placeholder="Send a message to everyone" type="text">
+				<button class="btn-hover-fx" onclick="sendMessage('chatInput')" type="button">Send</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Box - 4 -->
+	<div class="box">
+		<div class="box-element box-4">
+			<div id ="connedtion-status" class = "connedtion-status zero-width"></div>
+			
+			<div id = "connectionInputField" class="inputField full-height-10">
+				<span><input id = "usernameInputField" type="text" placeholder="Username"></span>
+				<span><input id ="roomnameInputField" type="text" placeholder="Room"></span>
+				<span><button title="Text to show on hover" class="sync" id = "connectButton" onclick="connect()" type="button">Join</button></span>
+			</div>
+			<div class="room-info inactive" id="room-info">
+				<button id = "connection-username" class="room"><i class="fas fa-globe rotate-globe"></i> Username</button>
+				<button id = "connection-roomname">Room Name</button>
+			</div>
+			<div id = "connectionSettings" class="connectionSettings inactive">
+				<button class="btn-hover-fx" id = "connection-disconnect" onclick="disconnectConnection()" ><i class="fas fa-sign-out-alt"></i> Leave</button>
+				<button class="btn-hover-fx" id = "connection-Activity" onclick="showActivityList()"><i class="fas fa-history"></i> Logs</button>
+				<button class="btn-hover-fx" id = "connection-sync" onclick="toggleSync()">Sync <i class="sync-icon fas fa-sync-alt"></i></button>
+				<button id="notificationVolumeButton" onclick="changeNotificationVolume()" title="Notification volume" type="button" class="btn-hover-fx"><i class="fas fa-volume-up"></i> 100%</button>
+				<!-- <inpubut id = "connection-volume"type="range" min="0" max="1" step="0.01" value="1"> -->
+
+			</div>
+			<div id ="connectedPeopleList" class="connectedPeople inactive">
+				<div class="eachPeople heading">
+					<span>People</span>
+					<span>Status</span>
+					<span>Media</span>
+				</div>
+				<div id ="peopleRefreshList"></div>
+			</div>
+		</div>
+	</div>
+	<audio style="display:none; z-index: -1;" id="notification-sound" src="Audio/notification.mp3"></audio>
+</body>
+<footer>
+	<p>The development and maintenance of the application are undertaken by <i class="fab fa-github"></i> <a href="https://github.com/withtahmid" target="_blank">withtahmid</a>.</p>
+</footer>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+<script src="js/newPlayer.js"></script>
+<script src="js/variables.js"></script>
+<script src="js/adjustratio.js" ></script>
+<script src="js/videoPlayer.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/connection.js"></script>
+<script src="js/declearations.js"></script>
+<script src="js/youtube.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/gh/thelevicole/youtube-to-html5-loader@4.0.1/dist/YouTubeToHtml5.js"></script> -->
+</html>
