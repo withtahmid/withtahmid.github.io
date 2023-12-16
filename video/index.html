@@ -74,7 +74,7 @@
                         <button>
                         <i class="fa-solid fa-gear"></i>
                         </button>
-                        <button class="chat-btn-onvideo"><i class="fa-solid fa-comment"></i></button>
+                        <button class="chat-btn-onvideo"><i class="fa-solid fa-message"></i></button>
                         <button class="mini-player-btn">
                         <i class="fa-solid fa-display"></i>
                         </button>
@@ -94,7 +94,7 @@
             <div class="tabs">
                 <!-- CHat -->
                 <input class=tab-input name="tabs" type="radio" id="tab-1"/>
-                <label class="tab-label ease-btn" for="tab-1"><i class="fa-solid fa-comment"></i> <span>Chat</span> </label>
+                <label class="tab-label ease-btn" for="tab-1"><i class="fa-solid fa-message"></i> <span>Chat</span> </label>
                 <div class="tab-panel off-video-chat-box" style="position: relative;">
                     <div id="chat-full-container" style="height: 100%; position: relative;">
                         <div id="chat-box-container" class="chat-box">
@@ -134,7 +134,7 @@
                     </div>
                 </div>
                 <!-- Room -->
-                <input class=tab-input name="tabs" type="radio" id="tab-2" checked="checked"/>
+                <input class=tab-input name="tabs" type="radio" id="tab-2" />
                 <label class="tab-label ease-btn" for="tab-2"><i class="fa-solid fa-people-roof"></i> <span> Room</span></label>
                 <div id="connection-tab" class="tab-panel room-tab no-connect">
                     <div class="connected-tab">
@@ -169,6 +169,7 @@
                                     <i class="people-fullscreen-yes fa-solid fa-expand"></i>
                                     <i class="people-fullscreen-no fa-solid fa-compress"></i>
                                 </div>
+                        
                                 <div>
                                     <i class="people-sync-yes fa-solid fa-rotate fa-spin"></i>
                                     <i class="people-sync-no fa-solid fa-rotate"></i>
@@ -225,6 +226,12 @@
                 <input class=tab-input name="tabs" type="radio" id="tab-3" />
                 <label class="tab-label ease-btn" for="tab-3"><i class="fa-solid fa-file-video"></i> <span>Media</span></label>
                 <div class="tab-panel media-tab">
+
+                    <div class="file-input-divs">
+                        <label onclick="ROOM.requestForSync()" class="ease-btn">Request Sync</label>
+                    </div>
+
+
                     <div class="now-playing">
                         <i class="fa-solid fa-file-video"></i>
                         <p id="video-filename-tab"> No video is added</p>
@@ -241,10 +248,12 @@
                         <input type="file" id="subtitle-file-input" class="file-input">
                         <label for="subtitle-file-input" class="ease-btn">Open Subtitle From Device</label>
                     </div>
+                    
+                   <!-- Direct URL -->
                     <div class="file-input-divs" style="display: flex; gap: 1rem;">
                         <label><i class="fa-solid fa-link"></i></label>
                         <input style="flex-grow: 1;" type="text" placeholder="Enter Direct URL" id="direct-url-input">
-                        <label for="direct-url-input"  class="ease-btn">Play</label>
+                        <label onclick="VIDEO.playVideo(document.getElementById('direct-url-input').value, 'Playing Direct URL', 1);" for="direct-url-input"  class="ease-btn">Play</label>
                     </div>
                     <!-- One Drive URL -->
                     <div class="file-input-divs" style="display: flex; gap: 1rem;">
@@ -266,24 +275,46 @@
                     </div>
                 </div>
                 <!-- Utils -->
-                <input class=tab-input name="tabs" type="radio" id="tab-4" />
+                <input class=tab-input name="tabs" type="radio" id="tab-4" checked="checked"/>
                 <label class="tab-label ease-btn" for="tab-4">
                 <i class="fa-solid fa-gear"></i> <span>Settings</span></label>
-                <div class="tab-panel">
-                    <div class="settings">
-                        <i class="fa-solid fa-bell"></i>
+                <div class="tab-panel setting-tab">
+                    <div class="one-setting">
+                        <div class="setting-left">
+                            <div class="settings-name">Keep in Sync</div><label class="switch" for="sync-checkbox-input">
+                                <input type="checkbox" id="sync-checkbox-input" checked />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                        <div class="settings-text">
+                            Turining this off will shtut down media event communication with the room. Your media events will not affect others and other's media event will not affect you.
+                            Switching on after off will try to sync media with people joined.
+                        </div>
+                    </div>
+                    <div class="one-setting">
+                        <div class="setting-left">
+                            <div class="settings-name">Chat on full screen</div>
+                            <label class="switch" for="chat-on-viddeo-checkbox-input">
+                                <input type="checkbox" id="chat-on-viddeo-checkbox-input" checked />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                        <div class="settings-text">
+                            Turinig this off will stop chat box popping up when you are in full screen mode. you can manually view chat box using <i style="font-size: small;" class="fa-solid fa-message"></i> button
+                        </div>
                     </div>
                 </div>
                 <!-- Subtitle -->
                 <input class=tab-input name="tabs" type="radio" id="tab-5"/>
                 <label class="tab-label ease-btn" for="tab-5"><i class="fa-solid fa-closed-captioning"></i> <span>Subtitle</span></label>
                 <div class="tab-panel">
-                    Subtitle
+                    Working on it
                 </div>
                 <!-- Log -->
                 <input class=tab-input name="tabs" type="radio" id="tab-6" />
                 <label class="tab-label ease-btn" for="tab-6"><i class="fa-solid fa-clock-rotate-left"></i> <span>Log</span></label>
                 <div class="tab-panel logs">
+                    Working on it
                     <!-- <table>
                         <thead>
                         
@@ -314,8 +345,8 @@
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
                 <div class="error-bottom">
-                    <h1 id="screen-error-heading">Ooops!</h1>
-                    <p id="screen-error-text">someting went wrong</p>
+                    <h1 id="screen-error-heading"></h1>
+                    <p id="screen-error-text"></p>
                     <button onclick="document.querySelector('.error-box-container').classList.add('hidden')" class="ease-btn"><i class="fa-regular fa-circle-xmark"></i></button>
                 </div>
 

@@ -42,7 +42,31 @@ const MESSAGE = {
          username: ROOM.username
         }
      },
+    syncRequest: function(){
+        return {
+            type : 'syncRequest',
+            username: ROOM.username
+        }
+    },
+    syncResponse: function(forUser){
+        return {
+            type : 'syncResponse',
+            username: ROOM.username,
 
+            forUser: forUser,
+
+            sourceType: VIDEO.sourceType,
+            sourceURL: VIDEO.sourceURL,
+            
+            subtitleURL: VIDEO.subtitleURL,
+            
+            currentTime: VIDEO.video.currentTime,
+            paused: VIDEO.video.paused,
+
+            videoFileName: VIDEO.videoFileName,
+            subtitleFileName: VIDEO.subtitleFileName
+        }
+    }
 };
 
 const notificationIcons = {
@@ -105,14 +129,18 @@ messageHandeler.set('text', handleTextMessage);
 messageHandeler.set('media', handleMediaMessage);
 messageHandeler.set('join', handleJoinMessage);
 messageHandeler.set('leave', handleLeaveMessage);
+messageHandeler.set('syncRequest', handleSyncRequest);
+messageHandeler.set('syncResponse', handleSyncResponse);
+
 
 // messageHandeler.set('poke', handlePokeMessage);
 // messageHandeler.set('reconnect', handleReconnectMessage);
 // messageHandeler.set('conflict', handleConflictMessage);
 // messageHandeler.set('mediaReguest', hadleMediaReguestMessage);
 // messageHandeler.set('mediaResponse', handleMediaResponseMessage);
-// messageHandeler.set('syncRequest', handleSyncRequest);
-// messageHandeler.set('syncResponse', handleSyncResponse);
+
+
+
 // messageHandeler.set('change', handleChangeMessage);
 
 const ignorePeopleMessageType = ['leave'];
@@ -272,8 +300,10 @@ function appendTextToTextBox(message){
     sender.classList.add('sender');
     sender.textContent = message.username;
     container.appendChild(sender);
-
     chatBox.appendChild(container);
+    if(VIDEO.isFullScreen() && VIDEO.allowChatOnScreen){
+        videoContainer.classList.add('on-video-chat');
+    }
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
@@ -296,6 +326,10 @@ function handleMediaMessage(message){
     if(message.username === ROOM.username){
         return;
     }
+    if(!VIDEO.videoAdded){
+        return;
+    }
+    
     addNotification(generateNotification(message));
     VIDEO.ignoreMediaEvent = true;
     mediaHandlers[message.mediaType](message.time);   
@@ -329,6 +363,19 @@ function handleLeaveMessage(message){
     if(removeChiled){
         ROOM.connectedPeopleLsit.removeChild(removeChiled);  
     }
+}
 
-    
+function handleSyncRequest(message){
+    if(!VIDEO.videoAdded || message.username == ROOM.username){
+        return;
+    }
+    ROOM.sendMessage(MESSAGE.syncResponse(message.username)); 
+}
+
+function handleSyncResponse(message){
+    if(message.forUser != ROOM.username){
+        return;
+    }
+    ROOM.requestForSync = false;
+    console.log(message);
 }

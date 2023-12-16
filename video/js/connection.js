@@ -14,6 +14,8 @@ const ROOM = {
     autoJoin: null,
     notificationVolumeIndex: 3,
 
+    requestingForSync: false,
+
     connectedPeopleLsitMap: new Map(),
     connectedPeopleTimes : new Map(),
     peoplesInTheRoom: new Set(),
@@ -67,9 +69,10 @@ const ROOM = {
         },10000);
     },
     sendMessage: function(object){
-        if(object.type === 'media' && VIDEO.ignoreMediaEvent){
+        if(object.type === 'media' && (VIDEO.ignoreMediaEvent || !VIDEO.videoAdded)){
             return;
         }
+    
         this.broadcast(JSON.stringify(object));
     },
     broadcastExisTance: function(){
@@ -200,6 +203,17 @@ const ROOM = {
         });
     },
 
+    requestForSync: function(){
+        this.requestForSync = true;
+        this.sendMessage(MESSAGE.syncRequest());
+        setTimeout(()=>{
+            if(this.requestForSync){
+                this.requestForSync = false;
+                displayErrorOnScreen('No one responded!', 'Oh No :(')
+            }
+        }, 4000);
+    },
+
     leave: async function(){
         if(!this.connected){
             return;
@@ -216,6 +230,19 @@ const ROOM = {
         localStorage.setItem('autoJoin', this.autoJoin);
         localStorage.setItem('notificationVolume', this.currentNotificationVolume);
     },
+
+    toggleSync: function(sync){
+        if(!sync){
+            this.inSync = false;
+        }
+        else{
+            this.inSync = true;
+        }
+        console.log(this.inSync)
+        this.broadcastExisTance();
+
+    },
+
     broadcast: function(message){
         if(!this.connected){
             return;

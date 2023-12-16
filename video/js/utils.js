@@ -38,6 +38,18 @@ function displayErrorOnScreen(text = 'Someting went wrong!', heading = 'Ooops!')
   document.querySelector('.error-box-container').classList.remove('hidden');
 }
 
+const keepInSyncBtn = document.getElementById('sync-checkbox-input');
+keepInSyncBtn.addEventListener('change', ()=>{
+  ROOM.toggleSync(keepInSyncBtn.checked);
+})
+
+const chatOnVideoBtn = document.getElementById('chat-on-viddeo-checkbox-input');
+chatOnVideoBtn.addEventListener('change', ()=>{
+  VIDEO.toggleChatOnVideoPermission(chatOnVideoBtn.checked);
+})
+
+
+
 window.onload = async function() {
   const username = localStorage.getItem('username');
   const roomId = localStorage.getItem('roomId');

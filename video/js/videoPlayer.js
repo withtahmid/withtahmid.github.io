@@ -3,6 +3,8 @@ const subtitlesFileInput = document.getElementById('subtitle-file-input');
 
 // 
 
+
+
 const VIDEO = {
     // 
     video: document.getElementById('videoPlayer'),
@@ -13,11 +15,12 @@ const VIDEO = {
     
     videoFileName: null,
     // 
-    subtitleSource:null,
+    subtitleURL:null,
     subtitleFileName: null,
 
     //
     sourceType: null,
+    sourceURL: null,
 
     videoAdded: false,
     subtitleAdded: false,
@@ -26,6 +29,9 @@ const VIDEO = {
     ignorePause: false,
     ignoreSeeked: false,
     ignoreMediaEvent: false,
+
+    allowChatOnScreen: true,
+
 
     // 
     init: function(){
@@ -93,14 +99,17 @@ const VIDEO = {
         if(!source) {
             return;
         }
+        const videoSources = ['local', 'dirLink']
         this.videoAdded = true;
+        
         this.videoSource.src = source;
+        this.sourceURL = source;
+        
         this.changeVideoFileName(filename);
-        this.sourceType = type;
+        this.sourceType = videoSources[type];
         this.video.load();
         this.changed();
-        this.resetSubtitle();
-       
+        // this.resetSubtitle();
     },
 
     resetSubtitle: function(){
@@ -116,6 +125,7 @@ const VIDEO = {
         }
         this.subtitleAdded = true;
         this.subtitlesTrack.src = source;
+        this.subtitleURL = source;
         this.video.textTracks[0].mode = 'showing';
         this.changeSubtitleFileName(filename);
         this.changed();
@@ -140,7 +150,16 @@ const VIDEO = {
             document.mozFullScreenElement === this.container ||
             document.msFullscreenElement === this.container
           );
-    }
+    },
+    toggleChatOnVideoPermission: function(val){
+        if(val){
+            this.allowChatOnScreen = true;
+        }
+        else{
+            this.allowChatOnScreen = false;
+        }
+        // ROOM.broadcastExisTance();
+    },
 
 }
 
@@ -152,7 +171,7 @@ videoFileInput.addEventListener('change', ()=> {
     // videoPlayer.setAttribute('data-yt2html5', '');
     // videoPlayer.removeAttribute('src');
     const file = videoFileInput.files[0];
-    VIDEO.playVideo(URL.createObjectURL(file), file.name, 'local')
+    VIDEO.playVideo(URL.createObjectURL(file), file.name, 0)
 
 });
 
@@ -198,4 +217,7 @@ videoContainer.addEventListener('mousemove', (event)=>{
 
 // Functions
 /*-----------------------------------------------------------*/
-
+// function playDirectUrl(){
+//     const url = ;
+    
+// }
