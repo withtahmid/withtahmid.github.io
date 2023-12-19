@@ -27,7 +27,14 @@ document.addEventListener("keydown", e => {
 
   switch (e.key.toLowerCase()) {
     case " ":
-      if (tagName === "button") return
+      if (tagName === "button") {
+        if(!e.target.classList.contains('play-pause-btn')){
+          e.preventDefault()
+        }
+        
+        return;
+      }
+      
     case "k":
       togglePlay()
       break
@@ -188,6 +195,7 @@ video.addEventListener("volumechange", () => {
 // View Modes
 // theaterBtn.addEventListener("click", toggleTheaterMode)
 fullScreenBtn.addEventListener("click", toggleFullScreenMode)
+videoContainer.addEventListener('dblclick', toggleFullScreenMode);
 miniPlayerBtn.addEventListener("click", toggleMiniPlayerMode)
 
 // function toggleTheaterMode() {
