@@ -181,7 +181,7 @@
   align-items: center;
   justify-content: center;
   z-index: 150;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0,0,0,0.4);
 }
 .error-box{
   /* border: 2px solid red; */
