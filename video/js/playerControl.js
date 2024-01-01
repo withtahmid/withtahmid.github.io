@@ -241,12 +241,31 @@ function togglePlay() {
   video.paused ? video.play() : video.pause()
 }
 
+
+let videoControlTimeoutId;
+videoContainer.addEventListener('mousemove', (event)=>{
+  if(VIDEO.video.paused){
+    return;
+  }
+  clearTimeout(videoControlTimeoutId);
+  videoContainer.classList.add('show-control');
+  videoControlTimeoutId = setTimeout(()=>{
+    videoContainer.classList.remove('show-control');
+  },2000);
+});
+
 video.addEventListener("play", () => {
-  videoContainer.classList.remove("paused")
+  videoContainer.classList.remove("paused");
+  clearTimeout(videoControlTimeoutId);
+  videoControlTimeoutId = setTimeout(()=>{
+    videoContainer.classList.remove('show-control');
+  },2000);
+
 })
 
 video.addEventListener("pause", () => {
   videoContainer.classList.add("paused")
+  videoContainer.classList.add('show-control');
 })
 
 

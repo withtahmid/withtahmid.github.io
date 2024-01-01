@@ -49,6 +49,10 @@ chatOnVideoBtn.addEventListener('change', ()=>{
 })
 
 
+function noReady(){
+  displayErrorOnScreen('this feature not ready yet.', 'On No :(')
+}
+
 
 window.onload = async function() {
   const username = localStorage.getItem('username');

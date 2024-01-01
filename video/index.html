@@ -13,14 +13,14 @@
         <link rel="stylesheet" href="css/videoPlayer.css">
         <link rel="stylesheet" href="css/global.css">
         <link rel="stylesheet" href="css/right.css">
-        <title>Mikyway</title>
+        <title>Milkyway</title>
     </head>
     <body>
         <div class="left">
             <div class="headding">
                 <img  src="./elements/img/milkyway-icon.png" height="40" width="40" alt="">
                 <div>
-                    <h1>Mikyway</h1>
+                    <h1>Milkyway</h1>
                     <a href="https://github.com/withtahmid" target="_blank">©withtahmid</a>
                 </div>
                 <button class="donate-btn ease-btn">About</button>
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <video video id="videoPlayer" data-yt2html5="">
-                    <source id="videoSource"  src="video2.mp4" type="video/mp4">
+                    <source id="videoSource"  src="" type="video/mp4">
                     <track id="subtitlesTrack" kind="captions" srclang="en" label="English" default>
                 </video>
             </div>
@@ -259,19 +259,19 @@
                     <div class="file-input-divs" style="display: flex; gap: 1rem;">
                         <label><i class="fa-solid fa-cloud"></i></label>
                         <input style="flex-grow: 1;" type="text" placeholder="Enter One-Drive URL" id="one-drive-url-input">
-                        <label for="one-drive-url-input"  class="ease-btn">Play</label>
+                        <label onclick="noReady()" for="one-drive-url-input"  class="ease-btn">Play</label>
                     </div>
                     <!-- Google Drive URL -->
                     <div class="file-input-divs" style="display: flex; gap: 1rem;">
                         <label><i class="fa-brands fa-google-drive"></i></label>
                         <input style="flex-grow: 1;" type="text" placeholder="Enter G-Drive URL" id="g-drive-url-input">
-                        <label for="g-drive-url-input"  class="ease-btn">Play</label>
+                        <label onclick="noReady()" for="g-drive-url-input"  class="ease-btn">Play</label>
                     </div>
                     <!-- YouTube URL -->
                     <div class="file-input-divs" style="display: flex; gap: 1rem;">
                         <label><i class="fa-brands fa-youtube"></i></label>
                         <input style="flex-grow: 1;" type="text" placeholder="Enter Youtube URL" id="youtube-url-input">
-                        <label for="youtube-url-input"  class="ease-btn">Play</label>
+                        <label onclick="noReady()" for="youtube-url-input"  class="ease-btn">Play</label>
                     </div>
                 </div>
                 <!-- Utils -->

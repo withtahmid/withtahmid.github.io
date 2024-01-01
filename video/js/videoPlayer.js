@@ -97,6 +97,7 @@ const VIDEO = {
 
     playVideo: function(source, filename, type){
         if(!source) {
+            displayErrorOnScreen('No video source found')
             return;
         }
         const videoSources = ['local', 'dirLink']
@@ -203,17 +204,7 @@ subtitlesFileInput.addEventListener('change', function() {
 });
 
 // manual
-let videoControlTimeoutId;
-videoContainer.addEventListener('mousemove', (event)=>{
-  if(VIDEO.video.paused){
-    return;
-  }
-  clearTimeout(videoControlTimeoutId);
-  videoControlsContainer.classList.add('show-control');
-  videoControlTimeoutId = setTimeout(()=>{
-    videoControlsContainer.classList.remove('show-control');
-  },2000);
-});
+
 
 // Functions
 /*-----------------------------------------------------------*/
