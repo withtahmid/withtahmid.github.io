@@ -110,7 +110,7 @@ const VIDEO = {
         this.sourceType = videoSources[type];
         this.video.load();
         this.changed();
-        // this.resetSubtitle();
+        this.resetSubtitle();
     },
 
     resetSubtitle: function(){

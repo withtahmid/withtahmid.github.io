@@ -221,6 +221,9 @@ function toggleMiniPlayerMode() {
 
 document.addEventListener("fullscreenchange", () => {
   videoContainer.classList.toggle("full-screen", document.fullscreenElement);
+  if(!videoContainer.classList.contains('full-screen')){
+    videoContainer.classList.remove('on-video-chat');
+  }
   ROOM.broadcastExisTance();
   toggleChatBox();
 })
@@ -243,24 +246,30 @@ function togglePlay() {
 
 
 let videoControlTimeoutId;
+function vanishControlLater(){
+  clearTimeout(videoControlTimeoutId);
+  videoControlTimeoutId = setTimeout(()=>{
+    if(!videoContainer.classList.contains('on-video-chat')){
+      videoContainer.classList.remove('show-control');
+    }
+  },2000);
+}
 videoContainer.addEventListener('mousemove', (event)=>{
   if(VIDEO.video.paused){
     return;
   }
-  clearTimeout(videoControlTimeoutId);
   videoContainer.classList.add('show-control');
-  videoControlTimeoutId = setTimeout(()=>{
-    videoContainer.classList.remove('show-control');
-  },2000);
+  vanishControlLater();
 });
+
+video.addEventListener("seeked", () => {
+  videoContainer.classList.add('show-control');
+  vanishControlLater();
+})
 
 video.addEventListener("play", () => {
   videoContainer.classList.remove("paused");
-  clearTimeout(videoControlTimeoutId);
-  videoControlTimeoutId = setTimeout(()=>{
-    videoContainer.classList.remove('show-control');
-  },2000);
-
+  vanishControlLater();
 })
 
 video.addEventListener("pause", () => {
@@ -276,14 +285,12 @@ const chatContainer = document.getElementById('chat-full-container');
 const chatBox = document.getElementById('chat-box-container');
 const notificationBox = document.querySelector('.notification-box');
 const body = document.querySelector('body');
+
 function moveOnVideo(){
   offVideoChatContainer.removeChild(chatContainer);
   onVideoChatContainer.appendChild(chatContainer);
-
   body.removeChild(notificationBox);
   videoContainer.appendChild(notificationBox);
-
-
 }
 function moveOffVideo(){
   onVideoChatContainer.removeChild(chatContainer);
