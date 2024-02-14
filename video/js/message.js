@@ -7,7 +7,7 @@ const MESSAGE = {
             subtitle: VIDEO.subtitleAdded,
             inSync: ROOM.inSync,
             fullScreen: VIDEO.isFullScreen(),
-            tab: 'null',
+            tab: userOnThisTab(),
             videoFileName: VIDEO.videoFileName ? VIDEO.videoFileName : 'No video is added',
             subtitleFileName: VIDEO.subtitleFileName ? VIDEO.subtitleFileName : 'No subtitle is added',
         }
@@ -102,8 +102,7 @@ function addNotification(notification){
 
 const messageText = {
     join: 'joined the room',
-    leave: 'left the room',
-
+    leave: 'left the room'
 }
 
 function generateNotification(message){
@@ -148,8 +147,9 @@ const ignorePeopleMessageType = ['leave'];
 const MessageHandler = {
     handle: function(json){
         const message = JSON.parse(json);
-        messageHandeler.get(message.type)(message);
         ROOM.registerPresence(message);
+        messageHandeler.get(message.type)(message);
+       
         // ROOM.refreshOnePeople(message.username);
     }
 }
@@ -160,7 +160,8 @@ const connectedPleopleKeyPair = {
     video: 'people-video',
     subtitle: 'people-caption',
     inSync: 'people-sync',
-    fullScreen: 'people-fullscreen'
+    fullScreen: 'people-fullscreen',
+    tab: 'people-tab',
 }
 function handleExistMessage(message){
     let div;
@@ -170,62 +171,76 @@ function handleExistMessage(message){
         div.classList.add('one-people');
         div.setAttribute('id', `people-${message.username}`);
         div.innerHTML = `
-                        <div>
+                            <div>
                             <i class="fa-solid fa-signal status-icon"></i>
-                        </div>
-                        <img height="30" width="30" src="./elements/img/avaters/avater-1.png" alt="">
-                        <p style="flex-grow: 1;">${message.username}</p>
-                        <div>
-                            <i class=" people-video-no fa-regular fa-file-video"></i>
-                            <i class="people-video-yes fa-solid fa-file-video"></i>
-                        </div>
-                        <div>
-                            <i class="people-caption-yes fa-solid fa-closed-captioning"></i>
-                            <i class="people-caption-no fa-regular fa-closed-captioning"></i>
-                        </div>
-                    
-                        <div>
-                            <i class="people-fullscreen-yes fa-solid fa-expand"></i>
-                            <i class="people-fullscreen-no fa-solid fa-compress"></i>
-                        </div>
-                        <div>
-                            <i class="people-sync-yes fa-solid fa-rotate fa-spin"></i>
-                            <i class="people-sync-no fa-solid fa-rotate"></i>
-                        </div>
-
-                        <input type="checkbox" id="${message.username}-section" class="accordion-checkbox">
-                        <label for="${message.username}-section" class="accordion-header">
-                            <i class="fa-solid fa-circle-info"></i>
-                        </label>
-                        <div class="accordion-content one-people-info">
-                          <div class="one-info">
-                            <p class="icon">
-                            <i class=" people-video-no fa-regular fa-file-video"></i>
-                            <i class="people-video-yes fa-solid fa-file-video"></i>
-                            </p>
-                            <p id = "${message.username}-videoFileName">...</p>
-                          </div>
-                          <div class="one-info">
-                            <p class="icon">
+                            </div>
+                            <img height="30" width="30" src="./elements/img/avaters/avater-1.png" alt="">
+                            <p style="flex-grow: 1;">${message.username}</p>
+                            <div>
+                                <i class=" people-video-no fa-regular fa-file-video"></i>
+                                <i class="people-video-yes fa-solid fa-file-video"></i>
+                            </div>
+                            <div>
                                 <i class="people-caption-yes fa-solid fa-closed-captioning"></i>
                                 <i class="people-caption-no fa-regular fa-closed-captioning"></i>
-                            </p>
-                            <p id = "${message.username}-subtitleFileName">...</p>
-                          </div>
-                          <div class="one-info">
-                            <p class="icon">
+                            </div>
+
+                            <div>
                                 <i class="people-fullscreen-yes fa-solid fa-expand"></i>
                                 <i class="people-fullscreen-no fa-solid fa-compress"></i>
-                            </p>
-                            <p id = "${message.username}-fullScreen">...</p>
-                          </div>
-                          <div class="one-info">
-                            <p class="icon">
+                            </div>
+                            <div>
+
+                                <i class="people-tab-yes fa-solid fa-t"></i>
+                                <i class="people-tab-no fa-solid fa-text-slash"></i>
+                            </div>
+                            <div>
                                 <i class="people-sync-yes fa-solid fa-rotate fa-spin"></i>
                                 <i class="people-sync-no fa-solid fa-rotate"></i>
-                            </p>
-                            <p id = "${message.username}-inSync">...</p>
-                          </div>
+                            </div>
+                           
+                            
+
+                            <input type="checkbox" id="${message.username}-section" class="accordion-checkbox" checked = "checked"/>
+                            <label style ="cursor: pointer;" for="${message.username}-section" class="accordion-header">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </label>
+                            <div class="accordion-content one-people-info">
+                            <div class="one-info">
+                                <p class="icon">
+                                <i class=" people-video-no fa-regular fa-file-video"></i>
+                                <i class="people-video-yes fa-solid fa-file-video"></i>
+                                </p>
+                                <p id = "${message.username}-videoFileName">...</p>
+                            </div>
+                            <div class="one-info">
+                                <p class="icon">
+                                    <i class="people-caption-yes fa-solid fa-closed-captioning"></i>
+                                    <i class="people-caption-no fa-regular fa-closed-captioning"></i>
+                                </p>
+                                <p id = "${message.username}-subtitleFileName">...</p>
+                            </div>
+                            <div class="one-info">
+                                <p class="icon">
+                                    <i class="people-fullscreen-yes fa-solid fa-expand"></i>
+                                    <i class="people-fullscreen-no fa-solid fa-compress"></i>
+                                </p>
+                                <p id = "${message.username}-fullScreen">...</p>
+                            </div>
+                            <div class="one-info">
+                                <p class="icon">
+                                <i class="people-tab-yes fa-solid fa-t"></i>
+                                <i class="people-tab-no fa-solid fa-text-slash"></i>
+                                </p>
+                                <p id = "${message.username}-inTab">...</p>
+                            </div>
+                            <div class="one-info">
+                                <p class="icon">
+                                    <i class="people-sync-yes fa-solid fa-rotate fa-spin"></i>
+                                    <i class="people-sync-no fa-solid fa-rotate"></i>
+                                </p>
+                                <p id = "${message.username}-inSync">...</p>
+                            </div>
                         </div>
                         `;
 
@@ -242,7 +257,9 @@ function handleExistMessage(message){
         videoFileName: message.videoFileName,
         subtitleFileName: message.subtitleFileName,
         fullScreen: message.fullScreen ? 'Full Screen' : 'Not Full Screen',
-        inSync: message.inSync ? 'In Sync' : 'Not in Sync'
+        inSync: message.inSync ? 'In Sync' : 'Not in Sync',
+        inTab: message.tab ? "In Tab" : "Not in tab",
+
     }
 
     for(i in connectedPleopleKeyPair){
@@ -255,10 +272,9 @@ function handleExistMessage(message){
     }
 
     for(let i in connectedpeopleDetailInfo){
-        // console.log(i);
         document.getElementById(`${message.username}-${i}`).textContent = connectedpeopleDetailInfo[i];
     }
-
+    ROOM.refreshOnePeople(message.username);
 }
 function handleTextMessage(message){
     appendTextToTextBox(message);

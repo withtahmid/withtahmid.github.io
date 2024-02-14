@@ -177,6 +177,10 @@ videoFileInput.addEventListener('change', ()=> {
 });
 
 subtitlesFileInput.addEventListener('change', function() {
+    if(!VIDEO.videoAdded){
+        // displayErrorOnScreen("Subtitle cannot be selected before video", "Oh no!")
+        return;
+    }
     var subtitleFile = subtitlesFileInput.files[0];
     filename = subtitleFile.name;             
     // var subtitleURL;
@@ -185,19 +189,21 @@ subtitlesFileInput.addEventListener('change', function() {
         VIDEO.addSubtitle(URL.createObjectURL(subtitleFile),filename )
 
     } 
-    // else if (subtitleExtension === 'srt') {
-    //     var reader = new FileReader();
-    //     reader.onload = function(event) {
-    //         var convertedSubtitles = convertSrtToVtt(event.target.result);
-    //         var blob = new Blob([convertedSubtitles], { type: 'text/vtt' });
-    //         subtitleURL = URL.createObjectURL(blob);
-    //         addUrlToTrack(subtitleURL);
-    //         showSubtitleName(filename);
-    //     };
-    //     reader.readAsText(subtitleFile);
-    // } 
+    else if (subtitleExtension === 'srt') {
+        // var reader = new FileReader();
+        // reader.onload = function(event) {
+        //     var convertedSubtitles = convertSrtToVtt(event.target.result);
+        //     var blob = new Blob([convertedSubtitles], { type: 'text/vtt' });
+        //     subtitleURL = URL.createObjectURL(blob);
+        //     addUrlToTrack(subtitleURL);
+        //     showSubtitleName(filename);
+        // };
+        // reader.readAsText(subtitleFile);
+        displayErrorOnScreen("This application only supports .vtt subtitles. But you can convert your .srt file to .vtt in the Subtitle tab", "Offo!");
+        return;
+    } 
     else {
-        alert('Unsupported subtitle format. Please choose a VTT or SRT file.');
+        displayErrorOnScreen("Unsupported file format for captions.", "Ooopps!");
         return;
     }
     videoContainer.classList.toggle("captions", VIDEO.video.textTracks[0].mode !== "hidden" )

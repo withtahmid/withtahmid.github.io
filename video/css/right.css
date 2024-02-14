@@ -82,6 +82,7 @@
   display: none;
 }
 .media-tab input[type="text"],
+.media-tab input[type="number"],
 .conncetion-form input[type ="text"]
 {
 
@@ -94,6 +95,12 @@
   text-align: center;
   font-family: 'Como';
   font-style: normal;
+}
+
+.media-tab input[type="number"]{
+  font-size: x-large;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
 }
 .media-tab input[type="text"]:active,
 .media-tab input[type="text"]:focus,
@@ -409,6 +416,8 @@
 }
 
 
+
+
 /* For Edge and IE */
 /* Unfortunately, Edge and IE do not support scrollbar customization via CSS */
 
@@ -495,6 +504,11 @@ emoji-picker{
   flex-direction: column;
   /* border: 1px solid yellow; */
   color: rgba(255,200,48,1);
+  overflow: auto;
+}
+.connected-peoples::-webkit-scrollbar
+{
+  display: none;
 }
 .connected-tab p{
   margin: 0;
@@ -536,22 +550,26 @@ emoji-picker{
 .people-caption-no,
 .people-video-no,
 .people-sync-no,
-.people-fullscreen-no
+.people-fullscreen-no,
+.people-tab-no
 {
   display: none;
   opacity: 80%;
 }
+
 .one-people:not(.people-caption) .people-caption-no,
 .one-people:not(.people-video) .people-video-no,
 .one-people:not(.people-sync) .people-sync-no,
-.one-people:not(.people-fullscreen) .people-fullscreen-no
+.one-people:not(.people-fullscreen) .people-fullscreen-no,
+.one-people:not(.people-tab) .people-tab-no
 {
   display: inline-block;
 }
 .one-people:not(.people-caption) .people-caption-yes,
 .one-people:not(.people-video) .people-video-yes,
 .one-people:not(.people-sync) .people-sync-yes,
-.one-people:not(.people-fullscreen) .people-fullscreen-yes
+.one-people:not(.people-fullscreen) .people-fullscreen-yes,
+.one-people:not(.people-tab) .people-tab-yes
 {
   display: none;
 }
@@ -801,4 +819,23 @@ emoji-picker{
   margin-top: 0.4rem;
   /* text-align:justify; */
   max-width: 80%;
+}
+
+.subtitle-tab{
+  /* kisuna */
+}
+
+.inform-text{
+  width: 100%;
+  color: rgba(255,200,48,1);
+  font-family: 'Como';
+  font-weight: 550;
+}
+
+.inform-text .bold{
+  font-weight: 900;
+}
+.inform-text .imp{
+  font-style: italic;
+  font-size: x-large;
 }

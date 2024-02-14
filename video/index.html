@@ -71,9 +71,9 @@
                         <!-- <button class="speed-btn wide-btn">
                             1x
                             </button> -->
-                        <button>
+                        <!-- <button>
                         <i class="fa-solid fa-gear"></i>
-                        </button>
+                        </button> -->
                         <button class="chat-btn-onvideo">
                             <i class="fa-solid fa-message"></i>
                         </button>
@@ -152,12 +152,13 @@
                             <p id="roomid-label-tab" >Room Id</p>
                         </div>
                         <div id="connected-people-list" class="connected-peoples">
-                            <!-- <div class="one-people people-caption people-video people-sync people-fullscreen people-active">
+                           <!--  -->
+                            <!-- <div class="one-people">
                                 <div>
                                     <i class="fa-solid fa-signal status-icon"></i>
                                 </div>
                                 <img height="30" width="30" src="./elements/img/avaters/avater-1.png" alt="">
-                                <p style="flex-grow: 1;">Tahmid</p>
+                                <p style="flex-grow: 1;">${message.username}</p>
                                 <div>
                                     <i class=" people-video-no fa-regular fa-file-video"></i>
                                     <i class="people-video-yes fa-solid fa-file-video"></i>
@@ -166,51 +167,69 @@
                                     <i class="people-caption-yes fa-solid fa-closed-captioning"></i>
                                     <i class="people-caption-no fa-regular fa-closed-captioning"></i>
                                 </div>
-                                
+                            
                                 <div>
                                     <i class="people-fullscreen-yes fa-solid fa-expand"></i>
                                     <i class="people-fullscreen-no fa-solid fa-compress"></i>
                                 </div>
-                        
                                 <div>
                                     <i class="people-sync-yes fa-solid fa-rotate fa-spin"></i>
                                     <i class="people-sync-no fa-solid fa-rotate"></i>
                                 </div>
-                                <input type="checkbox" id="section1" class="accordion-checkbox" checked="checked">
-                                <label for="section1" class="accordion-header">
+                                <div>
+                                    <i class="people-tab-yes fa-solid fa-tablet-button"></i>
+                                    <i class="people-tab-no fa-solid fa-tablet-screen-button"></i>
+                                </div>
+                                
+        
+                                <input type="checkbox" id="${message.username}-section" class="accordion-checkbox" checked = "checked"/>
+                                <label style ="cursor: pointer;" for="${message.username}-section" class="accordion-header">
                                     <i class="fa-solid fa-circle-info"></i>
                                 </label>
                                 <div class="accordion-content one-people-info">
                                   <div class="one-info">
-                                    <p class="icon"><i class="fa-solid fa-file-video"></i></p>
-                                    <p>John.Wick.Chapter.4.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4</p>
+                                    <p class="icon">
+                                    <i class=" people-video-no fa-regular fa-file-video"></i>
+                                    <i class="people-video-yes fa-solid fa-file-video"></i>
+                                    </p>
+                                    <p id = "${message.username}-videoFileName">...</p>
                                   </div>
                                   <div class="one-info">
-                                    <p class="icon"><i class="fa-solid fa-closed-captioning"></i></p>
-                                    <p>John.Wick.Chapter.4.2023.1080p.BluRay.x264.AAC5.1-[YTS.MX]-English.vtt</p>
+                                    <p class="icon">
+                                        <i class="people-caption-yes fa-solid fa-closed-captioning"></i>
+                                        <i class="people-caption-no fa-regular fa-closed-captioning"></i>
+                                    </p>
+                                    <p id = "${message.username}-subtitleFileName">...</p>
                                   </div>
                                   <div class="one-info">
-                                    <p class="icon"><i class="fa-solid fa-tv"></i></p>
-                                    <p>Full Screen</p>
+                                    <p class="icon">
+                                        <i class="people-fullscreen-yes fa-solid fa-expand"></i>
+                                        <i class="people-fullscreen-no fa-solid fa-compress"></i>
+                                    </p>
+                                    <p id = "${message.username}-fullScreen">...</p>
                                   </div>
                                   <div class="one-info">
-                                    <p class="icon"><i class="fa-solid fa-rotate"></i></p>
-                                    <p>In Sync</p>
+                                    <p class="icon">
+                                        <i class="people-sync-yes fa-solid fa-rotate fa-spin"></i>
+                                        <i class="people-sync-no fa-solid fa-rotate"></i>
+                                    </p>
+                                    <p id = "${message.username}-inSync">...</p>
+                                  </div>
+                                  <div class="one-info">
+                                    <p class="icon">
+                                        <i class="people-tab-yes fa-solid fa-tablet-button"></i>
+                                        <i class="people-tab-no fa-solid fa-tablet-screen-button"></i>
+                                    </p>
+                                    <p id = "${message.username}-inSync">...</p>
                                   </div>
                                 </div>
                             </div> -->
+                           <!--  -->
                         </div>
                     </div>
                     <div class="connecting-tab">
                         <div class="lds-roller">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
+                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                         </div>
                     </div>
                     <div class="conncetion-form">
@@ -309,8 +328,27 @@
                 <!-- Subtitle -->
                 <input class=tab-input name="tabs" type="radio" id="tab-5"/>
                 <label class="tab-label ease-btn" for="tab-5"><i class="fa-solid fa-closed-captioning"></i> <span>Subtitle</span></label>
-                <div class="tab-panel">
-                    Working on it
+                <div class="tab-panel media-tab">
+                    <div class="inform-text">
+                        <p>This application supports external captions <span class="bold">only in <span class="imp">.vtt</span></span> format due to browser support, even though subtitles are commonly used in <span class="imp bold">.srt </span>file format. </p>
+                        <p><span class="bold">1.</span> Click the <span class="bold">Open</span> button below to open desired *.srt file.</p>
+                        <p><span class="bold">2.</span> If the subtitle you have does not match the video, put a decimal number offset ( <span class="imp bold">+/-</span> in seconds) in the input field to adjust the timing of the subtitle. <span class="bold">[ Leave it 0 if no change is needed ]</span></p>
+                        <p style="padding-left: 1rem;">Positive offset - plays late</p>
+                        <p style="padding-left: 1rem;">Negative offset - plays early</p>
+                        <p><span class="bold">3.</span> Click on the <i class="fa-solid fa-download"></i> button to the right to save the <span class="bold">converted  <span class="imp">.vtt</span></span> on your device.</p>
+
+                        <p><span class="bold">4.</span> Add the newly saved file from the <span class="bold">Media</span> tab</p>
+                    </div>
+                    <br>
+                    <!--  -->
+                    <div class="file-input-divs" style="display: flex; gap: 1rem;">
+                        <label for="caption-convert-file-input"  class="ease-btn">Open</label>
+                        <input type="file" id="caption-convert-file-input" accept=".srt">
+                        <input id="caption-convert-offset-input" style="flex-grow: 1;" type="number" step="0.1" value="0.0" min="-20" max="+20" placeholder="-/+ S">
+                        <label onclick="convertToVTT()"><i class="fa-solid fa-download"></i></label>
+                    </div>
+                    <!--  -->
+                
                 </div>
                 <!-- Log -->
                 <input class=tab-input name="tabs" type="radio" id="tab-6" />
@@ -348,7 +386,7 @@
                 </div>
                 <div class="error-bottom">
                     <h1 id="screen-error-heading"></h1>
-                    <p id="screen-error-text"></p>
+                    <p style="padding: 0 2rem; text-align: center;" id="screen-error-text"></p>
                     <button onclick="document.querySelector('.error-box-container').classList.add('hidden')" class="ease-btn"><i class="fa-regular fa-circle-xmark"></i></button>
                 </div>
 

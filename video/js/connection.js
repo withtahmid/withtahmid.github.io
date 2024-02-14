@@ -238,7 +238,6 @@ const ROOM = {
         else{
             this.inSync = true;
         }
-        console.log(this.inSync)
         this.broadcastExisTance();
 
     },

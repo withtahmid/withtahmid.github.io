@@ -68,5 +68,82 @@ window.onload = async function() {
     // }
   }
 };
+//<i class="fa-solid fa-store-slash"></i>
+// <i class="fa-solid fa-shop"></i>
+// <i class="fa-solid fa-shop-slash"></i>
 
+function convertToVTT() {
+  var srtFile = document.getElementById('caption-convert-file-input').files[0];
+  var reader = new FileReader();
 
+  reader.onload = function(e) {
+      var srtContent = e.target.result;
+      var timeOffset = parseFloat(document.getElementById('caption-convert-offset-input').value) || 0;
+
+      var vttContent = "WEBVTT\n\n" + adjustTimeOffset(srtContent, timeOffset);
+
+      var vttBlob = new Blob([vttContent], { type: "text/vtt" });
+      var vttURL = URL.createObjectURL(vttBlob);
+
+      var a = document.createElement("a");
+      a.href = vttURL;
+      a.download = srtFile.name.replace('.srt', '.vtt');
+      a.click();
+  };
+
+  reader.readAsText(srtFile);
+}
+
+function adjustTimeOffset(srtContent, offset) {
+  var lines = srtContent.trim().split(/\r?\n/);
+  var vttLines = [];
+
+  for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+
+      if (line.match(/^\d+$/)) {
+          vttLines.push(line);
+      } else if (line.match(/^\d+:\d{2}:\d{2},\d{3} --> \d{2}:\d{2}:\d{2},\d{3}$/)) {
+          var times = line.split(" --> ");
+          var startTime = adjustTimestamp(times[0], offset);
+          var endTime = adjustTimestamp(times[1], offset);
+          vttLines.push(startTime + " --> " + endTime);
+      } else {
+          vttLines.push(line);
+      }
+  }
+
+  return vttLines.join("\n");
+}
+
+function adjustTimestamp(timestamp, offset) {
+  var parts = timestamp.split(/[,.:]/);
+  var hours = parseInt(parts[0], 10);
+  var minutes = parseInt(parts[1], 10);
+  var seconds = parseInt(parts[2], 10);
+  var milliseconds = parseInt(parts[3], 10);
+  var fraction = parts[4] || "000";
+
+  var totalSeconds = hours * 3600 + minutes * 60 + seconds + milliseconds / 1000;
+  var newTotalSeconds = totalSeconds + offset;
+  if (newTotalSeconds < 0) newTotalSeconds = 0;
+
+  var newHours = Math.floor(newTotalSeconds / 3600);
+  var newMinutes = Math.floor((newTotalSeconds - newHours * 3600) / 60);
+  var newSeconds = Math.floor(newTotalSeconds % 60);
+  var newMilliseconds = Math.round((newTotalSeconds % 1) * 1000);
+
+  return padDigits(newHours, 2) + ":" + padDigits(newMinutes, 2) + ":" + padDigits(newSeconds, 2) + "." + padDigits(newMilliseconds, 3);
+}
+
+function padDigits(number, digits) {
+  return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
+}
+
+function userOnThisTab(){
+  return (document.visibilityState === 'visible');
+}
+
+document.addEventListener("visibilitychange", function() {
+  ROOM.sendMessage(MESSAGE.existing());
+});

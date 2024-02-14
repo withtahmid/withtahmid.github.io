@@ -127,6 +127,9 @@ captions.mode = "hidden"
 captionsBtn.addEventListener("click", toggleCaptions)
 
 function toggleCaptions() {
+  if(!VIDEO.subtitleAdded){
+    return;
+  }
   const isHidden = captions.mode === "hidden"
   captions.mode = isHidden ? "showing" : "hidden"
   videoContainer.classList.toggle("captions", isHidden)
@@ -221,11 +224,8 @@ function toggleMiniPlayerMode() {
 
 document.addEventListener("fullscreenchange", () => {
   videoContainer.classList.toggle("full-screen", document.fullscreenElement);
-  if(!videoContainer.classList.contains('full-screen')){
-    videoContainer.classList.remove('on-video-chat');
-  }
   ROOM.broadcastExisTance();
-  toggleChatBox();
+  toggleFullScreenFunctionality();
 })
 
 video.addEventListener("enterpictureinpicture", () => {
@@ -300,12 +300,13 @@ function moveOffVideo(){
   body.appendChild(notificationBox);
 }
 
-function toggleChatBox(){
+function toggleFullScreenFunctionality(){
   if(videoContainer.classList.contains('full-screen')){
     moveOnVideo();
   }
   else{
     moveOffVideo();
+    videoContainer.classList.remove('on-video-chat');
   }
   chatBox.scrollTop = chatBox.scrollHeight;
 
