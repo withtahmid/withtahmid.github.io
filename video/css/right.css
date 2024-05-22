@@ -839,3 +839,33 @@ emoji-picker{
   font-style: italic;
   font-size: x-large;
 }
+
+
+/* LOG */
+
+table {
+  margin: 0;
+  border-collapse: collapse;
+  text-align:center;
+  display: block;
+  color: rgba(255,200,48,1);
+  font-family: 'Como';
+  width: 100%;
+  table-layout: fixed;
+}
+
+tr:first-child{
+  font-weight: bold;
+}
+td, th {
+  width: calc(70%/5);
+  height: 25px;
+  padding: 0.5rem;
+  border: dotted 1px rgba(255,200,48,0.3);
+}
+
+table tr:hover td{
+  border-top: solid 1px rgba(255,200,48,0.6);
+  border-bottom: solid 1px rgba(255,200,48,0.6);
+  cursor: pointer;
+}

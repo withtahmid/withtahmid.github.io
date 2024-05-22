@@ -149,7 +149,7 @@ const MessageHandler = {
         const message = JSON.parse(json);
         ROOM.registerPresence(message);
         messageHandeler.get(message.type)(message);
-       
+        logMessage(message)
         // ROOM.refreshOnePeople(message.username);
     }
 }
@@ -394,4 +394,30 @@ function handleSyncResponse(message){
     }
     ROOM.requestForSync = false;
     console.log(message);
+}
+
+const logTable = document.querySelector('.log-table');
+const ignoredMessageTypes = ['existing'];
+function logMessage(message){
+    if(ignoredMessageTypes.includes(message.type)){
+        return;
+    }
+    const row = document.createElement('tr');
+    row.innerHTML = `<tr>
+                    <td>${message.username === ROOM.username ? "You" : message.username}</td>
+                    <td>${message.type}</td>
+                    <td>${message.mediaType ? message.mediaType : 'N/A'}</td>
+                    <td>${formatDuration(VIDEO.video.currentTime)}</td>
+                    <td>${TIME.formatHMS(TIME.now())}</td>
+                    </tr>`
+    logTable.appendChild(row);
+}
+function clearLog(){
+    logTable.innerHTML = `<tr>
+                            <td>User</td>
+                            <td>Type</td>
+                            <td>Event</td>
+                            <td>Play</td>
+                            <td>Time</td>
+                        </tr>`;
 }

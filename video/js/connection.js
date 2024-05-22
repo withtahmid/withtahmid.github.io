@@ -20,7 +20,7 @@ const ROOM = {
     connectedPeopleTimes : new Map(),
     peoplesInTheRoom: new Set(),
 
-
+    
     refreshPeopleInterval: null,
 
     connectedPeopleLsit: document.getElementById('connected-people-list'),
@@ -62,6 +62,7 @@ const ROOM = {
         this.refreshPeopleInterval = setInterval(()=>{
             this.refreshPeopleList();
         }, 5000);
+
     },
     startBoradcastingExistance: function(){
         this.existingIntervalId = setInterval(()=>{
@@ -228,7 +229,6 @@ const ROOM = {
         localStorage.setItem('username', this.username);
         localStorage.setItem('roomId', this.roomId);
         localStorage.setItem('autoJoin', this.autoJoin);
-        localStorage.setItem('notificationVolume', this.currentNotificationVolume);
     },
 
     toggleSync: function(sync){
@@ -286,7 +286,10 @@ function  joinRoom(){
     ROOM.join(username, roomId, autoJoin);
 }
 function sendTextMessage(inputFiledId){
-    if(!ROOM.connected) return;
+    if(!ROOM.connected){
+        displayErrorOnScreen("Please make sure you are connected", "No Connection");
+        return;
+    }
     // const input = document.getElementById(inputFiledId);
     const input = document.getElementById('chat-input-field');
     ROOM.sendMessage(MESSAGE.text(input.value));

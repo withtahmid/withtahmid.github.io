@@ -12,6 +12,17 @@ TIME = {
           hours = 12;
         }
         return hours + ':' + minutes;
+      },
+      formatHMS: function(date){
+        let hours = date.getHours();
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+        if (hours > 12) {
+          hours -= 12;
+        } else if (hours === 0) {
+          hours = 12;
+        }
+        return hours + ':' + minutes + ':' + seconds;
       }
 }
 // const notificationSoundInput = document.getElementById('notification-volume-input');
@@ -63,9 +74,9 @@ window.onload = async function() {
     document.getElementById('username-input').value = username;
     document.getElementById('roomid-input').value = roomId;
     ROOM.join(username, roomId, autoJoin);
-    // if(Number(notificationVolumne) >= 0){
-    //   ROOM.volumeIndxSet(Number(notificationVolumne));
-    // }
+  }
+  if(Number(notificationVolumne) >= 0){
+    ROOM.volumeIndxSet(Number(notificationVolumne));
   }
 };
 //<i class="fa-solid fa-store-slash"></i>
