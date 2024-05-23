@@ -80,7 +80,8 @@ const ROOM = {
         this.sendMessage(MESSAGE.existing());
     },
     hendleDisconnect: function(){
-        connected = false;
+        this.connected = false;
+        console.log(this.connecting)
         document.getElementById('video-title-id').classList.remove('connected-title')
         if(this.leaving){
             this.handleLeave();
@@ -103,7 +104,7 @@ const ROOM = {
     makeTabDisconnected: function(){
         this.connectiontab.classList.remove('no-connect');
         this.connectiontab.classList.remove('connecting');
-        this.connectiontab.classList.add('connected');
+        this.connectiontab.classList.remove('connected');
         this.connectiontab.classList.add('disconnected');
     },
     makeTabNoConnect: function(){
