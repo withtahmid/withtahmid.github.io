@@ -35,9 +35,6 @@
                     <i class="fa-brands fa-connectdevelop"></i>
                 </button>
             </div>
-            <div class="yt-player-container display-none">
-                <div id="yt-video-player"></div>
-            </div>
             <div class="video-container paused" data-volume-level="high">
                 <!-- <img class="tdumbnail-img"> -->
                 <div class="video-chat-box">
@@ -89,7 +86,7 @@
                         </button>
                     </div>
                 </div>
-                <video video id="videoPlayer">
+                <video video id="videoPlayer" data-yt2html5="">
                     <source id="videoSource"  src="" type="video/mp4">
                     <track id="subtitlesTrack" kind="captions" srclang="en" label="English" default>
                 </video>
@@ -142,7 +139,6 @@
                 <input class=tab-input name="tabs" type="radio" id="tab-2" checked="checked"/>
                 <label class="tab-label ease-btn" for="tab-2"><i class="fa-solid fa-people-roof"></i> <span> Room</span></label>
                 <div id="connection-tab" class="tab-panel room-tab no-connect">
-                    
                     <div class="connected-tab">
                         <div class="logout">
                             <button onclick="ROOM.leave()" class="ease-btn">Leave <i class="fa-solid fa-arrow-right-from-bracket"></i></button>
@@ -253,7 +249,7 @@
                 <div class="tab-panel media-tab">
 
                     <div class="file-input-divs">
-                        <label onclick="ROOM.RequestForMediaSync()" class="ease-btn">Request Sync</label>
+                        <label onclick="ROOM.requestForSync()" class="ease-btn">Request Sync</label>
                     </div>
 
 
@@ -274,12 +270,6 @@
                         <label for="subtitle-file-input" class="ease-btn">Open Subtitle From Device</label>
                     </div>
                     
-                    <!-- YouTube URL -->
-                    <div class="file-input-divs" style="display: flex; gap: 1rem;">
-                        <label><i class="fa-brands fa-youtube"></i></label>
-                        <input style="flex-grow: 1;" type="text" placeholder="Enter Youtube URL" id="youtube-url-input">
-                        <label onclick="playYoutubeById()" for="youtube-url-input"  class="ease-btn">Play</label>
-                    </div>
                    <!-- Direct URL -->
                     <div class="file-input-divs" style="display: flex; gap: 1rem;">
                         <label><i class="fa-solid fa-link"></i></label>
@@ -297,6 +287,12 @@
                         <label><i class="fa-brands fa-google-drive"></i></label>
                         <input style="flex-grow: 1;" type="text" placeholder="Enter G-Drive URL" id="g-drive-url-input">
                         <label onclick="noReady()" for="g-drive-url-input"  class="ease-btn">Play</label>
+                    </div>
+                    <!-- YouTube URL -->
+                    <div class="file-input-divs" style="display: flex; gap: 1rem;">
+                        <label><i class="fa-brands fa-youtube"></i></label>
+                        <input style="flex-grow: 1;" type="text" placeholder="Enter Youtube URL" id="youtube-url-input">
+                        <label onclick="noReady()" for="youtube-url-input"  class="ease-btn">Play</label>
                     </div>
                 </div>
                 <!-- Utils -->
@@ -326,18 +322,6 @@
                         </div>
                         <div class="settings-text">
                             Turinig this off will stop chat box popping up when you are in full screen mode. you can manually view chat box using <i style="font-size: small;" class="fa-solid fa-message"></i> button
-                        </div>
-                    </div>
-                    <div class="one-setting">
-                        <div class="setting-left">
-                            <div class="settings-name">Auto Sync</div>
-                            <label class="switch" for="auto-sync-checkbox-input">
-                                <input type="checkbox" id="auto-sync-checkbox-input" checked />
-                                <div class="slider round"></div>
-                            </label>
-                        </div>
-                        <div class="settings-text">
-                            Keeping this on will try to sync with others as soon as the connection is made.
                         </div>
                     </div>
                 </div>
@@ -398,7 +382,7 @@
                 <p class="notification-mediatime">1:30:11</p>
             </div>  -->
         </div>
-        <div id="error-box-container" class="error-box-container hidden">
+        <div class="error-box-container hidden">
             <div class="error-box">
                 <div class="error-top">
                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -406,31 +390,17 @@
                 <div class="error-bottom">
                     <h1 id="screen-error-heading"></h1>
                     <p style="padding: 0 2rem; text-align: center;" id="screen-error-text"></p>
-                    <button onclick="document.getElementById('error-box-container').classList.add('hidden')" class="ease-btn"><i class="fa-regular fa-circle-xmark"></i></button>
+                    <button onclick="document.querySelector('.error-box-container').classList.add('hidden')" class="ease-btn"><i class="fa-regular fa-circle-xmark"></i></button>
                 </div>
-            </div>
-        </div>
-        <div id="announcement-box-container" class="error-box-container hidden">
-            <div class="error-box">
-                <div class="error-top">
-                    <i class="fa-solid fa-bullhorn"></i>
-                </div>
-                <div class="error-bottom">
-                    <h1 id="screen-announcement-heading"></h1>
-                    <p style="padding: 0 2rem; text-align: center;" id="screen-announcement-text"></p>
-                    <button onclick="document.getElementById('announcement-box-container').classList.add('hidden')" class="ease-btn"><i class="fa-solid fa-circle-check"></i></button>
-                </div>
+
             </div>
         </div>
     </body>
-    <script src="./js/settings.js"></script>
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
-    <script src = "https://www.youtube.com/iframe_api"></script>
     <script src="./js/utils.js"></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script src="./js/playerControl.js"></script>
     <script src="./js/videoPlayer.js"></script>
     <script src="./js/connection.js"></script>
     <script src="./js/message.js"></script>
-    <script src="./js/youtubeControls.js"></script>
 </html>

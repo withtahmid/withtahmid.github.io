@@ -292,20 +292,3 @@
 /* .no-cursor{
   cursor: none;
 } */
-
-
-
-.yt-player-container{
-  position: relative;
-  width: 100%;
-  min-height: 70%;
-  display: flex;
-  justify-content: center;
-  margin-inline: auto;
-  background-color: black;
-  /* cursor: none;  */
-}
-.yt-video-player{
-  display: flex;
-  align-items: center;
-}

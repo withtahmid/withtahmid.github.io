@@ -21,8 +21,6 @@ const ROOM = {
     peoplesInTheRoom: new Set(),
 
     
-    requestForSync: false,
-
     refreshPeopleInterval: null,
 
     connectedPeopleLsit: document.getElementById('connected-people-list'),
@@ -83,6 +81,7 @@ const ROOM = {
     },
     hendleDisconnect: function(){
         this.connected = false;
+        console.log(this.connecting)
         document.getElementById('video-title-id').classList.remove('connected-title')
         if(this.leaving){
             this.handleLeave();
@@ -135,7 +134,6 @@ const ROOM = {
         document.getElementById('video-title-id').classList.add('connected-title')
         document.getElementById('username-label-tab').textContent = this.username;
         document.getElementById('roomid-label-tab').textContent = this.roomId;
-        // this.RequestForMediaSync();
     },
 
     ringNotification: function(){
@@ -207,7 +205,7 @@ const ROOM = {
         });
     },
 
-    RequestForMediaSync: function(){
+    requestForSync: function(){
         this.requestForSync = true;
         this.sendMessage(MESSAGE.syncRequest());
         setTimeout(()=>{
@@ -240,7 +238,6 @@ const ROOM = {
         }
         else{
             this.inSync = true;
-            this.RequestForMediaSync()
         }
         this.broadcastExisTance();
 

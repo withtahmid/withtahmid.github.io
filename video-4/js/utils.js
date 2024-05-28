@@ -46,17 +46,8 @@ function displayErrorOnScreen(text = 'Someting went wrong!', heading = 'Ooops!')
 
   document.getElementById('screen-error-text').textContent = text;
   document.getElementById('screen-error-heading').textContent = heading;
-  document.getElementById('error-box-container').classList.remove('hidden');
+  document.querySelector('.error-box-container').classList.remove('hidden');
 }
-
-function displayAnnouncement(text = 'Someting went wrong!', heading = 'Ooops!'){
-
-  document.getElementById('screen-announcement-text').innerHTML = text;
-  document.getElementById('screen-announcement-heading').innerHTML = heading;
-  document.getElementById('announcement-box-container').classList.remove('hidden');
-}
-
-displayAnnouncement('Milkyway now supports YouTube. <br><br> NOTE: this feature is half baked and is not as smoth as playing videos from device, and will evolve over time.', 'Woo-Hoo!!');
 
 const keepInSyncBtn = document.getElementById('sync-checkbox-input');
 keepInSyncBtn.addEventListener('change', ()=>{
@@ -167,9 +158,3 @@ function userOnThisTab(){
 document.addEventListener("visibilitychange", function() {
   ROOM.sendMessage(MESSAGE.existing());
 });
-
-function extractYoutubeIdFromURL(url){
-  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-}

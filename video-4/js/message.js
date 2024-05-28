@@ -26,17 +26,7 @@ const MESSAGE = {
             type: 'media',
             username: ROOM.username,
             mediaType: mediaType,
-            time: VIDEO.currentTime() || 0,
-        }
-    },
-
-    newVideo: function(){
-        return{
-            type: 'newVideo',
-            username: ROOM.username,
-            sourceType: VIDEO.sourceType,
-            sourceURL: VIDEO.sourceURL,
-            videoFileName: VIDEO.videoFileName
+            time: VIDEO.video.currentTime
         }
     },
 
@@ -68,9 +58,13 @@ const MESSAGE = {
             sourceType: VIDEO.sourceType,
             sourceURL: VIDEO.sourceURL,
             
-            currentTime: VIDEO.currentTime(),
-            paused: VIDEO.isPaused(),
+            subtitleURL: VIDEO.subtitleURL,
+            
+            currentTime: VIDEO.video.currentTime,
+            paused: VIDEO.video.paused,
 
+            videoFileName: VIDEO.videoFileName,
+            subtitleFileName: VIDEO.subtitleFileName
         }
     }
 };
@@ -81,11 +75,7 @@ const notificationIcons = {
     play: '<i class="fa-solid fa-play"></i>',
     pause: '<i class="fa-solid fa-circle-pause"></i>',
     seeked: '<i class="fa-solid fa-forward"></i>',
-    youtube: '<i class="fa-brands fa-youtube"></i>',
-    local: '<i class="fa-solid fa-file-video"></i>',
-    syncResponse: '<i class="fa-solid fa-rotate"></i>',
 }
-
 const notificationContainer = document.querySelector('.notification-box');
 let notificationTimerId, notificationTimerId2;
 function addNotification(notification){
@@ -124,27 +114,12 @@ function generateNotification(message){
             playTime: message.time
         }
     }
-    else if(message.type === 'newVideo'){
-        return {
-            type: message.sourceType,
-            username: message.username,
-            text: `Played a new video from ${message.sourceType}`,
-            playTime: message.currentTime
-        }
-    }
-    else if(message.type === 'syncResponse'){
-        return {
-            type: message.type,
-            username: message.username,
-            text: `${message.username} is playing from ${message.sourceType}`,
-            playTime: message.currentTime
-        }
-    }
     return{
         type: message.type,
         username: message.username,
         text: messageText[message.type],
     }
+
 }
 
 const messageHandeler = new Map();
@@ -155,7 +130,6 @@ messageHandeler.set('join', handleJoinMessage);
 messageHandeler.set('leave', handleLeaveMessage);
 messageHandeler.set('syncRequest', handleSyncRequest);
 messageHandeler.set('syncResponse', handleSyncResponse);
-messageHandeler.set('newVideo', handleNewVideoMessage);
 
 
 // messageHandeler.set('poke', handlePokeMessage);
@@ -279,7 +253,7 @@ function handleExistMessage(message){
         div = ROOM.connectedPeopleLsitMap.get(message.username)
     }
 
-    const connectedpeopleDetailInfo = {
+    const connectedpeopleDetailInfo ={
         videoFileName: message.videoFileName,
         subtitleFileName: message.subtitleFileName,
         fullScreen: message.fullScreen ? 'Full Screen' : 'Not Full Screen',
@@ -377,7 +351,7 @@ function handleMediaMessage(message){
     mediaHandlers[message.mediaType](message.time);   
     setTimeout(()=>{
         VIDEO.ignoreMediaEvent = false;
-    },1500);
+    },1500)
 }
 function handleJoinMessage(message){
     ROOM.broadcastExisTance();
@@ -414,71 +388,12 @@ function handleSyncRequest(message){
     ROOM.sendMessage(MESSAGE.syncResponse(message.username)); 
 }
 
-const syncHandler = new Map();
-syncHandler.set('local', hanleSyncResponseLocal);
-// syncHandler.set('gdrive', hanleSyncResponseGDrive);
-syncHandler.set('youtube', hanleSyncResponseYouTube);
-function hanleSyncResponseLocal(message){
-    if(!VIDEO.videoAdded){
-        displayErrorOnScreen('Cannon open local media');
-        return;
-    }
-    message.paused ? VIDEO.pause() : VIDEO.play(message.currentTime);
-}
-function hanleSyncResponseYouTube(message){
-    try{
-        VIDEO.ignoreNewVideoEvent = true;
-        VIDEO.playVideo(message.sourceURL, 'youtube', `Synced from ${message.username}`);
-        VIDEO.ytSync = {
-            active: true,
-            time: message.currentTime,
-            paused: message.paused
-        };
-    }
-    catch(e){
-        console.error(e);
-        VIDEO.ignoreNewVideoEvent = false;
-    }
-}
 function handleSyncResponse(message){
-    if((message.username == ROOM.username) || (message.forUser != ROOM.username)){
+    if(message.forUser != ROOM.username){
         return;
     }
     ROOM.requestForSync = false;
-    addNotification(generateNotification(message));
-    VIDEO.ignoreMediaEvent = true;
-    syncHandler.get(message.sourceType)(message);
-    setTimeout(()=>{
-        VIDEO.ignoreMediaEvent = false;
-    },1500);
-}
-
-const newVideoHandler = new Map();
-newVideoHandler.set('local', playNewLocalVideo);
-// newVideoHandler.set('gdrive', playNewDriveVideo);
-newVideoHandler.set('youtube', playNewYoutubeVideo);
-
-function playNewLocalVideo(message){
-    return; // will fix later
-}
-
-function playNewYoutubeVideo(message){
-    try{
-        VIDEO.ignoreNewVideoEvent = true;
-        VIDEO.playVideo(message.sourceURL, 'youtube', `playing from ${message.username}`);
-    }
-    catch(e){
-        console.error(e);
-        VIDEO.ignoreNewVideoEvent = false;
-    }
-}
-
-function handleNewVideoMessage(message){
-    if(message.username === ROOM.username){
-        return;
-    }
-    addNotification(generateNotification(message));
-    newVideoHandler.get(message.sourceType)(message);
+    console.log(message);
 }
 
 const logTable = document.querySelector('.log-table');

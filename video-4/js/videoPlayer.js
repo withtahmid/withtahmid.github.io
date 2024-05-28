@@ -30,21 +30,16 @@ const VIDEO = {
     ignoreSeeked: false,
     ignoreMediaEvent: false,
 
-    ignoreNewVideoEvent: false,
-
     allowChatOnScreen: true,
 
 
-    /*YouTube*/
-    ytPlayer:  null,
-    ytContainer: document.querySelector('.yt-player-container'),
-    ytSync:{
-        active: false,
-        time: 0,
-        paused: true
-    },
     // 
-  
+    init: function(){
+        this.video.addEventListener('play', this.playEvent);
+        this.video.addEventListener('pause', this.pauseEvent);
+        this.video.addEventListener('seeked', this.seekEvent);
+
+    },
 
     resetIgnoreMedia: function(){
         setTimeout(()=>{
@@ -80,19 +75,8 @@ const VIDEO = {
         ROOM.sendMessage(MESSAGE.media('seeked'));
         
     },
-    init: function(){
-        this.video.addEventListener('play', this.playEvent);
-        this.video.addEventListener('pause', this.pauseEvent);
-        this.video.addEventListener('seeked', this.seekEvent);
-
-    },
+   
     play: function(time){
-        if(this.sourceType == 'youtube'){
-            console.log("85", time, typeof time);
-            this.ytPlayer.seekTo(Number(time));
-            this.ytPlayer.playVideo();
-            return;
-        }
         this.ignorePlay = true;
         this.ignoreSeeked = true;
         this.video.currentTime = Number(time);
@@ -100,113 +84,31 @@ const VIDEO = {
     },
 
     pause: function(time){
-        if(this.sourceType == 'youtube'){
-            console.log("98", time, typeof time);
-            this.ytPlayer.pauseVideo();
-            this.ytPlayer.seekTo(Number(time));
-            return;
-        }
         this.ignorePause = true;
         this.ignoreSeeked = true;
         this.video.currentTime = Number(time);
         this.video.pause()
     },
-    seek: (time)=>{
-        if(this.sourceType == 'youtube'){
-            return;
-        }
+
+    seek: function(time){
         this.ignoreSeeked = true;
         this.video.currentTime = Number(time);
     },
 
-    currentTime: function(){
-        if(!this.videoAdded){
-            return 0;
-        }
-        if(this.sourceType == 'youtube'){
-            return this.ytPlayer.getCurrentTime();
-        }
-        return this.video.currentTime;
-    },
-    isPaused: function(){
-        if(!this.videoAdded){
-            return true;
-        }
-        if(this.sourceType == 'youtube'){
-            return this.ytPlayer.getPlayerState() == 2;
-        }
-        return this.video.paused;
-    },
- 
-
-    playLocalVideo: function(source, filename){
-        try{
-            this.sourceURL = null;
-            this.ytPlayer.destroy();
-        }
-        catch(e){
-            console.error(e);
-        }
-        document.querySelector('.video-container').classList.remove('display-none');
-        document.querySelector('.yt-player-container').classList.add('display-none');
-        this.changeVideoFileName(filename);
-        this.videoSource.src = source;
-        this.video.load();
-        ROOM.sendMessage(MESSAGE.newVideo());
-    },
-
-
-    //YOUTUBE STARTS 
-    
-    playYouTubeVideo: function(url, filename){
-        try{
-            moveOffVideo();
-        }catch(e){
-            console.error(e)
-        }
-        try{
-            this.video.pause();
-            this.videoSource.src = '';
-            this.video.load();
-            this.ytPlayer.destroy();
-        }
-        catch(e){
-            console.error(e);
-        }
-        this.changeVideoFileName(filename);
-        document.querySelector('.video-container').classList.add('display-none');
-        document.querySelector('.yt-player-container').classList.remove('display-none');
-        console.log("worked till here");
-        
-        this.ytPlayer =  new YT.Player('yt-video-player', {
-            height: document.querySelector('.yt-player-container').offsetHeight.toString(),
-            width: document.querySelector('.yt-player-container').offsetWidth.toString(),
-            videoId: extractYoutubeIdFromURL(url),
-            playerVars: {
-                'playsinline': 1
-            },
-            events: {
-                'onReady': onYTPlayerReady,
-                'onStateChange': onYTPlayerStateChange,
-                'onError': onYTPlayerError,
-            }
-            });
-    },
-
-    playVideo: function(source, type, filename){
+    playVideo: function(source, filename, type){
         if(!source) {
             displayErrorOnScreen('No video source found')
             return;
         }
-        
+        const videoSources = ['local', 'dirLink']
         this.videoAdded = true;
-        this.sourceType = type;
-        if(this.sourceType === 'local'){
-            this.playLocalVideo(source, filename);
-        }else if(this.sourceType === 'youtube'){
-           this.playYouTubeVideo(source, filename); 
-        } 
+        
+        this.videoSource.src = source;
         this.sourceURL = source;
+        
+        this.changeVideoFileName(filename);
+        this.sourceType = videoSources[type];
+        this.video.load();
         this.changed();
         this.resetSubtitle();
     },
@@ -270,7 +172,7 @@ videoFileInput.addEventListener('change', ()=> {
     // videoPlayer.setAttribute('data-yt2html5', '');
     // videoPlayer.removeAttribute('src');
     const file = videoFileInput.files[0];
-    VIDEO.playVideo(URL.createObjectURL(file), 'local', file.name)
+    VIDEO.playVideo(URL.createObjectURL(file), file.name, 0)
 
 });
 
@@ -316,9 +218,3 @@ subtitlesFileInput.addEventListener('change', function() {
 //     const url = ;
     
 // }
-function playYoutubeById(){
-    const link = document.getElementById('youtube-url-input').value;
-    VIDEO.playVideo(link, 'youtube');
-}
-
-
