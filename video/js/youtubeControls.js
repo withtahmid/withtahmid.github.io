@@ -10,6 +10,7 @@ function onYTPlayerReady(){
             time: 0,
             paused: true,
         };
+        return;
     }
     if(VIDEO.ignoreNewVideoEvent){
         VIDEO.ignoreNewVideoEvent = false;

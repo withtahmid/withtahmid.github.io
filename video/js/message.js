@@ -10,6 +10,8 @@ const MESSAGE = {
             tab: userOnThisTab(),
             videoFileName: VIDEO.videoFileName ? VIDEO.videoFileName : 'No video is added',
             subtitleFileName: VIDEO.subtitleFileName ? VIDEO.subtitleFileName : 'No subtitle is added',
+            currentTime: VIDEO.currentTime(),
+            sourceType: VIDEO.sourceType,
         }
     },
     text: function(text){
@@ -189,15 +191,34 @@ const connectedPleopleKeyPair = {
     fullScreen: 'people-fullscreen',
     tab: 'people-tab',
 }
+
+const sourceIcons = {
+    youtube: '<i class="fa-brands fa-youtube"></i>',
+    local: '<i class="fa-solid fa-file-video"></i>',
+    null: '',
+}
+
+function handleTimeDifference(message){
+    if((message.username === ROOM.username) || (!VIDEO.videoAdded)){
+        return;
+    }
+    // if()
+    // console.log(message.currentTime, VIDEO.currentTime());
+    // displayErrorOnScreen('Playtime mismatch ditedted');
+}
+
 function handleExistMessage(message){
     let div;
+
+    handleTimeDifference(message);
+
     if(!ROOM.connectedPeopleLsitMap.has(message.username)){
         ROOM.peoplesInTheRoom.add(message.username);
         div = document.createElement('div');
         div.classList.add('one-people');
         div.setAttribute('id', `people-${message.username}`);
         div.innerHTML = `
-                            <div>
+                        <div>
                             <i class="fa-solid fa-signal status-icon"></i>
                             </div>
                             <img height="30" width="30" src="./elements/img/avaters/avater-1.png" alt="">
@@ -224,9 +245,7 @@ function handleExistMessage(message){
                                 <i class="people-sync-yes fa-solid fa-rotate fa-spin"></i>
                                 <i class="people-sync-no fa-solid fa-rotate"></i>
                             </div>
-                           
-                            
-
+ 
                             <input type="checkbox" id="${message.username}-section" class="accordion-checkbox" checked = "checked"/>
                             <label style ="cursor: pointer;" for="${message.username}-section" class="accordion-header">
                                 <i class="fa-solid fa-circle-info"></i>
@@ -285,7 +304,6 @@ function handleExistMessage(message){
         fullScreen: message.fullScreen ? 'Full Screen' : 'Not Full Screen',
         inSync: message.inSync ? 'In Sync' : 'Not in Sync',
         inTab: message.tab ? "In Tab" : "Not in tab",
-
     }
 
     for(i in connectedPleopleKeyPair){
@@ -427,17 +445,16 @@ function hanleSyncResponseLocal(message){
 }
 function hanleSyncResponseYouTube(message){
     try{
-        VIDEO.ignoreNewVideoEvent = true;
-        VIDEO.playVideo(message.sourceURL, 'youtube', `Synced from ${message.username}`);
         VIDEO.ytSync = {
             active: true,
             time: message.currentTime,
             paused: message.paused
         };
+        VIDEO.ignoreNewVideoEvent = true;
+        VIDEO.playVideo(message.sourceURL, 'youtube', `Synced from ${message.username}`);
     }
     catch(e){
         console.error(e);
-        VIDEO.ignoreNewVideoEvent = false;
     }
 }
 function handleSyncResponse(message){
@@ -469,7 +486,6 @@ function playNewYoutubeVideo(message){
     }
     catch(e){
         console.error(e);
-        VIDEO.ignoreNewVideoEvent = false;
     }
 }
 

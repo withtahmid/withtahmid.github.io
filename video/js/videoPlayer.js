@@ -19,7 +19,10 @@ const VIDEO = {
     subtitleFileName: null,
 
     //
-    sourceType: null,
+    diffToll: 5,
+    
+    //
+    sourceType: 'null',
     sourceURL: null,
 
     videoAdded: false,
