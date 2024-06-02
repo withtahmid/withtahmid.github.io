@@ -3,15 +3,15 @@ const MESSAGE = {
         return {
             type: 'existing',
             username: ROOM.username,
-            // subtitle: VIDEO.subtitleAdded,
-            inSync: VIDEO.isOnSync(),
-            fullScreen: VIDEO.__fullscreen__(),
+            video: VIDEO.videoAdded,
+            subtitle: VIDEO.subtitleAdded,
+            inSync: ROOM.inSync,
+            fullScreen: VIDEO.isFullScreen(),
             tab: userOnThisTab(),
-            videoFileName: VIDEO.__getTitle__(),
-            // subtitleFileName: VIDEO.subtitleFileName ? VIDEO.subtitleFileName : 'No subtitle is added',
-            currentTime: VIDEO.__getCurrentTime__(),
-            sourceType: VIDEO.getSourceType(),
-            identity: VIDEO.__getIdentity__()
+            videoFileName: VIDEO.videoFileName ? VIDEO.videoFileName : 'No video is added',
+            subtitleFileName: VIDEO.subtitleFileName ? VIDEO.subtitleFileName : 'No subtitle is added',
+            currentTime: VIDEO.currentTime(),
+            sourceType: VIDEO.sourceType,
         }
     },
     text: function(text){
@@ -28,7 +28,7 @@ const MESSAGE = {
             type: 'media',
             username: ROOM.username,
             mediaType: mediaType,
-            time: VIDEO.__getCurrentTime__() || 0,
+            time: VIDEO.currentTime() || 0,
         }
     },
 
@@ -36,9 +36,9 @@ const MESSAGE = {
         return{
             type: 'newVideo',
             username: ROOM.username,
-            sourceType: VIDEO.getSourceType(),
-            sourceURL: VIDEO.__getSource__(),
-            videoFileName: VIDEO.__getTitle__(),
+            sourceType: VIDEO.sourceType,
+            sourceURL: VIDEO.sourceURL,
+            videoFileName: VIDEO.videoFileName
         }
     },
 
@@ -67,11 +67,11 @@ const MESSAGE = {
 
             forUser: forUser,
 
-            sourceType: VIDEO.getSourceType(),
-            sourceURL: VIDEO.__getSource__(),
+            sourceType: VIDEO.sourceType,
+            sourceURL: VIDEO.sourceURL,
             
-            currentTime: VIDEO.__getCurrentTime__(),
-            paused: VIDEO.__isPaused__(),
+            currentTime: VIDEO.currentTime(),
+            paused: VIDEO.isPaused(),
 
         }
     }
@@ -90,18 +90,17 @@ const notificationIcons = {
 
 const notificationContainer = document.querySelector('.notification-box');
 let notificationTimerId, notificationTimerId2;
-
 function addNotification(notification){
     clearTimeout(notificationTimerId);
     clearTimeout(notificationTimerId2);
     let notificationDiv = `<div class="notification">
-                                <div class="notification-type-icon">
-                                    ${notificationIcons[notification.type]}
-                                </div>
-                                <p class="notification-user">${notification.username}</p>
-                                <p class="notification-type">${notification.text}</p>
-                                ${notification.playTime >= 0 ? `<p class="notification-mediatime">${formatDuration(notification.playTime)}</p>`: ""}
+                            <div class="notification-type-icon">
+                                ${notificationIcons[notification.type]}
                             </div>
+                            <p class="notification-user">${notification.username}</p>
+                            <p class="notification-type">${notification.text}</p>
+                            ${notification.playTime >= 0 ? `<p class="notification-mediatime">${formatDuration(notification.playTime)}</p>`: ""}
+                        </div>
                         `;
     notificationContainer.innerHTML += notificationDiv;
     notificationContainer.classList.add('show-notification');
@@ -166,6 +165,8 @@ messageHandeler.set('newVideo', handleNewVideoMessage);
 // messageHandeler.set('conflict', handleConflictMessage);
 // messageHandeler.set('mediaReguest', hadleMediaReguestMessage);
 // messageHandeler.set('mediaResponse', handleMediaResponseMessage);
+
+
 
 // messageHandeler.set('change', handleChangeMessage);
 
@@ -371,21 +372,21 @@ function appendTextToTextBox(message){
 
 const mediaHandlers = {
     play: function(time){
-        VIDEO.playVideoEx(time);
+        VIDEO.play(time);
 
     },
     pause: function(time){
-        VIDEO.pauseVideoEx(time);
+        VIDEO.pause(time);
     },
     seeked: function(time){
-        VIDEO.seekToEx(time);
+        VIDEO.seek(time);
     }
 }
 function handleMediaMessage(message){
     if(message.username === ROOM.username){
         return;
     }
-    if(!VIDEO.isActive()){
+    if(!VIDEO.videoAdded){
         return;
     }
     

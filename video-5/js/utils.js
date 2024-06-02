@@ -74,20 +74,20 @@ function noReady(){
 }
 
 
-// window.onload = async function() {
-//   const username = localStorage.getItem('username');
-//   const roomId = localStorage.getItem('roomId');
-//   const autoJoin = localStorage.getItem('autoJoin');
-//   const notificationVolumne = localStorage.getItem('notificationVolume');
-//   if(username && roomId && autoJoin == 'true'){
-//     document.getElementById('username-input').value = username;
-//     document.getElementById('roomid-input').value = roomId;
-//     ROOM.join(username, roomId, autoJoin);
-//   }
-//   if(Number(notificationVolumne) >= 0){
-//     ROOM.volumeIndxSet(Number(notificationVolumne));
-//   }
-// };
+window.onload = async function() {
+  const username = localStorage.getItem('username');
+  const roomId = localStorage.getItem('roomId');
+  const autoJoin = localStorage.getItem('autoJoin');
+  const notificationVolumne = localStorage.getItem('notificationVolume');
+  if(username && roomId && autoJoin == 'true'){
+    document.getElementById('username-input').value = username;
+    document.getElementById('roomid-input').value = roomId;
+    ROOM.join(username, roomId, autoJoin);
+  }
+  if(Number(notificationVolumne) >= 0){
+    ROOM.volumeIndxSet(Number(notificationVolumne));
+  }
+};
 //<i class="fa-solid fa-store-slash"></i>
 // <i class="fa-solid fa-shop"></i>
 // <i class="fa-solid fa-shop-slash"></i>
@@ -165,23 +165,11 @@ function userOnThisTab(){
 }
 
 document.addEventListener("visibilitychange", function() {
-  // ROOM.sendMessage(MESSAGE.existing());
+  ROOM.sendMessage(MESSAGE.existing());
 });
 
 function extractYoutubeIdFromURL(url){
   const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const match = url.match(regex);
     return match ? match[1] : null;
-}
-
-function validRoomInfo(username, roomId){
-  const regex = /^[A-Za-z]+$/;
-  if(regex.test(username) && 
-  regex.test(roomId) &&
-  3 <= username.length && username.length <= 10 &&
-  5 <= roomId.length && roomId.length <= 10
-  ){
-      return true;
-  }
-  return false;
 }

@@ -1,63 +1,67 @@
+
+
 const ROOM = {
 
-    mqttClient: null,
-    username: null,
-    roomId: null,
+    // mqttClient: null,
+    // username: null,
+    // roomId: null,
     inSync: true,
-    connected: false,
-    leaving: false,
-    connecting: false,
-    keyword: 'tahmiddd',
-    topic: 'null',
-    connectiontab: document.getElementById('connection-tab'),
+    // connected: false,
+    // leaving: false,
+    // connecting: false,
+    // keyword: 'tahmiddd',
+    // topic: 'null',
+    // connectiontab: document.getElementById('connection-tab'),
     existingIntervalId: null,
     autoJoin: null,
     notificationVolumeIndex: 3,
 
     requestingForSync: false,
 
-    connectedPeopleLsitMap: new Map(),
-    connectedPeopleTimes : new Map(),
-    peoplesInTheRoom: new Set(),
+    // connectedPeopleLsitMap: new Map(),
+    // connectedPeopleTimes : new Map(),
+    // peoplesInTheRoom: new Set(),
 
-    
     requestForSync: false,
 
     refreshPeopleInterval: null,
 
-    connectedPeopleLsit: document.getElementById('connected-people-list'),
+    // connectedPeopleLsit: document.getElementById('connected-people-list'),
 
    
-    join: async function(user, roomid, autoJoin){
-        this.connecting = true;
-        this.makeTabConnecting();
-        this.mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
-        this.topic = `${this.keyword}/${roomid}`;
-        this.mqttClient.subscribe(this.topic);
-        this.mqttClient.on('connect', ()=>{
-            this.username = user;
-            this.roomId = roomid;
-            this.autoJoin = autoJoin;
-            this.hendleConnect();
-        });
-        this.mqttClient.on('error', (error) => {
-         this.hendleError(error);
-        });
-        this.mqttClient.on('close', ()=>{
-            this.hendleDisconnect();
-        });
-        this.mqttClient.on('message', (topic, message)=>{
-            MessageHandler.handle(message.toString())
-        });
-    },
-    hendleError: function(err){
-        console.log(err);
-    },
+    // join: async function(user, roomid, autoJoin){
+        // this.connecting = true;
+        // this.makeTabConnecting();
+        // this.mqttClient = mqtt.connect('wss://test.mosquitto.org:8081');
+        // this.topic = `${this.keyword}/${roomid}`;
+        // this.mqttClient.subscribe(this.topic);
+        // this.mqttClient.on('connect', ()=>{
+        //     this.username = user;
+        //     this.roomId = roomid;
+        //     this.autoJoin = autoJoin;
+        //     this.hendleConnect();
+        // });
+
+        // this.mqttClient.on('error', (error) => {
+        //  this.hendleError(error);
+        // });
+
+        // this.mqttClient.on('close', ()=>{
+        //     this.hendleDisconnect();
+        // });
+
+        // this.mqttClient.on('message', (topic, message)=>{
+        //     MessageHandler.handle(message.toString())
+        // });
+    // },
+    // hendleError: function(err){
+    //     console.log(err);
+    // },
 
     hendleConnect: function (){
         this.connected = true;
         if(this.connecting){
-            this.hendleFirstConnect();
+            // this.hendleFirstConnect();
         }
         this.connecting = false;
         this.broadcastExisTance();
@@ -78,9 +82,9 @@ const ROOM = {
     
         this.broadcast(JSON.stringify(object));
     },
-    broadcastExisTance: function(){
-        this.sendMessage(MESSAGE.existing());
-    },
+    // broadcastExisTance: function(){
+    //     this.sendMessage(MESSAGE.existing());
+    // },
     hendleDisconnect: function(){
         this.connected = false;
         document.getElementById('video-title-id').classList.remove('connected-title')
@@ -88,53 +92,53 @@ const ROOM = {
             this.handleLeave();
             return;
         }
-        this.makeTabDisconnected();
+        // this.makeTabDisconnected();
         
     },
     handleLeave: function(){
         clearInterval(this.refreshPeopleInterval);
         this.leaveing = false;
         clearInterval(this.existingIntervalId);
-        this.makeTabNoConnect();
+        // this.makeTabNoConnect();
         this.connectedPeopleLsitMap.clear();
         this.connectedPeopleTimes.clear();
         this.connectedPeopleLsit.innerHTML = '';
         document.getElementById('chat-box-container').innerHTML = ''; 
     },
 
-    makeTabDisconnected: function(){
-        this.connectiontab.classList.remove('no-connect');
-        this.connectiontab.classList.remove('connecting');
-        this.connectiontab.classList.remove('connected');
-        this.connectiontab.classList.add('disconnected');
-    },
-    makeTabNoConnect: function(){
-        this.connectiontab.classList.remove('connected');
-        this.connectiontab.classList.remove('connecting');
-        this.connectiontab.classList.remove('disconnected');
-        this.connectiontab.classList.add('no-connect');
-    },
-    makeTabConnected: function(){
-        this.connectiontab.classList.remove('no-connect');
-        this.connectiontab.classList.remove('connecting');
-        this.connectiontab.classList.remove('disconnected');
-        this.connectiontab.classList.add('connected');
-    },
-    makeTabConnecting:function(){
-        this.connectiontab.classList.remove('no-connect');
-        this.connectiontab.classList.remove('connected');
-        this.connectiontab.classList.remove('disconnected');
-        this.connectiontab.classList.add('connecting');
-    },
+    // makeTabDisconnected: function(){
+    //     this.connectiontab.classList.remove('no-connect');
+    //     this.connectiontab.classList.remove('connecting');
+    //     this.connectiontab.classList.remove('connected');
+    //     this.connectiontab.classList.add('disconnected');
+    // },
+    // makeTabNoConnect: function(){
+    //     this.connectiontab.classList.remove('connected');
+    //     this.connectiontab.classList.remove('connecting');
+    //     this.connectiontab.classList.remove('disconnected');
+    //     this.connectiontab.classList.add('no-connect');
+    // },
+    // makeTabConnected: function(){
+    //     this.connectiontab.classList.remove('no-connect');
+    //     this.connectiontab.classList.remove('connecting');
+    //     this.connectiontab.classList.remove('disconnected');
+    //     this.connectiontab.classList.add('connected');
+    // },
+    // makeTabConnecting:function(){
+    //     this.connectiontab.classList.remove('no-connect');
+    //     this.connectiontab.classList.remove('connected');
+    //     this.connectiontab.classList.remove('disconnected');
+    //     this.connectiontab.classList.add('connecting');
+    // },
 
     hendleFirstConnect: function(){
         this.sendMessage(MESSAGE.join())
-        this.makeTabConnected();
+        // this.makeTabConnected();
         this.startBoradcastingExistance();
         this.saveConfig();
-        document.getElementById('video-title-id').classList.add('connected-title')
-        document.getElementById('username-label-tab').textContent = this.username;
-        document.getElementById('roomid-label-tab').textContent = this.roomId;
+        // document.getElementById('video-title-id').classList.add('connected-title')
+        // document.getElementById('username-label-tab').textContent = this.username;
+        // document.getElementById('roomid-label-tab').textContent = this.roomId;
         // this.RequestForMediaSync();
     },
 
@@ -171,41 +175,41 @@ const ROOM = {
         localStorage.setItem('notificationVolume', this.notificationVolumeIndex);
     },
 
-    registerPresence: function (message){
-        this.connectedPeopleTimes.set(message.username, TIME.now());
-    },
+    // registerPresence: function (message){
+    //     this.connectedPeopleTimes.set(message.username, TIME.now());
+    // },
     
 
-    refreshOnePeople(username){
-        if(!this.connectedPeopleLsitMap.has(username)){
-            return;
-        }
-        const div = this.connectedPeopleLsitMap.get(username);
-        const diff = Math.floor((TIME.now() - this.connectedPeopleTimes.get(username)) / 1000);
-        if(diff >= 20){
+    // refreshOnePeople(username){
+    //     if(!this.connectedPeopleLsitMap.has(username)){
+    //         return;
+    //     }
+    //     const div = this.connectedPeopleLsitMap.get(username);
+    //     const diff = Math.floor((TIME.now() - this.connectedPeopleTimes.get(username)) / 1000);
+    //     if(diff >= 20){
 
-            div.classList.remove('people-active');
-            div.classList.remove('people-late');
-            div.classList.add('people-disconnect');
-        }
-        else if(diff >= 10){
-            div.classList.remove('people-active');
-            div.classList.remove('people-disconnect');
-            div.classList.add('people-late');
-        }
-        else{
+    //         div.classList.remove('people-active');
+    //         div.classList.remove('people-late');
+    //         div.classList.add('people-disconnect');
+    //     }
+    //     else if(diff >= 10){
+    //         div.classList.remove('people-active');
+    //         div.classList.remove('people-disconnect');
+    //         div.classList.add('people-late');
+    //     }
+    //     else{
 
-            div.classList.remove('people-disconnect');
-            div.classList.remove('people-late');
-            div.classList.add('people-active');
-        }
-    },
+    //         div.classList.remove('people-disconnect');
+    //         div.classList.remove('people-late');
+    //         div.classList.add('people-active');
+    //     }
+    // },
 
-    refreshPeopleList: function (){
-        this.peoplesInTheRoom.forEach(user =>{
-            this.refreshOnePeople(user)
-        });
-    },
+    // refreshPeopleList: function (){
+    //     this.peoplesInTheRoom.forEach(user =>{
+    //         this.refreshOnePeople(user)
+    //     });
+    // },
 
     RequestForMediaSync: function(){
         this.requestForSync = true;
@@ -218,16 +222,17 @@ const ROOM = {
         }, 4000);
     },
 
-    leave: async function(){
-        if(!this.connected){
-            return;
-        }
-        this.sendMessage(MESSAGE.leave());
-        this.leaving = true;
-        setTimeout(()=>{
-            this.mqttClient.end();
-        }, 100);
-    },
+    // leave: async function(){
+    //     if(!this.connected){
+    //         return;
+    //     }
+    //     this.sendMessage(MESSAGE.leave());
+    //     this.leaving = true;
+    //     setTimeout(()=>{
+    //         this.mqttClient.end();
+    //     }, 100);
+    // },
+
     saveConfig: function(){
         localStorage.setItem('username', this.username);
         localStorage.setItem('roomId', this.roomId);
@@ -246,60 +251,22 @@ const ROOM = {
 
     },
 
-    broadcast: function(message){
-        if(!this.connected){
-            return;
-        }
-        this.mqttClient.publish(this.topic, message);
-    }
+    // broadcast: function(message){
+    //     if(!this.connected){
+    //         return;
+    //     }
+    //     this.mqttClient.publish(this.topic, message);
+    // }
 }
 
-document.getElementById('roomid-input').addEventListener('keypress', (event)=>{
-    if (event.key === 'Enter') {
-      joinRoom()
-    }
-  });
+// function  joinRoom(){
+//     const username = document.getElementById('username-input').value;
+//     const roomId = document.getElementById('roomid-input').value;
+//     if(!validRoomInfo(username, roomId)){
+//         displayErrorOnScreen('Invalid username or room id format');
+//         return;
+//     }
 
-  document.getElementById('chat-input-field').addEventListener('keypress', (event)=>{
-    if (event.key === 'Enter') {
-      sendTextMessage()
-    }
-  });
-
-function validRoomInfo(username, roomId){
-    const regex = /^[A-Za-z]+$/;
-    if(regex.test(username) && 
-    regex.test(roomId) &&
-    3 <= username.length && username.length <= 10 &&
-    5 <= roomId.length && roomId.length <= 10
-    ){
-        return true;
-    }
-    return false;
-}
-
-function  joinRoom(){
-    const username = document.getElementById('username-input').value;
-    const roomId = document.getElementById('roomid-input').value;
-    if(!validRoomInfo(username, roomId)){
-        displayErrorOnScreen('Invalid username or room id format');
-        return;
-    }
-
-    const autoJoin = document.getElementById('remember-connection').checked;
-    ROOM.join(username, roomId, autoJoin);
-}
-function sendTextMessage(inputFiledId){
-    if(!ROOM.connected){
-        displayErrorOnScreen("Please make sure you are connected", "No Connection");
-        return;
-    }
-    // const input = document.getElementById(inputFiledId);
-    const input = document.getElementById('chat-input-field');
-    ROOM.sendMessage(MESSAGE.text(input.value));
-    input.value = '';
-}
-document.querySelector('emoji-picker')
-  .addEventListener('emoji-click', (event) =>{
-    document.getElementById('chat-input-field').value += event.detail.unicode;
-});
+//     const autoJoin = document.getElementById('remember-connection').checked;
+//     ROOM.join(username, roomId, autoJoin);
+// }

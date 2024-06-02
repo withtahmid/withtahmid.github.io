@@ -127,9 +127,9 @@ captions.mode = "hidden"
 captionsBtn.addEventListener("click", toggleCaptions)
 
 function toggleCaptions() {
-  // if(!VIDEO.subtitleAdded){
-  //   return;
-  // }
+  if(!VIDEO.subtitleAdded){
+    return;
+  }
   const isHidden = captions.mode === "hidden"
   captions.mode = isHidden ? "showing" : "hidden"
   videoContainer.classList.toggle("captions", isHidden)
@@ -224,8 +224,9 @@ function toggleMiniPlayerMode() {
 
 document.addEventListener("fullscreenchange", () => {
   videoContainer.classList.toggle("full-screen", document.fullscreenElement);
+  ROOM.broadcastExisTance();
   toggleFullScreenFunctionality();
-});
+})
 
 video.addEventListener("enterpictureinpicture", () => {
   videoContainer.classList.add("mini-player")
@@ -254,7 +255,7 @@ function vanishControlLater(){
   },2000);
 }
 videoContainer.addEventListener('mousemove', (event)=>{
-  if(video.paused){
+  if(VIDEO.video.paused){
     return;
   }
   videoContainer.classList.add('show-control');
