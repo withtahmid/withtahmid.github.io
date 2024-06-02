@@ -5,17 +5,16 @@ const YOUTUBE_MESSEGE = {
     __emmit__: function(){
 
     },
-    __onFail__(messege){
-        console.log('failed to send YouTube messege');
-    },
     __isFor__: function(message){
+
+    },
+    __onFail__: function(messege){
+
+    },
+    __onSent__: function(message){
 
     },
     __handle__: function(message){
 
     },
-
-    cueVideo: function(){
-
-    }
 }

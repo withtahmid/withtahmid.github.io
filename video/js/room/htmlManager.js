@@ -46,12 +46,15 @@ const ROOM_HTML_MANAGER = {
         
         const username = document.getElementById('username-input').value;
         const roomId = document.getElementById('roomid-input').value;
-        // const autoJoin = document.getElementById('remember-connection').checked;
         if(!validRoomInfo(username, roomId)){
             displayErrorOnScreen('Invalid username or room id format');
             return;
         }
         ROOM.join(username, roomId);
+        const autoJoin = document.getElementById('remember-connection').checked;
+        SETTINGS.username = username;
+        SETTINGS.roomId = roomId;
+        SETTINGS.autoJoin = autoJoin;
     },
 
     leaveRoom: function(){

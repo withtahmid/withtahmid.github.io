@@ -10,28 +10,13 @@ const EXISTING_MESSEGE = {
         messege.identity = VIDEO.__getIdentity__();
         messege.isPaused = VIDEO.__isPaused__();
         messege.inTab = userOnThisTab();
-        messege.caption = false;
+        messege.caption = VIDEO.__isCaptioning__();
         return messege;
     },
     
     __emmit__: function(){
         const messege = this.__get__();
-        MESSEGE_HANDLER.emmit(messege);
-    },
-
-    __onFail__(messege){
-        console.log('failed to send existing messege');
-    },
-    __isFor__: function(messege){ return messege.__reciever__ === 'all'},
-    
-    checkForMissMatch: function(messege){
-
-    },
-    __handle__: function(messege){
-        if(!this.__isFor__(messege)){
-            return;
-        }
-        EXISTING_MESSEGE_HTML_MANAGER.manage(messege);
+        MESSEGE_EMMITTER.__emmit__(messege);
     },
 }
 

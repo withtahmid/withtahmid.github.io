@@ -54,7 +54,7 @@ function sendTextMessage(inputFiledId){
         return;
     }
     const input = document.getElementById('chat-input-field');
-    CHAT_MESSEGE.sendText(input.value);
+    CHAT_TEXT_MESSEGE.__emmit__(input.value);
     input.value = '';
 }
 

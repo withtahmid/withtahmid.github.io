@@ -6,6 +6,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
         this.title = null;
         this.container_html =  document.querySelector(".video-container");
         this.initiated = false;
+        this.caption = false;
     }
      // abstract methods
      __init__(){
@@ -28,6 +29,8 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
             this.__player__.load();
             this.__emmitDestroyEvent__();
             this.__player__ = null;
+            this.caption_html.src = '';
+            this.caption = false;
 
         } catch (error) {
             console.error(error);
@@ -55,6 +58,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
             console.log(`LOCAL_VIDEO __cueVideo__ : ${file.name}`);
             document.querySelector('.video-container').classList.remove('display-none');
             this.source_html.src = URL.createObjectURL(file);
+            this.__resetCaption()
             this.__player__.load();
             this.title = file.name;
             this.__emmitCuedEvent__();
@@ -63,6 +67,31 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
         }
     }
 
+    __addCaption__(file){
+        if(!file){
+            return;
+        }
+        this.caption = true;
+        try {
+            this.caption_html.src = URL.createObjectURL(file);
+            console.log(`caption added`);
+        } catch (error) {
+            console.error(error);
+        }
+        try {
+            this.__player__.textTracks[0].mode = 'showing'
+        } catch (error) {
+            console.error(error);
+        }
+        this.container_html.classList.toggle("captions", VIDEO.__isCaptioning__())
+    }
+    __isCaptioning__(){
+        return this.__player__.textTracks[0].mode !== "hidden"
+    }
+    __resetCaption(){
+        this.caption_html.src = '';
+        this.__player__.textTracks[0].mode = 'hidden'
+    }
     // controls
     __playVideo__(seconds){
         try {
@@ -116,10 +145,10 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
     }
     __fullscreen__(){
         return (
-                document.fullscreenElement === this.container ||
-                document.webkitFullscreenElement === this.container ||
-                document.mozFullScreenElement === this.container ||
-                document.msFullscreenElement === this.container
+                document.fullscreenElement === this.container_html ||
+                document.webkitFullscreenElement === this.container_html ||
+                document.mozFullScreenElement === this.container_html ||
+                document.msFullscreenElement === this.container_html
             );
     }
     __getSource__(){

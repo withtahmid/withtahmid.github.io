@@ -70,6 +70,20 @@ const VIDEO = {
         this.__player__.__emmitCuedEvent__();
     },
 
+    __isCaptioning__: function(){
+        try {
+            return this.__player__.__isCaptioning__();
+        } catch (error) {
+            console.error(error)
+        }
+    },
+    __addCaption__: function(file){
+        try {
+            this.__player__.__addCaption__(file);
+        } catch (error) {
+            console.error(error)
+        }
+    } ,
 
     // launch new video
     __cueVideo__: function(src){

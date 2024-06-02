@@ -18,16 +18,15 @@ Events:
 */
 
 const MQTT = {
-    
-    connected: false,
+
     ending: false,
     connecting: false,
+    client: {connected: false},
 
     connect: function(){
         this.connecting = true;
 
         this.client = mqtt.connect('wss://test.mosquitto.org:8081');
-        this.client.subscribe(ROOM.getTopic())
         
         this.client.on('error', (error)=>{
             console.error(error);
@@ -47,7 +46,6 @@ const MQTT = {
                     console.error(error);
                 }
             }
-            this.connected = false;
 
         });
         this.client.on('message', (topic, message)=>{
@@ -59,7 +57,7 @@ const MQTT = {
         });
 
         this.client.on('connect', (error)=>{
-            this.connected = true;
+            this.client.subscribe(ROOM.getTopic())
             try {
                 EVENTS.directEmmit('mqtt-connected');
             } catch (error) {
@@ -75,8 +73,12 @@ const MQTT = {
             }
             
         });
+        this.client.on('reconnect', function () {
+            console.log('Reconnecting... MQTT');
+        });
 
     },
+
     end: function(){
         if(!this.isConnected()){
             return;
@@ -91,18 +93,48 @@ const MQTT = {
         }
     },
     isConnected(){
-        return this.connected;
+        try {
+            return this.client.connected;
+        } catch (error) {
+            console.error(`Failed to read this.client.connected`);
+            return false;
+        }
+        
     },
 
-    publish: function(topic, messege){
+    publish: async function(topic, messege){
+        let status = undefined;
+        
         if(!this.isConnected()){
             console.error('cannot publish. mqtt is not connected');
-            return;
+            status = {
+                published: false,
+                error: `MQTT is not connected`
+            };
+            return status;
         }
+        
         try {
-            this.client.publish(topic, messege);
+            status = await new Promise((resolve, reject) => {
+                this.client.publish(topic, messege, (error) => {
+                    if (error) {
+                        resolve({
+                            published: false,
+                        });
+                    } else {
+                        resolve({
+                            published: true,
+                        });
+                    }
+                });
+            });
         } catch (error) {
-            console.error(error);
+            status = {
+                published: false,
+                error: `${error}`
+            };
         }
+        
+        return status;
     },
 }

@@ -2,7 +2,7 @@ const ABSTRACTION_MESSEGE = 'This method must be implemented in child classes';
 class __VIDEO_PLAYER__{
     constructor(player, sourceType){
         this.__player__ = player;
-        this.__error_code__ = ERROR_CODE[sourceType];
+        // this.__error_code__ = ERROR_CODE[sourceType];
         this.__sourceType__ = sourceType;
     }
 
@@ -25,7 +25,10 @@ class __VIDEO_PLAYER__{
             console.error( error );
         }
     }
-
+    __addCaption__(file){}
+    __isCaptioning__(){
+        return false;
+    }
     // messege Handlers
     __handleCuedByMessege__(messege){}
     // launch new video

@@ -54,6 +54,7 @@ class YOUTUBE extends __VIDEO_PLAYER__{
                     'onError': onYTPlayerError,
                 }
             });
+
         } catch (error) {
             console.error(error);
         }
@@ -91,6 +92,10 @@ class YOUTUBE extends __VIDEO_PLAYER__{
         
         
     }
+    __isCaptioning__(){
+        return false;
+    }
+    __addCaption__(file){}
     // controls
     __playVideo__(seconds){
         try{
@@ -153,7 +158,12 @@ class YOUTUBE extends __VIDEO_PLAYER__{
         return this.__player__.getDuration();
     }
     __fullscreen__(){
-        return false; // need to work here
+        return (
+            document.fullscreenElement === this.__player__ ||
+            document.webkitFullscreenElement === this.__player__ ||
+            document.mozFullScreenElement === this.__player__ ||
+            document.msFullscreenElement === this.__player__
+        );
     }
     __getSource__(){
         return this.__getVideoUrl();
@@ -227,5 +237,15 @@ class YOUTUBE extends __VIDEO_PLAYER__{
         const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
         const match = url.match(regex);
         return match ? match[1] : null;
+    }
+}
+
+function playYoutubeById(){
+    const input = document.getElementById('youtube-url-input');
+    try {
+        VIDEO.playYouTube(input.value);
+        input.value = '';
+    } catch (error) {
+        console.error(error)
     }
 }

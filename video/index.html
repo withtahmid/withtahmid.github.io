@@ -358,8 +358,15 @@
         <div id="events-platform" class="display-none"></div>
     </body>
 
+<!-- Scripts -->
+    <!-- utils -->
     <script src="./js/hyperparameter.js"></script>
+    
+    <!-- hyperperameters -->
     <script src="./js/utils/FORMATOR.js"></script>
+
+    <!-- settings -->
+    <script src="./js/SETTINGS.js"></script>
 
     <!-- extarnal libraries -->
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
@@ -371,35 +378,47 @@
     <script src="./js/MQTT/MQTT_CLIENT.js"></script>
    
      <!-- video Controlers -->
-     <script src="./js/vars.js"></script>
-     <script src="./js/settings.js"></script>
+     <!-- <script src="./js/vars.js"></script> -->
+     
      <script src="./js/videos/VIDEO_PLAYER.js"></script>
      <script src="./js/videos/localVideo/LOCAL_VIDEO.js"></script>
+     <script src="./js/videos/localVideo/caption.js"></script>
      <script src="./js/videos/youtube/YOUTUBE.js"></script>
      <script src="./js/videos/VIDEO_HANDLER.js"></script>
 
     <!-- messege -->
     <script src="./js/messege/MESSEGE_ABSTRACT.js"></script>
+
+    <!-- <script src="./js/messege/MESSEGE_EMMITER_ABSTRACT.js"></script> -->
+    <script src="./js/messege/MESSEGE_EMMITER.js"></script>
+    <script src="./js/messege/MESSEGE_HANDLER_ABSTRACT.js"></script>
     
 
         <!-- existing -->
         <script src="./js/messege/exising/EXISTING_MESSEGE.js"></script>
         <script src="./js/messege/exising/htmlManager.js"></script>
+        <script src="./js/messege/exising/EXISTING MESSEGE_HANDLER.js"></script>
 
         <!-- media -->
         <script src="./js/messege/media/MEDIA_MESSEGE.js"></script>
+        <script src="./js/messege/media/MEDIA_MESSEGE_HANDLER.js"></script>
 
         <!-- cuedVideo -->
         <script src="./js/messege/cueVideo/CuedVIDEO_MESSEGE.js"></script>
+        <script src="./js/messege/cueVideo/CuedVIDEO_MESSEGE_HANDLER.js"></script>
 
         <!-- chat -->
-        <script src="./js/messege/chat/CHAT_MESSEGE.js"></script>
-        <script src="./js/messege/chat/htmlManager.js"></script>
+        <script src="./js/messege/chatText/CHAT_TEXT_MESSEGE.js"></script>
+        
+        <script src="./js/messege/chatText/htmlManager.js"></script>
+        <script src="./js/messege/chatText/CHAT_TEXT_MESSEHE_HANDLER.js"></script>
         
         <!-- join -->
         <script src="./js/messege/join/JOIN_MESSEGE.js" ></script>
+        <script src="./js/messege/join/JOIN_MESSEGE_HANDLER.js"></script>
 
     <script src="./js/messege/MESSEGE_HANDLER.js"></script>
+    
     
 
     <!-- ROOOM --> 
@@ -423,8 +442,10 @@
 
     <script src="./js/utils.js"></script>
     <script src="./js/playerControl.js"></script>
-    <script src="./js/videoPlayer.js"></script>
+    <!-- <script src="./js/videoPlayer.js"></script> -->
     <!-- <script src="./js/connection.js"></script> -->
     <!-- <script src="./js/message.js"></script> -->
-    <script src="./js/youtubeControls.js"></script>
+    <!-- <script src="./js/youtubeControls.js"></script> -->
+
+
 </html>

@@ -13,7 +13,8 @@ const CuedVIDEO_NOTIFICATION = {
     __generate__: function(messege){
         const notification = {__sender__: messege.__sender__};
         notification.__icon__= this.icons[messege.sourceType];
-        notification.__text__= `${this.texts[messege.sourceType]}`;
+        // notification.__text__= `${this.texts[messege.sourceType]}`;
+        notification.__text__ = `played ${messege.title}`
         notification.__currentTime__ = null;
         return notification;
     }

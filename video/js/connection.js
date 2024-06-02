@@ -12,7 +12,7 @@ const ROOM = {
     // keyword: 'tahmiddd',
     // topic: 'null',
     // connectiontab: document.getElementById('connection-tab'),
-    existingIntervalId: null,
+    // existingIntervalId: null,
     autoJoin: null,
     notificationVolumeIndex: 3,
 

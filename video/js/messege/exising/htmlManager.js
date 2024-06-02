@@ -247,7 +247,7 @@ function createOnePeopleDiv(messege){
                 // errorBar icon 
                 const errorBarIcon = document.createElement('p');
                 errorBarIcon.classList.add('icon');
-                errorBarIcon.innerHTML = `<i class="fa-solid fa-bug"></i>`;
+                errorBarIcon.innerHTML = `<i class="fa-solid fa-tower-broadcast"></i>`;
                 errorBar.appendChild(errorBarIcon);
                 // errorBar text
                 const errorBarText = document.createElement('p');
