@@ -220,7 +220,7 @@ function createOnePeopleDiv(messege){
                 // title text
                 const videoTitleText = document.createElement('p');
                 videoTitleText.setAttribute('id', `${messege.__sender__}-Videotitle-info`)
-                videoTitleText.textContent = ''
+                videoTitleText.textContent = '...'
                 videoTitle.appendChild(videoTitleText);
             
             moreInfo.appendChild(videoTitle);
@@ -231,7 +231,7 @@ function createOnePeopleDiv(messege){
                 // timeago icon 
                 const timeAgoIcon = document.createElement('p');
                 timeAgoIcon.classList.add('icon');
-                timeAgoIcon.innerHTML = `<i class="fa-regular fa-clock"></i>`;
+                timeAgoIcon.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i>`;
                 timeAgo.appendChild(timeAgoIcon);
                 // timeago text
                 const timeAgoText = document.createElement('p');
@@ -241,15 +241,15 @@ function createOnePeopleDiv(messege){
             
             moreInfo.appendChild(timeAgo);
 
-            // Time ago
+            // errorBar
             const errorBar = document.createElement('div');
-            timeAgo.classList.add('one-info');
-                // timeago icon 
+            errorBar.classList.add('one-info');
+                // errorBar icon 
                 const errorBarIcon = document.createElement('p');
                 errorBarIcon.classList.add('icon');
-                errorBarIcon.innerHTML = ` <i class="fa-solid fa-stopwatch"></i>`;
+                errorBarIcon.innerHTML = `<i class="fa-solid fa-bug"></i>`;
                 errorBar.appendChild(errorBarIcon);
-                // timeago text
+                // errorBar text
                 const errorBarText = document.createElement('p');
                 errorBarText.setAttribute('id', `${messege.__sender__}-errorBar-info`)
                 errorBarText.textContent = '...'
