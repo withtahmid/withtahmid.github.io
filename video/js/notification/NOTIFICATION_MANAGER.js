@@ -10,27 +10,31 @@ const NOTIFICATION_MANAGER = {
         join: JOIN_NOTIFICATION,
         existing: EXISTING_NOTIFICATION,
     },
+    bell:{
+        media: NOTIFICATION_BELL.media,
+        join: NOTIFICATION_BELL.join,
+        chatText: NOTIFICATION_BELL.chatText,
+        warning: NOTIFICATION_BELL.warning,
+        noSound: ()=>{},
+    },
 
     generateNotificationDiv: function(notificationObj){
         const notificationDiv = document.createElement('div');
         notificationDiv.classList.add('notification');
-        if(!notificationObj.__css__){
-            notificationObj.__css__ = 'default';
-        }
-        notificationDiv.classList.add(`${notificationObj.__css__}-notification`)
+        notificationDiv.classList.add(`${notificationObj.__css__ ?? 'default'}-notification`)
             const iconDiv = document.createElement('div');
             iconDiv.classList.add('notification-icon');
-            iconDiv.innerHTML = notificationObj.__icon__;
+            iconDiv.innerHTML = notificationObj.__icon__ ?? '';
             notificationDiv.appendChild(iconDiv);
 
             const sender = document.createElement('p');
             sender.classList.add('notification-title');
-            sender.textContent = notificationObj.__title__;
+            sender.textContent = notificationObj.__title__ ?? '';
             notificationDiv.appendChild(sender);
 
             const text = document.createElement('p');
             text.classList.add('notification-text');
-            text.textContent = notificationObj.__text__;
+            text.textContent = notificationObj.__text__ ?? '';
             notificationDiv.appendChild(text);
             
             if(notificationObj.__duration__){
@@ -48,8 +52,18 @@ const NOTIFICATION_MANAGER = {
         if(notification.__disabled__){
             return;
         }
+
+        // play notification sound
+        try {
+            notification.__bell__ && this.bell[notification.__bell__] ? this.bell[notification.__bell__]() : this.bell.noSound();
+        } catch (error) {
+            console.error(error);
+        }
+        // stop conrtainer from cvanishing
+
         clearTimeout(this.clearTimeoutId);
         clearTimeout(this.showTimeOutId);
+        
         const notificationDiv = this.generateNotificationDiv(notification);
         this.container.appendChild(notificationDiv);
         this.container.classList.add('show-notification');
@@ -59,7 +73,7 @@ const NOTIFICATION_MANAGER = {
             this.clearTimeoutId = setTimeout(()=>{
                 this.container.innerHTML = '';
             }, HYPERPARAMETER.clearNotificationAfter)   
-        }, HYPERPARAMETER.showNotificationFor)
+        }, notification.__stayTime__ ?? HYPERPARAMETER.showNotificationFor);
     },
 
 

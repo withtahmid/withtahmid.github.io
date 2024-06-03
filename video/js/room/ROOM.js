@@ -59,7 +59,7 @@ const ROOM = {
     
     timeAgo(username){
         if(!this.peopleLastMessegeTimes.has(username)){
-            console.error('could not calculate timeAgo');
+            console.error('[ROOM] could not calculate timeAgo');
             return;
         }
         return Math.floor((TIME.now() - this.peopleLastMessegeTimes.get(username)) / 1000);

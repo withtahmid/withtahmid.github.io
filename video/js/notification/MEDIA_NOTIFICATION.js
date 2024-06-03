@@ -35,9 +35,6 @@ const MEDIA_NOTIFICATION = {
         }
         return type;
     },
-    __ring__: function(){
-        NOTIFICATION_BELL.media();
-    },
 
     __generate__: function(messege){
         const type = this.getType(messege);
@@ -47,7 +44,7 @@ const MEDIA_NOTIFICATION = {
             notification.__disabled__=  true;
             return notification;
         }
-        this.__ring__();
+        notification.__bell__ = 'media';
         notification.__css__ = 'default';
         notification.__icon__= this.icons[type];
         notification.__text__= `${this.texts[type]}`;

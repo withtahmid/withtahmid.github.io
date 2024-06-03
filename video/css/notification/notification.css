@@ -5,10 +5,11 @@
     padding: 0.5rem;
     width: auto;
     left: -50%;
-    bottom: 10%;
+    bottom: 15%;
     z-index: 103;
     /* border: 1px solid red; */
     transition: left 500ms ease-out;
+    /* border: 1px solid red; */
   
   }
   

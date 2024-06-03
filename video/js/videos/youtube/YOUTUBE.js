@@ -242,6 +242,7 @@ class YOUTUBE extends __VIDEO_PLAYER__{
         const match = url.match(regex);
         return match ? match[1] : null;
     }
+    isActive(){return this.__player__!= null;}
 }
 
 function playYoutubeById(){

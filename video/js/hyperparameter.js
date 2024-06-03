@@ -10,6 +10,7 @@ const HYPERPARAMETER = {
 
     // notifications
     showNotificationFor: 3000,
+    showWarningNotificationFor: 5000,
     clearNotificationAfter: 500,
 
     mediaMissMatchTol: 8,

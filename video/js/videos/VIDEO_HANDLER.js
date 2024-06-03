@@ -27,8 +27,9 @@ const VIDEO = {
     
     __player__: new __VIDEO_PLAYER__(null, 'abstract'),
     playerType: 'abstract',
-    syncing: true, // need to work here
+    inSync: true, // need to work here
 
+    lastMediaOccured: 0,
 
     __init__: function(){
         try {
@@ -184,12 +185,12 @@ const VIDEO = {
         return 'null';
     },
     isActive: function(){
-        return this.__player__.__sourceType__ != 'abstract';
+        return this.__player__.isActive();
     },
 
         
     isOnSync: function(){
-        return this.syncing;
+        return this.inSync;
     },
 
     //
@@ -228,7 +229,7 @@ const VIDEO = {
 
     // event handlers
     onPlay: function(){
-        
+        this.lastMediaOccured = TIME.now();
         if(ignoreEvent.playVideo){
             ignoreEvent.playVideo = false;
             return;
@@ -240,7 +241,7 @@ const VIDEO = {
         }
     },
     onPause: function(){
-    
+        this.lastMediaOccured = TIME.now();
         if(ignoreEvent.pauseVideo){
             ignoreEvent.pauseVideo = false;
             return;
@@ -253,7 +254,7 @@ const VIDEO = {
     },
 
     onSeek: function(){
-    
+        this.lastMediaOccured = TIME.now();
         if(ignoreEvent.seekTo){
             // ignoreEvent.seekTo = false;
             return;
@@ -266,7 +267,9 @@ const VIDEO = {
         }
     },
 
-    
+    getLastMediaTime: function(){
+        return this.lastMediaOccured;
+    },
 
     playVideoEx: function(seconds){
         ignoreNextEvent();

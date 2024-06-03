@@ -14,9 +14,9 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
         try {
             document.querySelector('.video-container').classList.remove('display-none');
             this.__player__ = document.getElementById('videoPlayer');
-            this.__player__.addEventListener('play', VIDEO.onPlay);
-            this.__player__.addEventListener('pause', VIDEO.onPause);
-            this.__player__.addEventListener('seeked', VIDEO.onSeek);
+            this.__player__.addEventListener('play', VIDEO.onPlay.bind(VIDEO));
+            this.__player__.addEventListener('pause', VIDEO.onPause.bind(VIDEO));
+            this.__player__.addEventListener('seeked', VIDEO.onSeek.bind(VIDEO));
         } catch (error) {
             console.error(error);
         }
@@ -33,6 +33,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
             this.__player__ = null;
             this.caption_html.src = '';
             this.caption = false;
+            this.title = null;
 
         } catch (error) {
             console.error(error);
@@ -168,6 +169,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
     __getSource__(){
         return ''
     }
+    isActive(){return this.title!= null;}
 }
 
 // will work later
