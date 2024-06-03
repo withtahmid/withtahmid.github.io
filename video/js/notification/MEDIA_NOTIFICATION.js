@@ -35,19 +35,23 @@ const MEDIA_NOTIFICATION = {
         }
         return type;
     },
-
-    __putNotification__: function(notification){
-        // if(this.showTimeOutId){
-        //     clearTimeout(this.showTimeOutId);
-        // }
-
+    __ring__: function(){
+        NOTIFICATION_BELL.media();
     },
+
     __generate__: function(messege){
         const type = this.getType(messege);
-        const notification = {__sender__: messege.__sender__};
+        
+        const notification = {__title__: messege.__sender__};
+        if(!VIDEO.isActive()){
+            notification.__disabled__=  true;
+            return notification;
+        }
+        this.__ring__();
+        notification.__css__ = 'default';
         notification.__icon__= this.icons[type];
         notification.__text__= `${this.texts[type]}`;
-        notification.__currentTime__  = ` ${FORMATOR.formatDuration(messege.currentTime)}`;
+        notification.__duration__  = ` ${FORMATOR.formatDuration(messege.currentTime)}`;
         return notification;
     } 
 };

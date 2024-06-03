@@ -68,7 +68,7 @@ const ROOM = {
     refreshPeopleList: function(){
         this.connectedPeople.forEach(username => {
             try {
-                ROOM_HTML_MANAGER.refreshPeopleStatus(username);
+                EXISTING_MESSEGE_HTML_MANAGER.refreshPeopleStatus(username);
             } catch (error) {
                 console.error(error);
             }
@@ -77,14 +77,6 @@ const ROOM = {
 };
 
 
-window.onload = async function() {
-    const username = SETTINGS.username;
-    const roomId = SETTINGS.roomId;
-    const autoJoin = SETTINGS.autoJoin
-    const notificationVolumne = localStorage.getItem('notificationVolume');
-    document.getElementById('username-input').value = username;
-    document.getElementById('roomid-input').value = roomId;
-    if(username && roomId && autoJoin == true){
-        ROOM.join(username, roomId);
-    }
-};
+EVENTS.platform.addEventListener('room-joined', (e)=> ROOM.intervalId = setInterval(ROOM.refreshPeopleList.bind(ROOM),10000));
+
+EVENTS.platform.addEventListener('room-leaved', (e)=> clearInterval(ROOM.intervalId.intervalId));

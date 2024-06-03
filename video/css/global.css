@@ -38,6 +38,9 @@
     .right{
       width: 30%;
     }
+    .error-box{
+      width: 30%;
+    }
   }
 
   @media (max-width: 900px){
@@ -47,6 +50,9 @@
     .tab-input:checked + .tab-label{
       width: 100%;
       order: 1;
+    }
+    .error-box{
+      width: 70%;
     }
   }
 
@@ -187,7 +193,7 @@
 .error-box{
   /* border: 2px solid red; */
   height: 40%;
-  width: 30%;
+  /* width: 30%; */
   /* border:4px solid  #e85e6c; */
   border-radius: 15px;
   display: flex;

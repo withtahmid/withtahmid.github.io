@@ -198,6 +198,10 @@ class YOUTUBE extends __VIDEO_PLAYER__{
             console.error(error)
         }
     }
+    __isPaused__(){
+        const state = this.__player__.getPlayerState();
+        return state !=  1;
+    }
     __loadVideoById(videoId, startSeconds = 0){
         if(this.__player__ === null){
             this.__init__(videoId);

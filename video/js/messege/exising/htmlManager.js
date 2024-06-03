@@ -3,9 +3,9 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
     peopleDivs: new Map(),
 
     getStatusFromTimeGap(time_gap){
-        if(time_gap >= 20){
+        if(time_gap >= HYPERPARAMETER.disconnectTime){
             return 'disconnected';
-        }else if(time_gap >= 10){
+        }else if(time_gap >= HYPERPARAMETER.lateTime){
             return 'late';
         }
         return 'active';
@@ -19,6 +19,12 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
         div.classList.remove('people-disconnect');
         div.classList.remove('people-late');
         div.classList.add('people-active');
+        EVENTS.emmit({
+            name: 'people-active',
+            data: {
+                username: username,
+            }
+        });
     },
     onLatePeople: function(username){
         if(!this.peopleDivs.has(username)){
@@ -28,6 +34,12 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
         div.classList.remove('people-active');
         div.classList.remove('people-disconnect');
         div.classList.add('people-late');
+        EVENTS.emmit({
+            name: 'people-late',
+            data: {
+                username: username,
+            }
+        });
     },
 
     onDisconnectedPeople: function(username){
@@ -38,12 +50,14 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
         div.classList.remove('people-active');
         div.classList.remove('people-late');
         div.classList.add('people-disconnect');
+        
         EVENTS.emmit({
             name: 'people-disconnected',
             data: {
                 username: username,
             }
-        })
+        });
+
     },
 
     refreshPeopleStatus: function(username){
@@ -57,6 +71,10 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
             this.onDisconnectedPeople(username);
         }else{
             console.error('sould not reach this portion');
+        }
+        const timeAgoDiv = document.getElementById(`${username}-timeAgo-info`);
+        if(timeAgoDiv){
+            timeAgoDiv.textContent = `${FORMATOR.secondToMS(time_gap)}`;
         }
     },
 
@@ -72,6 +90,7 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
             this.createNewPeople(messege);
         }
         updateOnePeopleDiv(messege);
+        this.refreshPeopleStatus(messege.__sender__)
     },
     sourceTypeIcons: {
         youtube: '<i class="fa-brands fa-youtube"></i>',

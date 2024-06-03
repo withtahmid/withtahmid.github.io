@@ -4,6 +4,7 @@ class __VIDEO_PLAYER__{
         this.__player__ = player;
         // this.__error_code__ = ERROR_CODE[sourceType];
         this.__sourceType__ = sourceType;
+        this.title = null;
     }
 
     // abstract methods
@@ -65,4 +66,5 @@ class __VIDEO_PLAYER__{
         event.data.__time__ = TIME.now();
         EVENTS.emmit(event);
     }
+   
 }

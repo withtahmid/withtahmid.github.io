@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="css/videoPlayer.css">
         <link rel="stylesheet" href="css/global.css">
         <link rel="stylesheet" href="css/right.css">
+        <link rel="stylesheet" href="./css/notification/notification.css">
         <title>Milkyway</title>
     </head>
     <body>
@@ -130,7 +131,7 @@
                             <emoji-picker class="dark"></emoji-picker>
                         </div>
                         <div class="message-send-box">
-                            <button id ="chatVolumeBtn" onclick="ROOM.notificationVolumeToggle()"><i class="fa-solid fa-volume-high"></i></button>
+                            <button id ="chatVolumeBtn" onclick="NOTIFICATION_BELL.toggleVolume()"><i class="fa-solid fa-volume-high"></i></button>
                             <input id="chat-input-field" placeholder="Type Message" type="text">
                             <button onclick="sendTextMessage('chat-input-field')" class="ease-btn"><i class="fa-solid fa-paper-plane"></i></button>
                             <button onclick="document.querySelector('.emoji-box').classList.toggle('hidden')" class="ease-btn" style="color: rgba(255,200,48,1);"><i class="fa-regular fa-face-grin"></i></button>           
@@ -325,10 +326,23 @@
                 </div>
             </div>
         </div>
-        <div class="hidden">
-            <audio style="display:none; z-index: -1;" id="notification-sound" src="Audio/notification.mp3"></audio>
+        <div  class="hidden">
+            <audio style="display:none; z-index: -1;" id="media-sound" src="./Audio/text.mp3"></audio>
+            <audio style="display:none; z-index: -1;" id="chatText-sound" src="./Audio/chatText.mp3"></audio>
+            <audio style="display:none; z-index: -1;" id="join-sound" src="./Audio/join.mp3"></audio>
+            <audio style="display:none; z-index: -1;" id="warning-sound" src="./Audio/warning.mp3"></audio>
+            <audio style="display:none; z-index: -1;" id="chatSent-sound" src="./Audio/textSent.mp3"></audio>
+            
         </div>
         <div class="notification-box">
+             <!-- <div class="notification people-disconnected-notification">
+                <div class="notification-icon">
+                    <i class="fa-solid fa-circle-pause"></i>
+                </div>
+                <p class="notification-title">Tahmid</p>
+                <p class="notification-text">Paused at</p>
+                <p class="notification-duration">1:30:11</p>
+            </div>  -->
             <!-- notifications pops here -->
         </div>
         <div id="error-box-container" class="error-box-container hidden">
@@ -366,8 +380,11 @@
     <script src="./js/utils/FORMATOR.js"></script>
 
     <!-- settings -->
-    <script src="./js/SETTINGS.js"></script>
+    <script src="./js/utils/SETTINGS.js"></script>
 
+    <!-- bell -->
+
+    <script src="./js/notification/NOTRIFICATION_BELL.js"></script>
     <!-- extarnal libraries -->
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
@@ -437,11 +454,20 @@
 
         <!-- Join -->
         <script src="./js/notification/JOIN_NOTIFICATION.js"></script>
+        
+        <!-- existing -->
+        <script src="./js/notification/EXISTING_NOTIFICATION.js"></script>
+        
+        <!-- people -->
+        <script src="./js/notification/PEOPLE_NOTIFICATION.js"></script>
 
     <script src="./js/notification/NOTIFICATION_MANAGER.js"></script>
 
     <script src="./js/utils.js"></script>
     <script src="./js/playerControl.js"></script>
+
+    <script src="./js/ZZ_ONLOAD.js"></script>
+
     <!-- <script src="./js/videoPlayer.js"></script> -->
     <!-- <script src="./js/connection.js"></script> -->
     <!-- <script src="./js/message.js"></script> -->

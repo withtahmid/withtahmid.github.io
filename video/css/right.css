@@ -620,66 +620,6 @@ emoji-picker{
   background-color: rgba(255,200,48,1);
 }
 
-/*  */
-
-
-
-.notification-box{
-  position: absolute;
-  color: white;
-  font-family: 'Como';
-  padding: 0.5rem;
-  width: auto;
-  left: -50%;
-  bottom: 10%;
-  z-index: 103;
-  /* border: 1px solid red; */
-  transition: left 500ms ease-out;
-
-}
-
-.notification-box.show-notification{
-  left: 1%;
-  transition: left 500ms ease-out;
-}
-
-
-
-
-.notification {
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: row;
-  font-weight: bolder;
-  padding: 1rem;
-  margin: 1rem 0;
-  gap: 1rem;
-  border: 1px solid rgba(255,200,48,0.5);;
-  align-items: center;
-  align-content: center;
-
-}
-.notification p{
-  margin: 0;
-}
-.notification .notification-user{
-  font-size: x-large;
-  font-weight: 800;
-  /* letter-spacing: 0.3cap; */
-  text-decoration:double;
-}
-
-.notification .notification-mediatime{
-  color: rgba(183,146,44,255);
-}
-
-
-.notification-type-icon{
-  color: rgba(255,200,48,1);
-  font-size: xx-large;
-}
-
 .video-chat-box{
   position: absolute;
   bottom: 60px;

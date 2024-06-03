@@ -8,31 +8,35 @@ const NOTIFICATION_MANAGER = {
         media: MEDIA_NOTIFICATION,
         cuedVideo: CuedVIDEO_NOTIFICATION,
         join: JOIN_NOTIFICATION,
+        existing: EXISTING_NOTIFICATION,
     },
 
     generateNotificationDiv: function(notificationObj){
         const notificationDiv = document.createElement('div');
         notificationDiv.classList.add('notification');
-
+        if(!notificationObj.__css__){
+            notificationObj.__css__ = 'default';
+        }
+        notificationDiv.classList.add(`${notificationObj.__css__}-notification`)
             const iconDiv = document.createElement('div');
-            iconDiv.classList.add('notification-type-icon');
+            iconDiv.classList.add('notification-icon');
             iconDiv.innerHTML = notificationObj.__icon__;
             notificationDiv.appendChild(iconDiv);
 
             const sender = document.createElement('p');
-            sender.classList.add('notification-user');
-            sender.textContent = notificationObj.__sender__;
+            sender.classList.add('notification-title');
+            sender.textContent = notificationObj.__title__;
             notificationDiv.appendChild(sender);
 
             const text = document.createElement('p');
-            text.classList.add('notification-type');
+            text.classList.add('notification-text');
             text.textContent = notificationObj.__text__;
             notificationDiv.appendChild(text);
             
-            if(notificationObj.__currentTime__){
+            if(notificationObj.__duration__){
                 const currentTime = document.createElement('p');
-                currentTime.classList.add('notification-mediatime');
-                currentTime.textContent = notificationObj.__currentTime__;
+                currentTime.classList.add('notification-duration');
+                currentTime.textContent = notificationObj.__duration__;
                 notificationDiv.appendChild(currentTime);
             }
             
@@ -41,6 +45,9 @@ const NOTIFICATION_MANAGER = {
     },
     // this function will be depricated soon and managers will be  independent
     __putNotification__: function(notification){
+        if(notification.__disabled__){
+            return;
+        }
         clearTimeout(this.clearTimeoutId);
         clearTimeout(this.showTimeOutId);
         const notificationDiv = this.generateNotificationDiv(notification);

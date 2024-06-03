@@ -24,6 +24,8 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
      __destroy__(){
         try {
             document.querySelector('.video-container').classList.add('display-none');
+            document.getElementById('video-filename-tab').textContent = '';
+            document.getElementById('video-filename-title').textContent = '';
             this.__player__.pause();
             this.source_html.src = '';
             this.__player__.load();
@@ -62,6 +64,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
             this.__player__.load();
             this.title = file.name;
             this.__emmitCuedEvent__();
+            this.__setVideoTitle()
         }catch(error){
             console.error(error);
         }
@@ -74,7 +77,9 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
         this.caption = true;
         try {
             this.caption_html.src = URL.createObjectURL(file);
-            console.log(`caption added`);
+            this.captionTitle = file.name;
+            this.__setCaptionTitle();
+            console.log(`[CALLED] __addCaption__ with ${file.name}`);
         } catch (error) {
             console.error(error);
         }
@@ -83,7 +88,15 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
         } catch (error) {
             console.error(error);
         }
+        
         this.container_html.classList.toggle("captions", VIDEO.__isCaptioning__())
+    }
+    __setVideoTitle(){
+        document.getElementById('video-filename-tab').textContent = this.title;
+        document.getElementById('video-filename-title').textContent = this.title;
+    }
+    __setCaptionTitle(){
+        document.getElementById('subtile-filename-tab').textContent = this.captionTitle;
     }
     __isCaptioning__(){
         return this.__player__.textTracks[0].mode !== "hidden"
@@ -91,6 +104,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
     __resetCaption(){
         this.caption_html.src = '';
         this.__player__.textTracks[0].mode = 'hidden'
+        document.getElementById('subtile-filename-tab').textContent = '';
     }
     // controls
     __playVideo__(seconds){
@@ -117,7 +131,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
         }
     }
     __getCurrentTime__(){
-        return this.__player__.currentTime;
+        return this.__player__.currentTime ?? 0;
     }
     __getPlayerState__(){
         return this.__player__.paused ? 2 : 1;
@@ -138,7 +152,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
     }
     __getIdentity__(){
         try {
-            return this.__getTitle__();
+            return 'LOCAL_VIDEO_DOESNT_MATCH_NAME';
         } catch (error) {
             console.error(error);
         }

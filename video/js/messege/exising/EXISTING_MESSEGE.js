@@ -11,6 +11,7 @@ const EXISTING_MESSEGE = {
         messege.isPaused = VIDEO.__isPaused__();
         messege.inTab = userOnThisTab();
         messege.caption = VIDEO.__isCaptioning__();
+        messege.videoIsActive = VIDEO.isActive();
         return messege;
     },
     
@@ -33,4 +34,5 @@ EVENTS.platform.addEventListener('room-leaved', (e)=>{
 
 EVENTS.platform.addEventListener('cuedVideo', ()=> EXISTING_MESSEGE.__emmit__());
 document.addEventListener("fullscreenchange", () => EXISTING_MESSEGE.__emmit__());
+document.addEventListener("visibilitychange", ()=> EXISTING_MESSEGE.__emmit__());
   

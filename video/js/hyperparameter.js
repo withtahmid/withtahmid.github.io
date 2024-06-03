@@ -13,4 +13,8 @@ const HYPERPARAMETER = {
     clearNotificationAfter: 500,
 
     mediaMissMatchTol: 8,
+
+    disconnectTime : 20,
+    lateTime : 10,
+    
 }

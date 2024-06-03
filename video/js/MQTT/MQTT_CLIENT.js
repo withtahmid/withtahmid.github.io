@@ -78,6 +78,49 @@ const MQTT = {
         });
 
     },
+    reconnect: function(){
+        this.client = mqtt.connect('wss://test.mosquitto.org:8081');
+        this.client.on('error', (error)=>{
+            console.error(error);
+        });
+        this.client.on('close', ()=>{
+            try {
+                EVENTS.directEmmit('mqtt-disconnected');
+            } catch (error) {
+                console.error(error);
+            }
+            
+            if(this.ending){
+                this.ending = false;
+                try {
+                    EVENTS.directEmmit('mqtt-ended');
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+        });
+        this.client.on('message', (topic, message)=>{
+            try {
+                MESSEGE_HANDLER.onMessege(message.toString());
+            } catch (error) {
+                console.error(error);
+            }
+        });
+
+        this.client.on('connect', (error)=>{
+            this.client.subscribe(ROOM.getTopic())
+            try {
+                EVENTS.directEmmit('mqtt-connected');
+            } catch (error) {
+                console.error(error);
+            }
+        });
+        this.client.on('reconnect', function () {
+            console.log('Reconnecting... MQTT');
+        });
+
+    },
 
     end: function(){
         if(!this.isConnected()){
@@ -138,3 +181,6 @@ const MQTT = {
         return status;
     },
 }
+
+
+// document.addEventListener("visibilitychange", ()=> MQTT.reconnect());

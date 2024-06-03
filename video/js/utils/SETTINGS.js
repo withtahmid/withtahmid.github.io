@@ -5,7 +5,7 @@ let SETTINGS = {
     username: '',
     roomId: '',
     autoJoin: false,
-    // notificationVolume: 1,
+    notificationVolumeIndex: 1,
     // showAnnounceMents: true,
     
     set: function(){
@@ -15,7 +15,7 @@ let SETTINGS = {
             username: this.username,
             roomId: this.roomId,
             autoJoin: this.autoJoin,
-            // notificationVolume: this.notificationVolume,
+            notificationVolumeIndex: this.notificationVolumeIndex,
             // showAnnounceMents: this.showAnnounceMents,
         }));
     },
@@ -27,7 +27,7 @@ let SETTINGS = {
         this.username = saved.username ?? '';
         this.roomId = saved.roomId ?? '';
         this.autoJoin = saved.autoJoin ?? false;
-        // this.notificationVolume = saved.notificationVolume ?? 1;
+        this.notificationVolumeIndex = saved.notificationVolumeIndex ?? 1;
         // this.showAnnounceMents = saved.showAnnounceMents ?? true;
     },
 }

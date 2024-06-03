@@ -2,7 +2,7 @@ const EVENTS = {
     platform: document.getElementById('events-platform'),
     emmit: function(event){
         try {
-            this.platform.dispatchEvent(new CustomEvent(event.name, event.data));  
+            this.platform.dispatchEvent(new CustomEvent(event.name, {detail: event.data}));  
         } catch (error) {
             console.error(error);
         }

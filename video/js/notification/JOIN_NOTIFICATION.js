@@ -5,12 +5,17 @@ const JOIN_NOTIFICATION = {
     texts: {
         join: 'joined the room'
     },
-
+    __ring__: function(){
+        NOTIFICATION_BELL.join();
+    },
     __generate__: function(messege){
-        const notification = {__sender__: messege.__sender__};
+        this.__ring__();
+        const notification = {__title__: messege.__sender__};
         notification.__icon__= this.icons[messege.__type__];
         notification.__text__= `${this.texts[messege.__type__]}`;
-        notification.__currentTime__ = null;
+        notification.__duration__ = null;
+        notification.__css__ = 'join';
+        notification.__disabled__=  false;
         return notification;
     }
 }

@@ -7,7 +7,7 @@ class MESSEGE_HANDLER_ABSTRACT{
     }
     __onFail__(messege){
         console.error(`[ FAILED ]: __type__: ${messege.__type__}, __id__: ${messege.__id__}`)
-        console.log(messege);
+        // console.log(messege);
     }
     __onSent__(messege){
         return;

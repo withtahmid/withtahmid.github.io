@@ -58,30 +58,30 @@ const ROOM = {
     //     console.log(err);
     // },
 
-    hendleConnect: function (){
-        this.connected = true;
-        if(this.connecting){
-            // this.hendleFirstConnect();
-        }
-        this.connecting = false;
-        this.broadcastExisTance();
-        this.refreshPeopleInterval = setInterval(()=>{
-            this.refreshPeopleList();
-        }, 5000);
+    // hendleConnect: function (){
+    //     this.connected = true;
+    //     if(this.connecting){
+    //         // this.hendleFirstConnect();
+    //     }
+    //     this.connecting = false;
+    //     this.broadcastExisTance();
+    //     this.refreshPeopleInterval = setInterval(()=>{
+    //         this.refreshPeopleList();
+    //     }, 5000);
 
-    },
-    startBoradcastingExistance: function(){
-        this.existingIntervalId = setInterval(()=>{
-           this.broadcastExisTance();
-        },10000);
-    },
-    sendMessage: function(object){
-        if(object.type === 'media' && (VIDEO.ignoreMediaEvent || !VIDEO.videoAdded)){
-            return;
-        }
+    // },
+    // startBoradcastingExistance: function(){
+    //     this.existingIntervalId = setInterval(()=>{
+    //        this.broadcastExisTance();
+    //     },10000);
+    // },
+    // sendMessage: function(object){
+    //     if(object.type === 'media' && (VIDEO.ignoreMediaEvent || !VIDEO.videoAdded)){
+    //         return;
+    //     }
     
-        this.broadcast(JSON.stringify(object));
-    },
+    //     this.broadcast(JSON.stringify(object));
+    // },
     // broadcastExisTance: function(){
     //     this.sendMessage(MESSAGE.existing());
     // },
@@ -95,6 +95,7 @@ const ROOM = {
         // this.makeTabDisconnected();
         
     },
+    
     handleLeave: function(){
         clearInterval(this.refreshPeopleInterval);
         this.leaveing = false;
@@ -131,16 +132,16 @@ const ROOM = {
     //     this.connectiontab.classList.add('connecting');
     // },
 
-    hendleFirstConnect: function(){
-        this.sendMessage(MESSAGE.join())
-        // this.makeTabConnected();
-        this.startBoradcastingExistance();
-        this.saveConfig();
-        // document.getElementById('video-title-id').classList.add('connected-title')
-        // document.getElementById('username-label-tab').textContent = this.username;
-        // document.getElementById('roomid-label-tab').textContent = this.roomId;
-        // this.RequestForMediaSync();
-    },
+    // hendleFirstConnect: function(){
+    //     // this.sendMessage(MESSAGE.join())
+    //     // this.makeTabConnected();
+    //     // this.startBoradcastingExistance();
+    //     // this.saveConfig();
+    //     // document.getElementById('video-title-id').classList.add('connected-title')
+    //     // document.getElementById('username-label-tab').textContent = this.username;
+    //     // document.getElementById('roomid-label-tab').textContent = this.roomId;
+    //     // this.RequestForMediaSync();
+    // },
 
     ringNotification: function(){
         document.getElementById('notification-sound').play();
