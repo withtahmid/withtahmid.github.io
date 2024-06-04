@@ -1,6 +1,6 @@
 const subtitlesFileInput = document.getElementById('subtitle-file-input');
 subtitlesFileInput.addEventListener('change', function() {
-    if(!VIDEO.isActive()){
+    if(!VIDEO.__isActive__()){
         // displayErrorOnScreen("Subtitle cannot be selected before video", "Oh no!")
         return;
     }
