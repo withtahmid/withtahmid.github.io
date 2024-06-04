@@ -306,7 +306,12 @@ const YOUTUBE_MANAGER = {
         return video.videoId ?? 'unknown'
     },
     __isActive__: function(){
-        this.queue.length > 0 && this.queueIndex != -1;
+        return (this.queue.length) > 0 && (this.queueIndex !== -1);
+    },
+
+    __destroy__: function(){
+        this.queueIndex = -1;
+        this.renderQueueHTML();
     },
 };
 

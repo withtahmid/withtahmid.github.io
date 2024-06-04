@@ -13,9 +13,11 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
         const emmitRecieveGap = Math.floor((TIME.now() - new Date(messege.__emmitTime__)) / 1000);
         const playTimeGap = Math.abs(VIDEO.__getCurrentTime__() - messege.currentTime);
         if(VIDEO.__isPaused__() === messege.isPaused && (playTimeGap <= HYPERPARAMETER.mediaMissMatchTol)){
+            console.log('Condition');
             return true;
         }
         if(!VIDEO.__isActive__()){
+            console.log('!VIDEO.__isActive__()', !VIDEO.__isActive__());
             return true;
         }
         return false;

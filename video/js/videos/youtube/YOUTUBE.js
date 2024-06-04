@@ -34,6 +34,7 @@ class YOUTUBE extends __VIDEO_PLAYER__{
             this.__player__.destroy();
             this.__player__ = null;
             this.__emmitDestroyEvent__();
+            YOUTUBE_MANAGER.__destroy__();
         }catch( error ){
             console.error( error );
         }
