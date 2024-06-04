@@ -6,6 +6,7 @@ const MESSEGE_HANDLER = {
         cuedVideo: new CuedVIDEO_MESSEGE_HANDLER(), 
         chatText: new CHAT_TEXT_MESSEGE_HANDLER(),
         join: new JOIN_MESSEGE_HANDLER(),
+        youtube: new YOUTUBE_MESSEGE_HANDLER(),
     },
 
     onMessege: function(json){

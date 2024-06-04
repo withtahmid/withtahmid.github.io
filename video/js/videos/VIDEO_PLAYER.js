@@ -66,5 +66,6 @@ class __VIDEO_PLAYER__{
         event.data.__time__ = TIME.now();
         EVENTS.emmit(event);
     }
+    __addToQueue__(something){console.log(`CALLED: [__addToQueue__] with ${something}`)}
    
 }

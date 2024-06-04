@@ -1,35 +1,3 @@
-function onYTPlayerError(){
-    displayErrorOnScreen('Youtube caused an error', "YouTube :')")
-}
-function onYTPlayerReady(){
-    VIDEO.__emmitCuedEvent__();
-    // const ytSync = VIDEO.ytSync;
-    // if(ytSync.active){
-    //     ytSync.paused ? VIDEO.pause(ytSync.time) : VIDEO.play(ytSync.time);
-    //     VIDEO.ytSync = {
-    //         active: false,
-    //         time: 0,
-    //         paused: true,
-    //     };
-    //     return;
-    // }
-    // if(VIDEO.ignoreNewVideoEvent){
-    //     VIDEO.ignoreNewVideoEvent = false;
-    //     return;
-    // }
-    // ROOM.sendMessage(MESSAGE.newVideo(VIDEO.ytPlayer.getVideoUrl()));
-}
-
-function onYTPlayerStateChange(event){
-    const state = event.data;
-    if(state === 1){
-        VIDEO.onPlay();
-    }else if(state === 2){
-        VIDEO.onPause();
-    }else if(state === 5){
-        VIDEO.__emmitCuedEvent__();
-    }
-}
 
 class YOUTUBE extends __VIDEO_PLAYER__{
     constructor(){
@@ -243,14 +211,8 @@ class YOUTUBE extends __VIDEO_PLAYER__{
         return match ? match[1] : null;
     }
     isActive(){return this.__player__!= null;}
-}
 
-function playYoutubeById(){
-    const input = document.getElementById('youtube-url-input');
-    try {
-        VIDEO.playYouTube(input.value);
-        input.value = '';
-    } catch (error) {
-        console.error(error)
+    __addToQueue__(url){
+        return;
     }
 }

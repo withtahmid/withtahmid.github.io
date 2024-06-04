@@ -26,8 +26,8 @@ const VIDEO = {
     },
     
     __player__: new __VIDEO_PLAYER__(null, 'abstract'),
+    // __player__: new YOUTUBE(),
     playerType: 'abstract',
-    inSync: true, // need to work here
 
     lastMediaOccured: 0,
 
@@ -188,9 +188,12 @@ const VIDEO = {
         return this.__player__.isActive();
     },
 
-        
-    isOnSync: function(){
-        return this.inSync;
+    __addToQueue__: function(video){
+        try {
+            this.__player__.__addToQueue__(video);
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     //
@@ -210,7 +213,8 @@ const VIDEO = {
             console.error(error);
         }
     },
-    playYouTube: function(url){
+    beYouTube: function(){
+        console.log('[CALLED] beYouTube')
         try {
             if(this.__player__.__getSourceType__() != 'youtube'){
                 this.__destroy__();
@@ -221,10 +225,27 @@ const VIDEO = {
         try {
             this.playerType = 'youtube';
             this.__player__ = this.players[this.playerType];
-            this.__player__.__cueVideo__(url);
+            this.__player__.__init__();
         } catch (error) {
             console.error(error);
         }
+    },
+    playYouTube: function(url){
+        // try {
+        //     if(this.__player__.__getSourceType__() != 'youtube'){
+        //         this.__destroy__();
+        //     }
+        // } catch (error) {
+        //     console.error(error)
+        // }
+        // try {
+        //     this.playerType = 'youtube';
+        //     this.__player__ = this.players[this.playerType];
+        //     this.__player__.__cueVideo__(url);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+        throw new Error('playYouTube is depricated');
     },
 
     // event handlers
@@ -307,4 +328,5 @@ const VIDEO = {
         console.error(error);
        }
     },
+
 }

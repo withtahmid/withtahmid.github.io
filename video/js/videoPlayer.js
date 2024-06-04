@@ -218,15 +218,15 @@ const VIDEO = {
     //     this.changed();
     // },
 
-    changeVideoFileName: function(fileName){
-        this.videoFileName = fileName;
-        document.getElementById('video-filename-tab').textContent = fileName;
-        document.getElementById('video-filename-title').textContent = fileName;
-    },
-    changeSubtitleFileName: function(fileName){
-        this.subtitleFileName = fileName;
-        document.getElementById('subtile-filename-tab').textContent = fileName;
-    },
+    // changeVideoFileName: function(fileName){
+    //     this.videoFileName = fileName;
+    //     document.getElementById('video-filename-tab').textContent = fileName;
+    //     document.getElementById('video-filename-title').textContent = fileName;
+    // },
+    // changeSubtitleFileName: function(fileName){
+    //     this.subtitleFileName = fileName;
+    //     document.getElementById('subtile-filename-tab').textContent = fileName;
+    // },
     changed: function(){
         ROOM.broadcastExisTance();
     },
@@ -250,7 +250,7 @@ const VIDEO = {
 
 }
 
-VIDEO.init();
+// VIDEO.init();
 
 /*-----------------------------------------------------------*/
 

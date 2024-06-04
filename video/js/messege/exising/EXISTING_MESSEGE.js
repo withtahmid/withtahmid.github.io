@@ -2,7 +2,7 @@
 const EXISTING_MESSEGE = {
     __get__: function(){
         const messege =  __MESSEGE_ABSTRACT__.get('existing', 'all');
-        messege.isOnSync = VIDEO.isOnSync();
+        messege.isOnSync = ROOM.isOnSync();
         messege.fullscreen = VIDEO.__fullscreen__();
         messege.title = VIDEO.__getTitle__();
         messege.currentTime = VIDEO.__getCurrentTime__();

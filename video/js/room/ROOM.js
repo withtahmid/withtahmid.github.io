@@ -4,6 +4,7 @@ const ROOM = {
     joinTime: null,
     connectedPeople: new Set(),
     peopleLastMessegeTimes : new Map(),
+    inSync: true,
 
     join: function(username, roomId){
         this.username = username;
@@ -30,6 +31,7 @@ const ROOM = {
             console.error(error);
         }
     },
+    
     isJoined: function(){
         return this.joinTime != null;
     },
@@ -37,10 +39,10 @@ const ROOM = {
         return this.joinTime;
     },
     getUsername: function(){
-        return this.username || 'null';
+        return this.username || null;
     },
     getRoomId: function(){
-        return this.roomId || 'null';
+        return this.roomId || null;
     },
 
     getTopic: function(){
@@ -55,6 +57,10 @@ const ROOM = {
         } catch (error) {
             console.error(error);
         }
+    },
+        
+    isOnSync: function(){
+        return this.inSync ?? true;
     },
     
     timeAgo(username){

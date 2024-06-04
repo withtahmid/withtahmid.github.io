@@ -1,20 +1,44 @@
 const YOUTUBE_MESSEGE = {
     __get__: function(){
-        const message = new __MESSEGE_ABSTRACT__.get('youtube', 'all')
+        return  __MESSEGE_ABSTRACT__.get('youtube', 'all')
     },
     __emmit__: function(){
 
     },
-    __isFor__: function(message){
-
+    addToQueue: function(video){
+        const messege = this.__get__();
+        messege.__YTtype__ = 'addToQueue';
+        messege.video = video;
+        MESSEGE_EMMITTER.__emmit__(messege);
     },
-    __onFail__: function(messege){
-
+    directPlay: function(video){
+        const messege = this.__get__();
+        messege.__YTtype__ = 'directPlay';
+        messege.video = video;
+        MESSEGE_EMMITTER.__emmit__(messege);
     },
-    __onSent__: function(message){
-
+    playFromQueueById: function(video){
+        const messege = this.__get__();
+        messege.__YTtype__ = 'playFromQueueById';
+        messege.video = video;
+        MESSEGE_EMMITTER.__emmit__(messege);
     },
-    __handle__: function(message){
-
+    removeFromQueueById: function(video){
+        const messege = this.__get__();
+        messege.__YTtype__ = 'removeFromQueueById';
+        messege.video = video;
+        MESSEGE_EMMITTER.__emmit__(messege);
     },
+    moveUpInQueueById: function(video){
+        const messege = this.__get__();
+        messege.__YTtype__ = 'moveUpInQueueById';
+        messege.video = video;
+        MESSEGE_EMMITTER.__emmit__(messege);
+    },
+    moveDownInQueueById: function(video){
+        const messege = this.__get__();
+        messege.__YTtype__ = 'moveDownInQueueById';
+        messege.video = video;
+        MESSEGE_EMMITTER.__emmit__(messege);
+    }
 }

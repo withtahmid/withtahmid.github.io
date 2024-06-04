@@ -4,7 +4,7 @@ const __MESSEGE_ABSTRACT__ = {
             throw new Error('__MESSEGE_ABSTRACT__ requires type and reciever')
         }
         const message = {
-            __id__: `${ROOM.getUsername()}${Date.now()}${type}${Math.floor(Math.random() * 1000)}${Math.floor(Math.random() * 1000)}`,
+            __id__: `${ROOM.getUsername()}${Date.now()}${type}${Math.floor(Math.random() * 1000)}`,
             __type__: type,
             __sender__: ROOM.username,
             __reciever__: reciever,

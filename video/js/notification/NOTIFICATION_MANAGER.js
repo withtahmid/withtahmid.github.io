@@ -97,3 +97,14 @@ const NOTIFICATION_MANAGER = {
         }
     }
 };
+
+
+/*
+__title__
+__text__
+__duration__
+__css__ optional
+__bell__optional
+__icon__ optional
+
+*/ 
