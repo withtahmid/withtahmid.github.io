@@ -41,21 +41,22 @@ class __VIDEO_PLAYER__{
     __seekTo__(seconds){}
     
     // get informations
-    __getCurrentTime__(){return null;}
+    __getCurrentTime__(){return 0;}
     __getPlayerState__(){return null;}
     __getTitle__(){return null;}
     __getDuration__(){return null;}
-    __isPaused__(){return null;}
+    __isPaused__(){return true;}
     __getIdentity__(){return null;}
     __fullscreen__(){return null;}
     __getSource__(){return null;}
     __getSourceType__(){return this.__sourceType__;}
-    isActive(){return false}
+    __isActive__(){return false}
     __emmitCuedEvent__(){
         const event = {name: 'cuedVideo'};
         event.data = {};
         event.data.__sourceType__ = this.__sourceType__;
         event.data.__time__ = TIME.now();
+        console.log('emmit called');
         EVENTS.emmit(event);
     }
 

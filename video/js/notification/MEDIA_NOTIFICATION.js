@@ -40,7 +40,7 @@ const MEDIA_NOTIFICATION = {
         const type = this.getType(messege);
         
         const notification = {__title__: messege.__sender__};
-        if(!VIDEO.isActive()){
+        if(!VIDEO.__isActive__()){
             notification.__disabled__=  true;
             return notification;
         }

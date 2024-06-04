@@ -90,7 +90,8 @@ class YOUTUBE extends __VIDEO_PLAYER__{
     }
     __getCurrentTime__(){
         try{
-            return this.__player__.getCurrentTime();
+            
+            return  this.__player__.getCurrentTime ? this.__player__.getCurrentTime() : 0;
         }catch( error ){
             console.error( error );
         }
@@ -106,21 +107,27 @@ class YOUTUBE extends __VIDEO_PLAYER__{
     }
     __isPaused__(){
         try {
-            return this.__player__.getPlayerState() === 2;
+            return this.__player__.getPlayerState ? this.__player__.getPlayerState() === 2 : true;
         } catch (error) {
             console.error(error);
         }
     }
     __getIdentity__(){
         try {
-            return this.__urlToId(this.__getVideoUrl());
+            return YOUTUBE_MANAGER.getCurrentVideoId();
         } catch (error) {
             console.error(error);
         }
+        return null;
     }
 
     __getTitle__(){
-        return 'playing from TouTube'; // need to work here
+        try {
+            return YOUTUBE_MANAGER.getCurrentVideoTitle() ?? null;
+        } catch (error) {
+            console.error(error);
+        }
+        return null;
     }
     __getDuration__(){
         return this.__player__.getDuration();
@@ -210,7 +217,14 @@ class YOUTUBE extends __VIDEO_PLAYER__{
         const match = url.match(regex);
         return match ? match[1] : null;
     }
-    isActive(){return this.__player__!= null;}
+    __isActive__(){
+       try {
+        return YOUTUBE_MANAGER.__isActive__();
+       } catch (error) {
+        console.error(error)
+       }
+       return false;
+    }
 
     __addToQueue__(url){
         return;

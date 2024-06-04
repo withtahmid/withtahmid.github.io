@@ -9,12 +9,34 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
             seekTo: VIDEO.seekToEx.bind(VIDEO),
         };
     }
+    canIgnore(messege){
+        const emmitRecieveGap = Math.floor((TIME.now() - new Date(messege.__emmitTime__)) / 1000);
+        const playTimeGap = Math.abs(VIDEO.__getCurrentTime__() - messege.currentTime);
+        if(VIDEO.__isPaused__() === messege.isPaused && (playTimeGap <= HYPERPARAMETER.mediaMissMatchTol)){
+            return true;
+        }
+        if(!VIDEO.__isActive__()){
+            return true;
+        }
+        return false;
+    }
+    execute(messege){
+        EXISTING_MESSEGE_HTML_MANAGER.updateMediaErrorBar(messege);
+        if(this.canIgnore(messege)){
+            console.log('[MEDIA IGNORED]');
+            return;
+        }
+        NOTIFICATION_MANAGER.manage(messege);
+        if(messege.isPaused){
+            this.handler.pauseVideo(messege.currentTime)
+        }else{
+            this.handler.playVideo(messege.currentTime)
+        }
+    }
     __isFor__(messege){
         return messege.__sender__ != ROOM.getUsername();
     }
     __handle__(messege){
-        // const diff = Math.abs(TIME.now() - new Date(messege.__emmitTime__));
-        // console.log(diff);
         if(!this.messegeInHandleQueue || messege.__emmitTime__ > this.messegeInHandleQueue.__emmitTime__){
             this.messegeInHandleQueue = messege;
         }
@@ -22,12 +44,7 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
             clearTimeout(this.handleTimeOutId);
         }
         this.handleTimeOutId = setTimeout(()=>{
-            NOTIFICATION_MANAGER.manage(this.messegeInHandleQueue);
-            if(this.messegeInHandleQueue.isPaused){
-                this.handler.pauseVideo(this.messegeInHandleQueue.currentTime)
-            }else{
-                this.handler.playVideo(this.messegeInHandleQueue.currentTime)
-            }
+            this.execute(this.messegeInHandleQueue);
             this.messegeInHandleQueue  = null;
         }, HYPERPARAMETER.mediaMessegeHandleDelay);
     }

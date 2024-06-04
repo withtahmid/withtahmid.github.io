@@ -184,8 +184,8 @@ const VIDEO = {
         }
         return 'null';
     },
-    isActive: function(){
-        return this.__player__.isActive();
+    __isActive__: function(){
+        return this.__player__.__isActive__();
     },
 
     __addToQueue__: function(video){

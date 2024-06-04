@@ -169,7 +169,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
     __getSource__(){
         return ''
     }
-    isActive(){return this.title!= null;}
+    __isActive__(){return this.title!= null;}
 }
 
 // will work later

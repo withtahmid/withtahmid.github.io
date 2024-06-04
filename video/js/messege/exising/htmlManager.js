@@ -60,6 +60,29 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
 
     },
 
+
+    updateTimeAgo: function(username, time_gap){
+        const timeAgoDiv = document.getElementById(`${username}-timeAgo-info`);
+        if(timeAgoDiv){
+            timeAgoDiv.textContent = `${FORMATOR.secondToMS(time_gap)}`;
+        }
+    },
+
+    calculateMediaError: function(message){
+        const transmissionTime = (TIME.msAgo(message.__emmitTime__)) / 1000;
+        const currentTime = message.currentTime + (message.isPaused ? 0 : transmissionTime);
+        const diff = VIDEO.__getCurrentTime__() - currentTime;
+        return ` ${diff <= 0 ? '+' : '-'}${FORMATOR.formatDuration(Math.abs(diff))}`;
+    },
+
+    updateMediaErrorBar: function(messege){
+        const mediaError = this.calculateMediaError(messege);
+        const mediaErrorBar = document.getElementById(`${messege.__sender__}-mediaErrorBar-info`);
+        if(mediaErrorBar){
+            mediaErrorBar.textContent = `${mediaError}`;
+        }
+    },
+
     refreshPeopleStatus: function(username){
         const time_gap = ROOM.timeAgo(username);
         const status = this.getStatusFromTimeGap(time_gap);
@@ -72,10 +95,7 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
         }else{
             console.error('sould not reach this portion');
         }
-        const timeAgoDiv = document.getElementById(`${username}-timeAgo-info`);
-        if(timeAgoDiv){
-            timeAgoDiv.textContent = `${FORMATOR.secondToMS(time_gap)}`;
-        }
+        this.updateTimeAgo(username, time_gap);
     },
 
     createNewPeople: function(messege){
@@ -90,7 +110,8 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
             this.createNewPeople(messege);
         }
         updateOnePeopleDiv(messege);
-        this.refreshPeopleStatus(messege.__sender__)
+        this.refreshPeopleStatus(messege.__sender__);
+        this.updateMediaErrorBar(messege);
     },
     sourceTypeIcons: {
         youtube: '<i class="fa-brands fa-youtube"></i>',
@@ -133,6 +154,7 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
     // infos
     `${messege.__sender__}-Videotitle-info`
     `${messege.__sender__}-timeAgo-info`
+    `${messege.__sender__}-mediaErrorBar-info`
 
 */
 
@@ -260,21 +282,21 @@ function createOnePeopleDiv(messege){
             
             moreInfo.appendChild(timeAgo);
 
-            // errorBar
-            const errorBar = document.createElement('div');
-            errorBar.classList.add('one-info');
-                // errorBar icon 
-                const errorBarIcon = document.createElement('p');
-                errorBarIcon.classList.add('icon');
-                errorBarIcon.innerHTML = `<i class="fa-solid fa-tower-broadcast"></i>`;
-                errorBar.appendChild(errorBarIcon);
-                // errorBar text
-                const errorBarText = document.createElement('p');
-                errorBarText.setAttribute('id', `${messege.__sender__}-errorBar-info`)
-                errorBarText.textContent = '...'
-                errorBar.appendChild(errorBarText);
+            // mediaErrorBar
+            const mediaErrorBar = document.createElement('div');
+            mediaErrorBar.classList.add('one-info');
+                // mediaErrorBar icon 
+                const mediaErrorBarIcon = document.createElement('p');
+                mediaErrorBarIcon.classList.add('icon');
+                mediaErrorBarIcon.innerHTML = `<i class="fa-solid fa-bug"></i>`;
+                mediaErrorBar.appendChild(mediaErrorBarIcon);
+                // mediaErrorBar text
+                const mediaErrorBarText = document.createElement('p');
+                mediaErrorBarText.setAttribute('id', `${messege.__sender__}-mediaErrorBar-info`)
+                mediaErrorBarText.textContent = '...'
+                mediaErrorBar.appendChild(mediaErrorBarText);
             
-            moreInfo.appendChild(errorBar);
+            moreInfo.appendChild(mediaErrorBar);
 
 
             // add more info .......

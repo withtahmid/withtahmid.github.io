@@ -11,7 +11,7 @@ const EXISTING_MESSEGE = {
         messege.isPaused = VIDEO.__isPaused__();
         messege.inTab = userOnThisTab();
         messege.caption = VIDEO.__isCaptioning__();
-        messege.videoIsActive = VIDEO.isActive();
+        messege.videoIsActive = VIDEO.__isActive__();
         return messege;
     },
     
