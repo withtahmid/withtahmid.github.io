@@ -153,7 +153,7 @@
                     </div>
                 </div>
                 <!-- Room -->
-                <input class=tab-input name="tabs" type="radio" id="tab-2"/>
+                <input class=tab-input name="tabs" type="radio" id="tab-2" checked="checked"/>
                 <label class="tab-label ease-btn" for="tab-2"><i class="fa-solid fa-people-roof"></i> <span> Room</span></label>
                 <div id="connection-tab" class="tab-panel room-tab no-connect">
                     
@@ -237,31 +237,32 @@
                 </div>
 
                  <!-- Youtube -->
-                 <input class=tab-input name="tabs" type="radio" id="tab-7" checked="checked"/>
+                 <input class=tab-input name="tabs" type="radio" id="tab-7"/>
                  <label class="tab-label ease-btn" for="tab-7"><i class="fa-brands fa-youtube"></i></i> <span>YouTube</span></label>
                  <div class="tab-panel media-tab youtube-tab">
                     <div class="file-input-divs" style="display: flex; gap: 1rem;">
                         <label><i class="fa-brands fa-youtube"></i></label>
-                        <input value="https://youtu.be/kkX8_nbBqBQ?si=jm2_QbvfAyg3vsjU" style="flex-grow: 1;" type="text" placeholder="Enter Youtube URL" id="youtube-url-input">
+                        <input  style="flex-grow: 1;" type="text" placeholder="Enter Youtube URL" id="youtube-url-input">
                         <label onclick="playYoutubeById()" for="youtube-url-input"  class="ease-btn">Play</label>
                     </div>
                     <div class="file-input-divs" style="display: flex; gap: 1rem;">
                         <label><i class="fa-solid fa-layer-group"></i></label>
-                        <input value="https://youtu.be/kkX8_nbBqBQ?si=jm2_QbvfAyg3vsjU" style="flex-grow: 1;" type="text" placeholder="Enter Youtube URL" id="youtube-queue-input">
+                        <input style="flex-grow: 1;" type="text" placeholder="Enter Youtube URL" id="youtube-queue-input">
                         <label onclick="addToYouTubeQueue()" for="youtube-queue-input"  class="ease-btn">Queue</label>
                     </div>
                     <!-- <p>New features will be added</p> -->
                     <div class="youtube-queue-list-head">
                         <div class="youtube-queue-list-head-media-buttons">
-                            <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-backward-step"></i></button>
-                            <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-repeat"></i></button>
-                            <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-forward-step"></i></button>
+                            <!-- Queue -->
+                            <!-- <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-backward-step"></i></button> -->
+                            <!-- <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-repeat"></i></button> -->
+                            <!-- <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-forward-step"></i></button> -->
                             <!-- <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-play"></i></button> -->
                         </div>
                         
                     </div>
                     <div id="youtube-queue-container" class="youtube-queue-list">
-                        <div class="youtube-queue-item">
+                        <!-- <div class="youtube-queue-item">
                             <img class="youtube-queue-item-thumbnail" src="./elements/youtube/dummy-thumbnail.png" alt="">
                             <p class="youtube-queue-item-title">Sonos Ace Headphondrkigheri eithweriu hgeriuthg eiugherui hrifri yt48tes: Job!</p>
                             <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
@@ -276,7 +277,7 @@
                             <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
                             <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-play"></i></button>
                             <button class="youtube-queue-item-btn ease-btn"><i class="fa-regular fa-circle-xmark"></i></button>
-                        </div>
+                        </div> -->
                         
                     </div>
                  </div>

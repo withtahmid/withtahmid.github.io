@@ -22,10 +22,14 @@
 }
 .youtube-queue-list{
     font-family: 'Como';
-    overflow-y: scroll;
+    overflow-y: auto;
     scroll-behavior: smooth;
     height: 50%;
     color: var(--yellow-primary);
+    border-radius: 15px;
+    /* border: 5px dashed var(--yellow-background); */
+    padding: 0.5rem;
+    background-color: rgba(40,41,45,255);
 }
 
 .youtube-queue-list::-webkit-scrollbar {
@@ -53,9 +57,10 @@
     padding: 0.5rem;
     display: flex;
     align-items: center;
-    background-color: var(--yellow-background);
-    border-radius: 15px;
-    margin-top: 1rem;
+    /* background-color: var(--yellow-background-half); */
+    background-color: rgba(33,34,36, 0.4);
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
 }
 
 .youtube-queue-item-thumbnail{
@@ -85,6 +90,6 @@
 }
 
 .youtube-queue-currenty-playing{
-  background-color: var(--yellow-background-bright)!important;
-  border: 1px solid var(--yellow-primary);
+  background-color: rgba(33,34,36, 1    );
+  border: 1px solid var(--yellow-primary-half);
 }
