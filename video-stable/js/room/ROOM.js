@@ -4,6 +4,7 @@ const ROOM = {
     joinTime: null,
     connectedPeople: new Set(),
     peopleLastMessegeTimes : new Map(),
+    inSync: true,
 
     join: function(username, roomId){
         this.username = username;
@@ -58,6 +59,10 @@ const ROOM = {
         }
     },
         
+    isOnSync: function(){
+        return this.inSync ?? true;
+    },
+    
     timeAgo(username){
         if(!this.peopleLastMessegeTimes.has(username)){
             console.error('[ROOM] could not calculate timeAgo');

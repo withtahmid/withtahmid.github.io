@@ -153,7 +153,7 @@
                     </div>
                 </div>
                 <!-- Room -->
-                <input class=tab-input name="tabs" type="radio" id="tab-2" checked="checked"/>
+                <input class=tab-input name="tabs" type="radio" id="tab-2"  checked="checked"/>
                 <label class="tab-label ease-btn" for="tab-2"><i class="fa-solid fa-people-roof"></i> <span> Room</span></label>
                 <div id="connection-tab" class="tab-panel room-tab no-connect">
                     
@@ -245,24 +245,21 @@
                             <div class="youtube-queue-head-top">
                                 <p id="youtube-queue-serial-info" class="youtube-queue-head-top-header">0/0</p>
                                 <input class="youtube-queue-head-top-input" type="text" placeholder="Enter Youtube URL" id="youtube-url-input">
-                                <button onclick="playYoutubeById()" for="youtube-queue-input"  class="youtube-queue-head-top-btn"><i class="fa-solid fa-play"></i></button>
-                                <button onclick="addToYouTubeQueue()" for="youtube-queue-input"  class="youtube-queue-head-top-btn"><i class="fa-solid fa-plus"></i></button>
+                                <button title="Play" onclick="playYoutubeById()" for="youtube-queue-input"  class="youtube-queue-head-media-btn"><i class="fa-solid fa-play"></i></button>
+                                <button title="add to queue" onclick="addToYouTubeQueue()" for="youtube-queue-input"  class="youtube-queue-head-media-btn"><i class="fa-solid fa-plus"></i></button>
                             </div>
-                            <!-- <div class="youtube-queue-head-top">
-                                <p class="youtube-queue-head-top-header">Que</p>
-                                <input class="youtube-queue-head-top-input" type="text" placeholder="Enter Youtube URL" id="youtube-queue-input">
-                                <button onclick="addToYouTubeQueue()" for="youtube-queue-input"  class="youtube-queue-head-top-btn"><i class="fa-solid fa-plus"></i></button>
-                            </div> -->
+
                             <div class="youtube-queue-head-media-buttons">
-                                <button class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-repeat"></i></button>
-                                <button class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-shuffle"></i></button>
-                                <button style="margin-left: auto;" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-handshake"></i></button>
+                                <!-- youtube-media-button-active -->
+                                <button title="loop" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-repeat"></i></button>
+                                <button title="shuffle" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-shuffle"></i></button>
+                                <button title="calibrate queue" style="margin-left: auto;" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-handshake"></i></button>
                             </div>
                             
                         </div>
                         <div id="youtube-queue-container" class="youtube-queue-list">
 
-                            <!-- <div class="youtube-queue-item youtube-queue-currenty-playing">
+                            <!-- <div class="youtube-queue-item ">
                                 <button class="youtube-queue-item-left-icon">
                                     <i class="fa-solid fa-play"></i>
                                 </button>
@@ -279,8 +276,43 @@
                                     <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
                                     <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
                                 </div>
+                            </div>
+                            <div class="youtube-queue-item youtube-queue-currenty-playing">
+                                <button class="youtube-queue-item-left-icon">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <img class="youtube-queue-item-thumbnail" src="./elements/youtube/dummy-thumbnail.png" alt="">
+                                <div class="youtube-queue-item-info-box">
+                                    <p class="youtube-queue-item-title">Porter Robinson & Madeon - Shelter (Official Audio) kudy eoweiu weh hw wehi  o wieurw </p>
+                                    <div class="youtube-queue-item-additional-info">
+                                        <p class="youtube-queue-item-chanleTitle">Tahmid Ahmed Tahmid Ahmed </p>
+                                        <p class="youtube-queue-item-addedBy">Tahmid Ahmed Tahmid Ahmed</p>
+                                    </div>
+                                    
+                                </div>
+                                <div class="youtube-queue-item-button-box">
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                                </div>
+                            </div>
+                            <div class="youtube-queue-item">
+                                <button class="youtube-queue-item-left-icon">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <img class="youtube-queue-item-thumbnail" src="./elements/youtube/dummy-thumbnail.png" alt="">
+                                <div class="youtube-queue-item-info-box">
+                                    <p class="youtube-queue-item-title">Porter Robinson & Madeon - Shelter (Official Audio) kudy eoweiu weh hw wehi  o wieurw </p>
+                                    <div class="youtube-queue-item-additional-info">
+                                        <p class="youtube-queue-item-chanleTitle">Tahmid Ahmed Tahmid Ahmed </p>
+                                        <p class="youtube-queue-item-addedBy">Tahmid Ahmed Tahmid Ahmed</p>
+                                    </div>
+                                    
+                                </div>
+                                <div class="youtube-queue-item-button-box">
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                                </div> 
                             </div> -->
-
                         </div>
                     </section>
                  </div>
@@ -353,7 +385,7 @@
                 
                 </div>
                 <!-- Log -->
-                <input class=tab-input name="tabs" type="radio" id="tab-6"/>
+                <!-- <input class=tab-input name="tabs" type="radio" id="tab-6"/>
                 <label class="tab-label ease-btn" for="tab-6"><i class="fa-solid fa-clock-rotate-left"></i> <span>Log</span></label>
                 <div class="tab-panel logs">
                     <div class="logout">
@@ -368,7 +400,7 @@
                                 <td>Time</td>
                             </tr>
                         </table>
-                </div>
+                </div> -->
             </div>
         </div>
         <div  class="hidden">

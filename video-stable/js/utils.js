@@ -32,6 +32,15 @@ function displayAnnouncement(text = 'Someting went wrong!', heading = 'Ooops!'){
 
 // displayAnnouncement('Milkyway now supports YouTube. <br><br> NOTE: this feature is half baked and is not as smoth as playing videos from device, and will evolve over time.', 'Woo-Hoo!!');
 
+const keepInSyncBtn = document.getElementById('sync-checkbox-input');
+keepInSyncBtn.addEventListener('change', ()=>{
+  ROOM.toggleSync(keepInSyncBtn.checked);
+})
+
+const chatOnVideoBtn = document.getElementById('chat-on-viddeo-checkbox-input');
+chatOnVideoBtn.addEventListener('change', ()=>{
+  VIDEO.toggleChatOnVideoPermission(chatOnVideoBtn.checked);
+})
 
 
 function noReady(){

@@ -10,22 +10,38 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
         };
     }
     canIgnore(messege){
+        const ret = {ignore: false};
+        if(!SETTINGS.inSync){
+            ret.ignore = true;
+            ret.messege = `inSync: ${SETTINGS.inSync}`;
+            return ret;
+        }
+        const myVideoActive = VIDEO.__isActive__()
+        if(!myVideoActive){
+            ret.ignore = true;
+            ret.messege = `myVideoActive: ${myVideoActive}`;
+            return ret;
+        }
         const emmitRecieveGap = Math.floor((TIME.now() - new Date(messege.__emmitTime__)) / 1000);
         const playTimeGap = Math.abs(VIDEO.__getCurrentTime__() - messege.currentTime);
-        if(VIDEO.__isPaused__() === messege.isPaused && (playTimeGap <= HYPERPARAMETER.mediaMissMatchTol)){
-            console.log('Condition');
-            return true;
+        const myVideoPaused = VIDEO.__isPaused__();
+        if( myVideoPaused === messege.isPaused && (playTimeGap <= HYPERPARAMETER.mediaMissMatchTol)){
+            ret.ignore = true;
+            ret.messege = ` 
+            myVideoPaused: ${VIDEO.__isPaused__()}\n
+            messege.isPaused: ${messege.isPaused}\n
+            playTimeGap: ${playTimeGap}`;
+            return ret;
         }
-        if(!VIDEO.__isActive__()){
-            console.log('!VIDEO.__isActive__()', !VIDEO.__isActive__());
-            return true;
-        }
-        return false;
+        
+        return ret;
     }
     execute(messege){
         EXISTING_MESSEGE_HTML_MANAGER.updateMediaErrorBar(messege);
-        if(this.canIgnore(messege)){
-            console.log('[MEDIA IGNORED]');
+        const ignoreStatus = this.canIgnore(messege);
+        if(ignoreStatus.ignore){
+            console.log('[MEDIA MESSEGE IGNORED]');
+            console.log(ignoreStatus.messege);
             return;
         }
         NOTIFICATION_MANAGER.manage(messege);

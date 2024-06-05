@@ -51,10 +51,8 @@ const ROOM_HTML_MANAGER = {
             return;
         }
         ROOM.join(username, roomId);
-        const autoJoin = document.getElementById('remember-connection').checked;
         SETTINGS.username = username;
         SETTINGS.roomId = roomId;
-        SETTINGS.autoJoin = autoJoin;
     },
 
     leaveRoom: function(){

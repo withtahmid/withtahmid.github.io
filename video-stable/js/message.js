@@ -360,12 +360,10 @@ function appendTextToTextBox(message){
     sender.textContent = message.username;
     container.appendChild(sender);
     chatBox.appendChild(container);
-    
     if(VIDEO.isFullScreen() && VIDEO.allowChatOnScreen){
         videoContainer.classList.add('on-video-chat');
     }
     chatBox.scrollTop = chatBox.scrollHeight;
-    
 }
 
 

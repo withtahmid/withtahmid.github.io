@@ -1,6 +1,5 @@
-function onYTPlayerError(e){
+function onYTPlayerError(){
     displayErrorOnScreen('Youtube caused an error', "YouTube :')")
-    console.log(e);
 }
 function onYTPlayerReady(){
     // VIDEO.__emmitCuedEvent__();
@@ -141,9 +140,9 @@ const YOUTUBE_MANAGER = {
             return;
         }
         const videomsq = messege.video;
-        let index = this.queue.findIndex(video => video.__id__ === videomsq.__id__);
+        const index = this.queue.findIndex(video => video.__id__ === videomsq.__id__);
         if(index === -1){
-            this.addToIndex(this.queueIndex + 1, videomsq);
+            this.addToIndex(this.queueIndex + 1, video);
             index = this.queueIndex + 1;
         }
         this.playIndex(index);

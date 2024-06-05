@@ -1,5 +1,6 @@
-function onYTPlayerError(){
+function onYTPlayerError(e){
     displayErrorOnScreen('Youtube caused an error', "YouTube :')")
+    console.log(e);
 }
 function onYTPlayerReady(){
     // VIDEO.__emmitCuedEvent__();
@@ -140,9 +141,9 @@ const YOUTUBE_MANAGER = {
             return;
         }
         const videomsq = messege.video;
-        const index = this.queue.findIndex(video => video.__id__ === videomsq.__id__);
+        let index = this.queue.findIndex(video => video.__id__ === videomsq.__id__);
         if(index === -1){
-            this.addToIndex(this.queueIndex + 1, video);
+            this.addToIndex(this.queueIndex + 1, videomsq);
             index = this.queueIndex + 1;
         }
         this.playIndex(index);
@@ -364,6 +365,7 @@ function createQueueItemDiv (video, current = false, first, last){
         if(current){
             div.classList.add('youtube-queue-currenty-playing');
             leftBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            // leftBtn.innerHTML = '<i class="fa-solid fa-repeat"></i>';
         }else{
             leftBtn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
             leftBtn.classList.add('ease-btn')

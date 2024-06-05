@@ -7,7 +7,6 @@ CHAT_MESSEGE_HTML_MANAGER = {
 
 function appendTextToTextBox(message){
     const chatBox = document.getElementById('chat-box-container');
-    // ROOM.ringNotification();
     const container = document.createElement('div');
     container.classList.add('message-container');
     
@@ -41,10 +40,11 @@ function appendTextToTextBox(message){
     sender.textContent = message.__sender__;
     container.appendChild(sender);
     chatBox.appendChild(container);
-    if(VIDEO.__fullscreen__() && VIDEO.allowChatOnScreen){
+    if(VIDEO.__fullscreen__() && SETTINGS.allowChatOnFullScreen){
         videoContainer.classList.add('on-video-chat');
     }
     chatBox.scrollTop = chatBox.scrollHeight;
+    console.log(chatBox.scrollHeight)
 }
 
 

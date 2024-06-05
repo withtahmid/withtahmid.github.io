@@ -13,13 +13,9 @@ const volumeSlider = document.querySelector(".volume-slider")
 const videoContainer = document.querySelector(".video-container")
 const timelineContainer = document.querySelector(".timeline-container")
 const video = document.querySelector("video")
-const chatBtn  = document.querySelector('.chat-btn-onvideo');
 const videoControlsContainer = document.querySelector('.video-controls-container');
 
-chatBtn.addEventListener('click', toggleChatOnVideo);
-function toggleChatOnVideo(){
-  videoContainer.classList.toggle('on-video-chat');
-}
+
 document.addEventListener("keydown", e => {
   const tagName = document.activeElement.tagName.toLowerCase()
 
@@ -124,16 +120,19 @@ function changePlaybackSpeed() {
 const captions = video.textTracks[0]
 captions.mode = "hidden"
 
-captionsBtn.addEventListener("click", toggleCaptions)
-
-function toggleCaptions() {
-  // if(!VIDEO.subtitleAdded){
-  //   return;
-  // }
+captionsBtn.addEventListener("click", (e)=>{
+  e.stopPropagation();
   const isHidden = captions.mode === "hidden"
   captions.mode = isHidden ? "showing" : "hidden"
   videoContainer.classList.toggle("captions", isHidden)
-}
+})
+captionsBtn.addEventListener("dblclick", (e)=>{
+  e.stopPropagation();
+  const isHidden = captions.mode === "hidden"
+  captions.mode = isHidden ? "showing" : "hidden"
+  videoContainer.classList.toggle("captions", isHidden)
+})
+
 
 // Duration
 video.addEventListener("loadeddata", () => {
@@ -176,6 +175,11 @@ volumeSlider.addEventListener("input", e => {
   video.muted = e.target.value === 0
 })
 
+muteBtn.addEventListener('dblclick', (e)=>{
+  e.stopPropagation();
+})
+
+
 function toggleMute() {
   video.muted = !video.muted
 }
@@ -191,7 +195,6 @@ video.addEventListener("volumechange", () => {
   } else {
     volumeLevel = "low"
   }
-
   videoContainer.dataset.volumeLevel = volumeLevel
 })
 
@@ -238,8 +241,16 @@ video.addEventListener("leavepictureinpicture", () => {
 // Play/Pause
 playPauseBtn.addEventListener("click", togglePlay)
 video.addEventListener("click", togglePlay)
+playPauseBtn.addEventListener('dblclick', (e)=>{
+  e.stopPropagation();
+})
+
+
 
 function togglePlay() {
+  if(!VIDEO.__isActive__()){
+    return;
+  }
   video.paused ? video.play() : video.pause()
 }
 
@@ -253,6 +264,7 @@ function vanishControlLater(){
     }
   },2000);
 }
+
 videoContainer.addEventListener('mousemove', (event)=>{
   if(video.paused){
     return;
@@ -275,8 +287,6 @@ video.addEventListener("pause", () => {
   videoContainer.classList.add("paused")
   videoContainer.classList.add('show-control');
 })
-
-
 
 const onVideoChatContainer = document.querySelector('.video-chat-box');
 const offVideoChatContainer = document.querySelector('.off-video-chat-box');
@@ -308,5 +318,16 @@ function toggleFullScreenFunctionality(){
     videoContainer.classList.remove('on-video-chat');
   }
   chatBox.scrollTop = chatBox.scrollHeight;
-
 }
+
+
+document.querySelector('.chat-btn-onvideo').addEventListener('click', (e)=>{
+  videoContainer.classList.toggle('on-video-chat');
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+document.querySelector('.chat-btn-onvideo').addEventListener('dblclick', (e)=>{
+  e.stopPropagation();
+});
+
+

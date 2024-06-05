@@ -4,7 +4,7 @@ const EXISTING_NOTIFICATION = {
         if(messege.__sender__ === ROOM.getUsername()){
             return notification;
         }
-        if(!VIDEO.__isActive__() || !messege.videoIsActive || !messege.isOnSync || !ROOM.isOnSync()){
+        if(!VIDEO.__isActive__() || !messege.videoIsActive || !messege.isOnSync || !SETTINGS.inSync){
             return notification;
         }
         const diff = messege.currentTime - VIDEO.__getCurrentTime__();
