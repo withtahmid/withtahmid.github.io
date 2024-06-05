@@ -1,0 +1,155 @@
+
+/*  */
+
+
+.chat-box{
+    /* border: 1px solid red; */
+    width: 100%;
+    bottom: 7%;
+    position: absolute;
+    /* max-height: 400px; */
+    height: auto;
+    max-height: 93%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* scroll-behavior: smooth; */
+  }
+  .message-container{
+    margin: 0.7rem 0;
+  }
+  .message-container .sender{
+    font-family: 'Como';
+    font-style: normal;
+    margin: 0 4rem;
+    padding: 0.5rem;
+    color: rgba(127,127,128,255);
+    font-size: small;
+  }
+  .message.you + .sender{
+    text-align: right;
+  }
+  
+  .message{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  .message.you{
+    flex-direction: row-reverse;
+  }
+  .message.you p.text{
+    background-color: rgba(46,44,37,255)!important;
+  }
+  
+  .message p{
+    margin: 0;
+    font-family: 'Como';
+    font-style: normal;
+    font-weight: 600;
+  }
+  .message .text{
+    padding: 1rem;
+    border-radius: 10px;
+    max-width: 70%;
+    background-color: rgba(40,41,45,255);
+    /* min-width: 40%; */
+    color: #ccc;
+    /* display: block; */
+  }
+  
+  .message .time{
+    color: rgba(183,146,44,255);
+  }
+  
+  
+  /* For WebKit-based browsers */
+  .chat-box::-webkit-scrollbar {
+    width: 10px;
+    display: none;
+  }
+  
+  .chat-box::-webkit-scrollbar-thumb {
+    /* background-color: rgba(255,200,48,0.3); */
+    
+    border-radius: 5px;
+    display: none;
+  }
+  
+  .chat-box::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255,200,48,0.8);
+    display: none;
+  }
+  
+  /* For Firefox */
+  .chat-box {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,200,48,0.8) transparent;
+  }
+  
+  
+  
+  
+  /* For Edge and IE */
+  /* Unfortunately, Edge and IE do not support scrollbar customization via CSS */
+  
+  emoji-picker{
+    /* --background: rgba(22,23,25,255); */
+    /* --border-color: rgba(22,23,25,255); */
+  }
+  
+  .emoji-box{
+    position: absolute;
+    bottom: 10%;
+    right: 1%;
+  }
+  
+  .hidden.hidden{
+    display: none;
+  }
+  
+  .message-send-box{
+    position: absolute;
+    display: flex;
+    /* padding: 0.2rem 0; */
+    border-radius: 10px;
+    align-items: center;
+    bottom: 0;
+    /* height: 7%; */
+    background-color: rgba(40,41,45,255);
+    backdrop-filter: blur(8px);
+    width: 100%;
+    z-index: 2;
+    gap: 1rem;
+    padding: 1rem 2rem;
+  
+  }
+  
+  .message-send-box  input[type= "text"]{
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    flex-grow: 1;
+    height: 70%;
+    font-family: 'Como';
+    font-style: normal;
+    font-weight: 600;
+    font-size: large;
+    text-align: center;
+    color: #ccc;
+  }
+  .message-send-box button{
+    font-size: x-large;
+    background: none;
+    border: none;
+    outline: none;
+    color: #ccc;
+    cursor: pointer;
+  }
