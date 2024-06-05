@@ -239,47 +239,50 @@
                  <!-- Youtube -->
                  <input class=tab-input name="tabs" type="radio" id="tab-7"/>
                  <label class="tab-label ease-btn" for="tab-7"><i class="fa-brands fa-youtube"></i></i> <span>YouTube</span></label>
-                 <div class="tab-panel media-tab youtube-tab">
-                    <div class="file-input-divs" style="display: flex; gap: 1rem;">
-                        <label><i class="fa-brands fa-youtube"></i></label>
-                        <input  style="flex-grow: 1;" type="text" placeholder="Enter Youtube URL" id="youtube-url-input">
-                        <label onclick="playYoutubeById()" for="youtube-url-input"  class="ease-btn">Play</label>
-                    </div>
-                    <div class="file-input-divs" style="display: flex; gap: 1rem;">
-                        <label><i class="fa-solid fa-layer-group"></i></label>
-                        <input style="flex-grow: 1;" type="text" placeholder="Enter Youtube URL" id="youtube-queue-input">
-                        <label onclick="addToYouTubeQueue()" for="youtube-queue-input"  class="ease-btn">Queue</label>
-                    </div>
-                    <!-- <p>New features will be added</p> -->
-                    <div class="youtube-queue-list-head">
-                        <div class="youtube-queue-list-head-media-buttons">
-                            <!-- Queue -->
-                            <!-- <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-backward-step"></i></button> -->
-                            <!-- <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-repeat"></i></button> -->
-                            <!-- <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-forward-step"></i></button> -->
-                            <!-- <button class="youtube-queue-list-head-media-btn ease-btn"><i class="fa-solid fa-play"></i></button> -->
+                 <div class="tab-panel youtube-tab">
+                    <section class="youtube-queue-whole-container">
+                        <div class="youtube-queue-head">
+                            <div class="youtube-queue-head-top">
+                                <p id="youtube-queue-serial-info" class="youtube-queue-head-top-header">0/0</p>
+                                <input class="youtube-queue-head-top-input" type="text" placeholder="Enter Youtube URL" id="youtube-url-input">
+                                <button onclick="playYoutubeById()" for="youtube-queue-input"  class="youtube-queue-head-top-btn"><i class="fa-solid fa-play"></i></button>
+                                <button onclick="addToYouTubeQueue()" for="youtube-queue-input"  class="youtube-queue-head-top-btn"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            <!-- <div class="youtube-queue-head-top">
+                                <p class="youtube-queue-head-top-header">Que</p>
+                                <input class="youtube-queue-head-top-input" type="text" placeholder="Enter Youtube URL" id="youtube-queue-input">
+                                <button onclick="addToYouTubeQueue()" for="youtube-queue-input"  class="youtube-queue-head-top-btn"><i class="fa-solid fa-plus"></i></button>
+                            </div> -->
+                            <div class="youtube-queue-head-media-buttons">
+                                <button class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-repeat"></i></button>
+                                <button class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-shuffle"></i></button>
+                                <button style="margin-left: auto;" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-handshake"></i></button>
+                            </div>
+                            
                         </div>
-                        
-                    </div>
-                    <div id="youtube-queue-container" class="youtube-queue-list">
-                        <!-- <div class="youtube-queue-item">
-                            <img class="youtube-queue-item-thumbnail" src="./elements/youtube/dummy-thumbnail.png" alt="">
-                            <p class="youtube-queue-item-title">Sonos Ace Headphondrkigheri eithweriu hgeriuthg eiugherui hrifri yt48tes: Job!</p>
-                            <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
-                            <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
-                            <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-play"></i></button>
-                            <button class="youtube-queue-item-btn ease-btn"><i class="fa-regular fa-circle-xmark"></i></button>
-                        </div> -->
-                        <!-- <div class="youtube-queue-item youtube-queue-currenty-playing">
-                            <img class="youtube-queue-item-thumbnail" src="./elements/youtube/dummy-thumbnail.png" alt="">
-                            <p class="youtube-queue-item-title">Sonos Ace Headphondrkigheri eithweriu hgeriuthg eiugherui hrifri yt48tes: Job!</p>
-                            <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
-                            <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
-                            <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-play"></i></button>
-                            <button class="youtube-queue-item-btn ease-btn"><i class="fa-regular fa-circle-xmark"></i></button>
-                        </div> -->
-                        
-                    </div>
+                        <div id="youtube-queue-container" class="youtube-queue-list">
+
+                            <!-- <div class="youtube-queue-item youtube-queue-currenty-playing">
+                                <button class="youtube-queue-item-left-icon">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <img class="youtube-queue-item-thumbnail" src="./elements/youtube/dummy-thumbnail.png" alt="">
+                                <div class="youtube-queue-item-info-box">
+                                    <p class="youtube-queue-item-title">Porter Robinson & Madeon - Shelter (Official Audio) kudy eoweiu weh hw wehi  o wieurw </p>
+                                    <div class="youtube-queue-item-additional-info">
+                                        <p class="youtube-queue-item-chanleTitle">Tahmid Ahmed Tahmid Ahmed </p>
+                                        <p class="youtube-queue-item-addedBy">Tahmid Ahmed Tahmid Ahmed</p>
+                                    </div>
+                                    
+                                </div>
+                                <div class="youtube-queue-item-button-box">
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                                </div>
+                            </div> -->
+
+                        </div>
+                    </section>
                  </div>
 
                 <!-- Utils -->

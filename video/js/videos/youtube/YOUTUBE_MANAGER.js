@@ -53,7 +53,7 @@ async function getYouTubeInfo(videoId) {
 
         const { title, thumbnails, channelTitle} = data.items[0].snippet;
         const thumbnail = thumbnails.default.url;
-        YOUTUBE_MANAGER.infoCache.set(videoId, { title, thumbnail});
+        YOUTUBE_MANAGER.infoCache.set(videoId, { title, thumbnail, channelTitle});
         return { title, thumbnail, channelTitle};
     } catch (error) {
         console.error('Failed to fetch video details:', error.messege);
@@ -99,6 +99,8 @@ const YOUTUBE_MANAGER = {
             const div = createQueueItemDiv(this.queue[i], i === this.queueIndex, i == 0, i == (this.queue.length - 1));
             this.queueItemContainer.appendChild(div);
         }
+
+        document.getElementById('youtube-queue-serial-info').textContent = `${this.queueIndex + 1} / ${this.queue.length}`
     },
     
     addToIndex: function(index, video){
@@ -127,7 +129,7 @@ const YOUTUBE_MANAGER = {
         const video = messege.video;
         this.queueIndex++;
         this.addToIndex(this.queueIndex, video);
-        VIDEO.__player__.__cueVideoById(video.videoId);
+        VIDEO.__player__.__loadVideoById(video.videoId);
         this.renderQueueHTML();
     },
     playFromQueueByIdEx: async function(messege){
@@ -286,7 +288,7 @@ const YOUTUBE_MANAGER = {
         this.queueIndex++;
         this.addToIndex(this.queueIndex, video);
         // this.playIndex(this.queueIndex);
-        VIDEO.__player__.__cueVideoById(youtubeURLtoId(url));
+        VIDEO.__player__.__loadVideoById(youtubeURLtoId(url));
         this.renderQueueHTML();
         YOUTUBE_MESSEGE.directPlay(video);
     },
@@ -331,7 +333,7 @@ function playYoutubeById(){
 }
 
 function addToYouTubeQueue(){
-    const input = document.getElementById('youtube-queue-input');
+    const input = document.getElementById('youtube-url-input');
     if(!input.value){
         return;
     }
@@ -355,26 +357,68 @@ function createQueueItemDiv (video, current = false, first, last){
     div.classList.add('youtube-queue-item');
 
 
+        const leftBtn = document.createElement('button');
+        leftBtn.classList.add('youtube-queue-item-left-icon');
+        
+        
+        if(current){
+            div.classList.add('youtube-queue-currenty-playing');
+            leftBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        }else{
+            leftBtn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+            leftBtn.classList.add('ease-btn')
+            leftBtn.onclick = (eve) =>{
+                eve.stopPropagation();
+                YOUTUBE_MANAGER.removeFromQueueById(`${video.__id__}`);
+            }
+        }
+
+        div.appendChild(leftBtn);
+
         const thumbnail = document.createElement('img');
         thumbnail.classList.add('youtube-queue-item-thumbnail');
         thumbnail.setAttribute('src', video.thumbnail);
         div.appendChild(thumbnail);
 
-        const title = document.createElement('p');
-        title.classList.add('youtube-queue-item-title');
-        title.textContent = video.title;
-        div.appendChild(title);
+        const infoBox = document.createElement('div');
+        infoBox.classList.add('youtube-queue-item-info-box');
 
+            const title = document.createElement('p');
+            title.classList.add('youtube-queue-item-title');
+            title.textContent = video.title;
+            infoBox.appendChild(title);
+            
+            const additionalInfo = document.createElement('div');
+            additionalInfo.classList.add('youtube-queue-item-additional-info');
+
+                const channelTitle = document.createElement('p');
+                channelTitle.classList.add('youtube-queue-item-chanleTitle');
+                channelTitle.textContent = video.channelTitle;
+                additionalInfo.appendChild(channelTitle);
+
+                const addedBy = document.createElement('p');
+                addedBy.classList.add('youtube-queue-item-addedBy');
+                addedBy.textContent = video.addedBy;
+                additionalInfo.appendChild(addedBy);
+
+            infoBox.appendChild(additionalInfo);
+            
+        div.appendChild(infoBox);
+
+
+        const upDownBtn = document.createElement('div');
+        upDownBtn.classList.add('youtube-queue-item-button-box');
 
         if(!first){
             const moveUpBtn = document.createElement('button');
             moveUpBtn.classList.add('youtube-queue-item-btn');
             moveUpBtn.classList.add('ease-btn');
             moveUpBtn.innerHTML = '<i class="fa-solid fa-chevron-up">';
-            moveUpBtn.onclick = ()=>{
+            moveUpBtn.onclick = (eve)=>{
+                eve.stopPropagation();
                 YOUTUBE_MANAGER.moveUpInQueueById(`${video.__id__}`);
             }
-            div.appendChild(moveUpBtn);
+            upDownBtn.appendChild(moveUpBtn);
         }
 
         if(!last){
@@ -382,41 +426,17 @@ function createQueueItemDiv (video, current = false, first, last){
             moveDownBtn.classList.add('youtube-queue-item-btn');
             moveDownBtn.classList.add('ease-btn');
             moveDownBtn.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
-            moveDownBtn.onclick = ()=>{
+            moveDownBtn.onclick = (eve)=>{
+                eve.stopPropagation();
                 YOUTUBE_MANAGER.moveDownInQueueById(`${video.__id__}`);
             }
-            div.appendChild(moveDownBtn);
+            upDownBtn.appendChild(moveDownBtn);
         }
+        div.appendChild(upDownBtn);
 
-        if(current){
-            div.classList.add('youtube-queue-currenty-playing');
-            // const eyeBtn = document.createElement('button');
-            // eyeBtn.classList.add('youtube-queue-item-btn');
-            // eyeBtn.classList.add('ease-btn');
-            // eyeBtn.innerHTML = '<i class="fa-solid fa-eye"></i>';
-            // div.appendChild(eyeBtn);
-            return div;
-        }
-
-        const playBtn = document.createElement('button');
-        playBtn.classList.add('youtube-queue-item-btn');
-        playBtn.classList.add('ease-btn');
-        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-        playBtn.onclick = ()=>{
+        div.onclick = (eve)=>{
             YOUTUBE_MANAGER.playFromQueueById(`${video.__id__}`)
         };
-        div.appendChild(playBtn);
-
-        const removeBtn = document.createElement('button');
-        removeBtn.classList.add('youtube-queue-item-btn');
-        removeBtn.classList.add('ease-btn');
-        removeBtn.innerHTML = '<i class="fa-regular fa-circle-xmark"></i>';
-        removeBtn.onclick = () =>{
-            YOUTUBE_MANAGER.removeFromQueueById(`${video.__id__}`);
-        }
-        div.appendChild(removeBtn);
-    
-    // YOUTUBE_MANAGER.queueItemDivCache.set(video.videoId, div);
     
     return div;
 }
