@@ -1,6 +1,6 @@
-function onYTPlayerError(e){
+function onYTPlayerError(event){
+    console.log(event);
     displayErrorOnScreen('Youtube caused an error', "YouTube :')")
-    console.log(e);
 }
 function onYTPlayerReady(){
     // VIDEO.__emmitCuedEvent__();
@@ -71,7 +71,7 @@ function youtubeURLtoId(url){
 const YOUTUBE_MANAGER = {
     queueItemContainer: document.getElementById('youtube-queue-container'),
     queue: [],
-
+    
     infoCache: new Map(),
     // queueItemDivCache: new Map(), 
     queueIndex: -1,
@@ -93,6 +93,9 @@ const YOUTUBE_MANAGER = {
         return video;
     },
 
+    currentId: function(){
+        return this.queue.length > 0 ? this.queue[this.queueIndex].__id__ : null;
+    },
     
     renderQueueHTML: async function(){
         this.queueItemContainer.innerHTML = '';
@@ -234,17 +237,48 @@ const YOUTUBE_MANAGER = {
         YOUTUBE_MESSEGE.playFromQueueById(this.queue[index]);
     },
 
-    // setToLoop: function(){
-
-    // },
-    // discardLoop: function(){
-
-    // },
     playNextInQueue: function(){
-        if(this.queueIndex + 1 === this.queue.length){
-            console.log('YOUTUBE queue ended');
+        if(this.queueIndex + 1 < this.queue.length){
+            this.playIndex(this.queueIndex + 1);
+            return;
         }
-        this.playIndex(this.queueIndex + 1);
+        if(this.queueInLoop()){
+            this.playIndex(0);
+        }
+    },
+
+    queueInLoop: function(){
+        return document.getElementById('youtube-loop-queue-btn').classList.contains('youtube-media-button-active');
+    },
+
+    toggleLoopQueue: function(){
+        document.getElementById('youtube-loop-queue-btn').classList.toggle('youtube-media-button-active');
+        YOUTUBE_MESSEGE.queueLoop(this.queueInLoop());
+    },
+
+    setQueueLoop: function(set = true){
+        if(set){
+            document.getElementById('youtube-loop-queue-btn').classList.add('youtube-media-button-active');
+        }else{
+            document.getElementById('youtube-loop-queue-btn').classList.remove('youtube-media-button-active');
+        }
+    },
+    setQueueLoopEx: function(messege){
+        if(messege.loopSet){
+            document.getElementById('youtube-loop-queue-btn').classList.add('youtube-media-button-active');
+        }else{
+            document.getElementById('youtube-loop-queue-btn').classList.remove('youtube-media-button-active');
+        }
+    },
+
+    // setLoopById: function(__id__){
+    //     if(this.currentId() != __id__){
+    //         return;
+    //     }
+    // },
+
+    setLoopByIdEx: function(__id__){
+        
     },
 
     playIndex: async function(index){
@@ -257,9 +291,12 @@ const YOUTUBE_MANAGER = {
         if(index < 0 || index >= this.queue.length){
             console.error(`Cannot play index: ${index}`)
         }
-        VIDEO.__player__.__loadVideoById(this.queue[index].videoId);
-        this.queueIndex = index;
-        this.renderQueueHTML();
+        if(this.queue[index].videoId){
+            VIDEO.__player__.__loadVideoById(this.queue[index].videoId);
+            this.queueIndex = index;
+            this.renderQueueHTML();
+        }
+        
     },
     beYouTube: async function(){
         if(VIDEO.__getSourceType__() != 'youtube'){
@@ -366,6 +403,9 @@ function createQueueItemDiv (video, current = false, first, last){
             div.classList.add('youtube-queue-currenty-playing');
             leftBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
             // leftBtn.innerHTML = '<i class="fa-solid fa-repeat"></i>';
+            // leftBtn.onclick = ()=>{
+            //     // YOUTUBE_MANAGER.setLoopById(`${video.__id__}`);
+            // }
         }else{
             leftBtn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
             leftBtn.classList.add('ease-btn')

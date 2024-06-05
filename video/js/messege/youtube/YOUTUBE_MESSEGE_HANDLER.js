@@ -5,6 +5,8 @@ const YOUTUBE_MESSEGE_TYPES = {
     removeFromQueueById: YOUTUBE_MANAGER.removeFromQueueByIdEx.bind(YOUTUBE_MANAGER),
     moveUpInQueueById: YOUTUBE_MANAGER.moveUpInQueueByIdEx.bind(YOUTUBE_MANAGER),
     moveDownInQueueById: YOUTUBE_MANAGER.moveDownInQueueByIdEx.bind(YOUTUBE_MANAGER),
+    queueLoop: YOUTUBE_MANAGER.setQueueLoopEx.bind(YOUTUBE_MANAGER),
+    
 };
 
 class YOUTUBE_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{

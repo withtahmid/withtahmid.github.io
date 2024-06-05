@@ -27,10 +27,7 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
         const myVideoPaused = VIDEO.__isPaused__();
         if( myVideoPaused === messege.isPaused && (playTimeGap <= HYPERPARAMETER.mediaMissMatchTol)){
             ret.ignore = true;
-            ret.messege = ` 
-            myVideoPaused: ${VIDEO.__isPaused__()}\n
-            messege.isPaused: ${messege.isPaused}\n
-            playTimeGap: ${playTimeGap}`;
+            ret.messege = `myVideoPaused: ${VIDEO.__isPaused__()}\nmessege.isPaused: ${messege.isPaused}\nplayTimeGap: ${playTimeGap}`;
             return ret;
         }
         

@@ -244,14 +244,14 @@
                         <div class="youtube-queue-head">
                             <div class="youtube-queue-head-top">
                                 <p id="youtube-queue-serial-info" class="youtube-queue-head-top-header">0/0</p>
-                                <input class="youtube-queue-head-top-input" type="text" placeholder="Enter Youtube URL" id="youtube-url-input">
+                                <input class="youtube-queue-head-top-input" type="text" placeholder="URL" id="youtube-url-input">
                                 <button title="Play" onclick="playYoutubeById()" for="youtube-queue-input"  class="youtube-queue-head-media-btn"><i class="fa-solid fa-play"></i></button>
                                 <button title="add to queue" onclick="addToYouTubeQueue()" for="youtube-queue-input"  class="youtube-queue-head-media-btn"><i class="fa-solid fa-plus"></i></button>
                             </div>
 
                             <div class="youtube-queue-head-media-buttons">
                                 <!-- youtube-media-button-active -->
-                                <button title="loop" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-repeat"></i></button>
+                                <button id="youtube-loop-queue-btn" onclick="YOUTUBE_MANAGER.toggleLoopQueue()" title="loop" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-repeat"></i></button>
                                 <button title="shuffle" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-shuffle"></i></button>
                                 <button title="calibrate queue" style="margin-left: auto;" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-handshake"></i></button>
                             </div>

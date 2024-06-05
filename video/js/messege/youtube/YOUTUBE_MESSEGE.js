@@ -40,5 +40,12 @@ const YOUTUBE_MESSEGE = {
         messege.__YTtype__ = 'moveDownInQueueById';
         messege.video = video;
         MESSEGE_EMMITTER.__emmit__(messege);
+    },
+    queueLoop: function(set){
+        const messege = this.__get__();
+        messege.__YTtype__ = 'queueLoop';
+        messege.video = video;
+        messege.loopSet = set;
+        MESSEGE_EMMITTER.__emmit__(messege);
     }
 }
