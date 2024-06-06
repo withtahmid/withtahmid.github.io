@@ -5,7 +5,6 @@ const CHAT_DELIVERY_MESSEGE = {
     __emmit__: function(chatId){
         const messege = this.__get__();
         messege.chatId = chatId;
-        appendMessege(messege);
         MESSEGE_EMMITTER.__emmit__(messege);
     },
 }
