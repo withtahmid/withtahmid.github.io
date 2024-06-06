@@ -21,18 +21,18 @@ const EXISTING_MESSEGE = {
     },
 }
 
-EVENTS.platform.addEventListener('room-joined', (e)=>{
-    EXISTING_MESSEGE.__emmit__();
-    EXISTING_MESSEGE.intervalId = setInterval(()=>{
-        EXISTING_MESSEGE.__emmit__();
-    },10000)
-});
+// EVENTS.platform.addEventListener('room-joined', (e)=>{
+//     EXISTING_MESSEGE.__emmit__();
+//     EXISTING_MESSEGE.intervalId = setInterval(()=>{
+//         EXISTING_MESSEGE.__emmit__();
+//     },10000)
+// });
 
-EVENTS.platform.addEventListener('room-leaved', (e)=>{
-    clearInterval(EXISTING_MESSEGE.intervalId);
-});
+// EVENTS.platform.addEventListener('room-leaved', (e)=>{
+//     clearInterval(EXISTING_MESSEGE.intervalId);
+// });
 
-EVENTS.platform.addEventListener('cuedVideo', ()=> EXISTING_MESSEGE.__emmit__());
-document.addEventListener("fullscreenchange", () => EXISTING_MESSEGE.__emmit__());
-document.addEventListener("visibilitychange", ()=> EXISTING_MESSEGE.__emmit__());
+// EVENTS.platform.addEventListener('cuedVideo', ()=> EXISTING_MESSEGE.__emmit__());
+// document.addEventListener("fullscreenchange", () => EXISTING_MESSEGE.__emmit__());
+// document.addEventListener("visibilitychange", ()=> EXISTING_MESSEGE.__emmit__());
   

@@ -9,6 +9,7 @@ class CHAT_DELIVERY_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
     //     // CHAT_STATUS_HANDLER.sent(messege);
     //     // NOTIFICATION_BELL.chatSent()
     // }
+    
     __isFor__(messege){
         return messege.__sender__ != ROOM.getUsername();
     }

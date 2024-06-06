@@ -67,8 +67,6 @@
     align-items: center;
     gap: 1rem;
     background-color: rgba(40,41,45,255);
-    /* padding: 0 1rem; */
-    /* border: 1px solid red; */
     border-radius: 10px;
   }
 
@@ -117,10 +115,13 @@
   .message-body-text{
     padding: 1rem;
     border-radius: 10px;
-    max-width: 70%;
+    width: 100%;
+    /* max-width: 70%; */
+    /* min-width: 50%; */
     color: #ccc;
     margin: 0;
     font-weight: 520;
+    /* border: 1px solid red; */
   } 
   
 .messege-delivery-info{
