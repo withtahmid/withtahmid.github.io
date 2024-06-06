@@ -20,55 +20,129 @@
   }
   .message-container{
     margin: 0.7rem 0;
-  }
-  .message-container .sender{
     font-family: 'Como';
+    /* border: 1px solid red; */
+  }
+
+  /* .messege-sent-info{
+    display: flex;
+
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    gap: 1rem;
     font-style: normal;
-    margin: 0 4rem;
+  } */
+  .messege-sent-info-sender{
     padding: 0.5rem;
     color: rgba(127,127,128,255);
+    font-weight: 700;
     font-size: small;
+    margin: 0;
+    padding: 0;
   }
+  .messege-sent-info-time{
+    color: rgba(183,146,44,255);
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    /* border: 1px solid wheat; */
+    
+  }
+  
+  .messege-main-body{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* border: 1px solid yellow; */
+  }
+
+
   .message.you + .sender{
     text-align: right;
   }
   
-  .message{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+  .message-body{
+    max-width: 70%;
     align-items: center;
     gap: 1rem;
-    padding: 0 1rem;
+    background-color: rgba(40,41,45,255);
+    /* padding: 0 1rem; */
+    /* border: 1px solid red; */
+    border-radius: 10px;
   }
-  .message.you{
+
+.sent-status{
+  color: var(--yellow-primary)
+}
+
+.message-container:not(.you) .sent-status{
+  display: none;
+}
+  
+ .message-container.you .messege-main-body
+ {
     flex-direction: row-reverse;
   }
-  .message.you p.text{
-    background-color: rgba(46,44,37,255)!important;
+  .message-container.you .messege-delivery-info{
+    flex-direction: row-reverse;
+    padding-right: 1.5rem;
+  }
+  .message-container.you  .messege-sent-info-sender{
+    text-align: right;
+    padding-right: 2rem;
+  }
+  .message-container.you .message-body{
+    background-color: rgba(46,44,37,255);
   }
   
-  .message p{
+  .message-container.you.failed .message-body{
+    background-color: rgba(39, 6, 6, 1);
+  }
+  .message-container.you.failed .sent-status,
+  .message-container.you.failed .messege-sent-info-time{
+    color: #c62828;
+  }
+  .message-container.you.failed .sent-status{
+    cursor: pointer;
+  }
+
+  /* .message p{
     margin: 0;
     font-family: 'Como';
     font-style: normal;
     font-weight: 600;
-  }
-  .message .text{
+  } */
+
+  .message-body-text{
     padding: 1rem;
     border-radius: 10px;
     max-width: 70%;
-    background-color: rgba(40,41,45,255);
-    /* min-width: 40%; */
     color: #ccc;
-    /* display: block; */
-  }
+    margin: 0;
+    font-weight: 520;
+  } 
   
-  .message .time{
-    color: rgba(183,146,44,255);
-  }
-  
-  
+.messege-delivery-info{
+  /* max-width: 50%; */
+  display: flex;
+  /* gap: 0.5rem; */
+  /* border: 1px solid white; */
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+.messege-delivery-info-name{
+  padding: 0.5rem;
+  color: rgba(127,127,128,255);
+  font-size: small;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  height: auto;
+  /* border: 1px solid yellow; */
+  padding: 0.1rem 0.2rem;
+}
   /* For WebKit-based browsers */
   .chat-box::-webkit-scrollbar {
     width: 10px;

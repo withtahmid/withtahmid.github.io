@@ -87,7 +87,7 @@ EVENTS.platform.addEventListener('mqtt-disconnected', (e)=>{
 
 document.getElementById('roomid-input').addEventListener('keypress', (event)=>{
     if (event.key === 'Enter') {
-      joinRoom()
+      ROOM_HTML_MANAGER.joinRoom();
     }
   });
 

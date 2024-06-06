@@ -1,11 +1,10 @@
-const CHAT_TEXT_MESSEGE = {
+const CHAT_DELIVERY_MESSEGE = {
     __get__: function(){
-        return __MESSEGE_ABSTRACT__.get('chatText', 'all');
+        return __MESSEGE_ABSTRACT__.get('chatDelivery', 'all');
     },
-    __emmit__: function(text){
+    __emmit__: function(chatId){
         const messege = this.__get__();
-        messege.text = text;
-        messege.chatId = `${ROOM.getUsername()}${Date.now()}${Math.floor(Math.random() * 1000)}`;
+        messege.chatId = chatId;
         appendMessege(messege);
         MESSEGE_EMMITTER.__emmit__(messege);
     },

@@ -1,59 +1,68 @@
 CHAT_MESSEGE_HTML_MANAGER = {
     manageText: function(message){
-        appendTextToTextBox(message);
+        appendMessege(message);
     }
 };
 
 
-function appendTextToTextBox(message){
+function appendMessege(message){
     const chatBox = document.getElementById('chat-box-container');
-    const container = document.createElement('div');
-    container.classList.add('message-container');
-    
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message');
-
-    if(message.__sender__ === ROOM.username){
-        messageDiv.classList.add('you');
+    const div = document.createElement('div');
+    div.classList.add('message-container');
+    div.setAttribute('id', `${message.chatId}`);
+    if(message.__sender__ === ROOM.getUsername()){
+        div.classList.add('you');
     }
-    
-    const img = document.createElement('img');
-    img.setAttribute('height', '30');
-    img.setAttribute('width', '30');
-    img.setAttribute('src', './elements/img/avaters/avater-1.png');
-    messageDiv.appendChild(img);
-    
-    const text = document.createElement('p');
-    text.classList.add('text');
-    text.textContent = message.text;
-    messageDiv.appendChild(text);
-    
-    const time = document.createElement('p');
-    time.classList.add('time');
-    time.textContent = TIME.format12h(new Date(message.__emmitTime__));
-    messageDiv.appendChild(time);
-    
-    container.appendChild(messageDiv);
 
     const sender = document.createElement('p');
-    sender.classList.add('sender');
-    sender.textContent = message.__sender__;
-    container.appendChild(sender);
-    chatBox.appendChild(container);
-    if(VIDEO.__fullscreen__() && SETTINGS.allowChatOnFullScreen){
-        videoContainer.classList.add('on-video-chat');
-    }
+    sender.classList.add('messege-sent-info-sender');
+    sender.textContent = message.__sender__ ?? 'unknown';
+    div.appendChild(sender);
+
+    const mainBody = document.createElement('div');
+    mainBody.classList.add('messege-main-body');
+
+        const sentStatus = document.createElement('div');
+        sentStatus.classList.add('sent-status');
+
+        mainBody.appendChild(sentStatus);
+
+        const messegeBody = document.createElement('div');
+        messegeBody.classList.add('message-body');
+            
+            const text = document.createElement('p');
+            text.classList.add('message-body-text');
+            text.textContent = message.text;
+            messegeBody.appendChild(text);
+        mainBody.appendChild(messegeBody);
+
+        const time = document.createElement('p');
+        time.classList.add('messege-sent-info-time');
+        time.textContent = TIME.format12h(new Date(message.__emmitTime__));
+        mainBody.appendChild(time);
+
+    div.appendChild(mainBody);
+
+    const deliveryInfo = document.createElement('div');
+    deliveryInfo.classList.add('messege-delivery-info');
+
+    div.appendChild(deliveryInfo);
+    
+    chatBox.appendChild(div);
+
     chatBox.scrollTop = chatBox.scrollHeight;
-    console.log(chatBox.scrollHeight)
 }
 
 
 function sendTextMessage(inputFiledId){
-    if(!ROOM.isJoined()){
-        displayErrorOnScreen("Please make sure you are connected", "No Connection");
+    // if(!ROOM.isJoined()){
+    //     displayErrorOnScreen("Please make sure you are connected", "No Connection");
+    //     return;
+    // }
+    const input = document.getElementById('chat-input-field');
+    if(!input.value){
         return;
     }
-    const input = document.getElementById('chat-input-field');
     CHAT_TEXT_MESSEGE.__emmit__(input.value);
     input.value = '';
 }
@@ -67,4 +76,4 @@ document.getElementById('chat-input-field').addEventListener('keypress', (event)
     if (event.key === 'Enter') {
       sendTextMessage()
     }
-  });
+});

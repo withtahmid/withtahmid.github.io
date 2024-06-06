@@ -4,6 +4,7 @@ const ROOM = {
     joinTime: null,
     connectedPeople: new Set(),
     peopleLastMessegeTimes : new Map(),
+    username: 'null',
 
     join: function(username, roomId){
         this.username = username;

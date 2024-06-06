@@ -100,7 +100,7 @@ class YOUTUBE extends __VIDEO_PLAYER__{
     }
     __getPlayerState__(){
         try {
-            return this.__player__.getPlayerState();
+            return this.__player__.getPlayerState ? this.__player__.getPlayerState() : null;
         } catch (error) {
             console.error(error);
         }

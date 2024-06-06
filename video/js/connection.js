@@ -143,38 +143,38 @@ const ROOM = {
     //     // this.RequestForMediaSync();
     // },
 
-    ringNotification: function(){
-        document.getElementById('notification-sound').play();
-    },
+    // ringNotification: function(){
+    //     document.getElementById('notification-sound').play();
+    // },
 
-    notificationVolume: function(volume){
-        currentNotificationVolume = volume;
-        document.getElementById('notification-sound').volume = volume;
-        this.ringNotification();
+    // notificationVolume: function(volume){
+    //     currentNotificationVolume = volume;
+    //     document.getElementById('notification-sound').volume = volume;
+    //     this.ringNotification();
 
-    },
+    // },
 
-    notificationVolumeToggle: function(){
-        this.notificationVolumeIndex = this.notificationVolumeIndex + 1;
-        if(!this.notificationVolumeIndex){
-            this.notificationVolumeIndex = 3;
-        }
-        this.volumeIndxSet(this.notificationVolumeIndex);
-    },
+    // notificationVolumeToggle: function(){
+    //     this.notificationVolumeIndex = this.notificationVolumeIndex + 1;
+    //     if(!this.notificationVolumeIndex){
+    //         this.notificationVolumeIndex = 3;
+    //     }
+    //     this.volumeIndxSet(this.notificationVolumeIndex);
+    // },
 
-    volumeIndxSet: function(indx){
-        const notificationVolumeRanges = [
-          [0.00, '<i class="fa-solid fa-volume-xmark"></i>'],
-          [0.25, '<i class="fa-solid fa-volume-off"></i>'],
-          [0.60, '<i class="fa-solid fa-volume-low"></i>'],
-          [1.00, '<i class="fa-solid fa-volume-high"></i>']
-        ]
-        this.notificationVolumeIndex = indx;
-        this.notificationVolumeIndex = this.notificationVolumeIndex % notificationVolumeRanges.length;
-        this.notificationVolume(notificationVolumeRanges[this.notificationVolumeIndex][0]);
-        document.getElementById('chatVolumeBtn').innerHTML = notificationVolumeRanges[this.notificationVolumeIndex][1];
-        localStorage.setItem('notificationVolume', this.notificationVolumeIndex);
-    },
+    // volumeIndxSet: function(indx){
+    //     const notificationVolumeRanges = [
+    //       [0.00, '<i class="fa-solid fa-volume-xmark"></i>'],
+    //       [0.25, '<i class="fa-solid fa-volume-off"></i>'],
+    //       [0.60, '<i class="fa-solid fa-volume-low"></i>'],
+    //       [1.00, '<i class="fa-solid fa-volume-high"></i>']
+    //     ]
+    //     this.notificationVolumeIndex = indx;
+    //     this.notificationVolumeIndex = this.notificationVolumeIndex % notificationVolumeRanges.length;
+    //     this.notificationVolume(notificationVolumeRanges[this.notificationVolumeIndex][0]);
+    //     document.getElementById('chatVolumeBtn').innerHTML = notificationVolumeRanges[this.notificationVolumeIndex][1];
+    //     localStorage.setItem('notificationVolume', this.notificationVolumeIndex);
+    // },
 
     // registerPresence: function (message){
     //     this.connectedPeopleTimes.set(message.username, TIME.now());
@@ -234,23 +234,23 @@ const ROOM = {
     //     }, 100);
     // },
 
-    saveConfig: function(){
-        localStorage.setItem('username', this.username);
-        localStorage.setItem('roomId', this.roomId);
-        localStorage.setItem('autoJoin', this.autoJoin);
-    },
+    // saveConfig: function(){
+    //     localStorage.setItem('username', this.username);
+    //     localStorage.setItem('roomId', this.roomId);
+    //     localStorage.setItem('autoJoin', this.autoJoin);
+    // },
 
-    toggleSync: function(sync){
-        if(!sync){
-            this.inSync = false;
-        }
-        else{
-            this.inSync = true;
-            this.RequestForMediaSync()
-        }
-        this.broadcastExisTance();
+    // toggleSync: function(sync){
+    //     if(!sync){
+    //         this.inSync = false;
+    //     }
+    //     else{
+    //         this.inSync = true;
+    //         this.RequestForMediaSync()
+    //     }
+    //     this.broadcastExisTance();
 
-    },
+    // },
 
     // broadcast: function(message){
     //     if(!this.connected){

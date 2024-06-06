@@ -1,6 +1,5 @@
 const MESSEGE_EMMITTER = {
     __emmit__: async function(messegeObj){
-       
         let messegeJSON;
         try {
             messegeJSON = JSON.stringify(messegeObj);
