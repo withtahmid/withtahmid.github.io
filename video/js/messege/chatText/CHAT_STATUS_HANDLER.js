@@ -5,6 +5,9 @@ const CHAT_STATUS_HANDLER = {
         if(messege.__sender__ != ROOM.getUsername()){
             return;
         }
+        if(this.failed.has(messege.chatId)){
+            return;
+        }
         this.failed.set(messege.chatId, messege);
         const chat = document.getElementById(`${messege.chatId}`);
         if(!chat){
@@ -15,12 +18,16 @@ const CHAT_STATUS_HANDLER = {
         const icon = chat.getElementsByClassName('sent-status')[0];
         icon.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
         icon.onclick = ()=>{ CHAT_STATUS_HANDLER.resend(`${messege.chatId}`);}
-        icon.setAttribute('title', 'resend');
     },
     sent: function(messege){
         const chat = document.getElementById(`${messege.chatId}`);
         if(this.failed.has(messege.chatId)){
             this.failed.delete(messege.chatId);
+
+            const parent = document.getElementById('chat-box-container');
+            parent.removeChild(chat);
+            parent.appendChild(chat);
+            
         }
         chat.classList.remove('failed');
         const icon = chat.getElementsByClassName('sent-status')[0];

@@ -25,10 +25,10 @@ TIME = {
         return hours + ':' + minutes + ':' + seconds;
       },
       msAgo: function(time){
-        return Math.floor((this.now() - new Date(time)));
+        return (this.now() - new Date(time))
       },
       
       sAgo: function(time){
-        return Math.floor((this.now() - new Date(time)));
+        return (this.now() - new Date(time)) / 1000;
       }
 }

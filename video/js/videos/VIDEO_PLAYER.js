@@ -50,7 +50,8 @@ class __VIDEO_PLAYER__{
     __fullscreen__(){return null;}
     __getSource__(){return null;}
     __getSourceType__(){return this.__sourceType__;}
-    __isActive__(){return false}
+    __isActive__(){return false;}
+    __getSyncData__(){return null;}
     __emmitCuedEvent__(){
         const event = {name: 'cuedVideo'};
         event.data = {};

@@ -8,6 +8,9 @@ const MESSEGE_HANDLER = {
         join: new JOIN_MESSEGE_HANDLER(),
         youtube: new YOUTUBE_MESSEGE_HANDLER(),
         chatDelivery: new CHAT_DELIVERY_MESSEGE_HANDLER(),
+        mediaRequest: new MEDIA_REQUEST_MESSEGE_HANDLER(),
+        mediaResponse: new MEDIA_RESPONSE_MESSEGE_HANDLER(),
+
     },
 
     onMessege: function(json){

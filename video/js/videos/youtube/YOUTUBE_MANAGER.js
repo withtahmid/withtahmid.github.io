@@ -24,12 +24,14 @@ function onYTPlayerStateChange(event){
     }else if(state === 5){
         EXISTING_MESSEGE.__emmit__();
     }else if(state === -1){
-        // ignoreNextEvent('all');
         EXISTING_MESSEGE.__emmit__();
         
     }else if(state === 0){
         YOUTUBE_MANAGER.playNextInQueue();
     }
+    if(state == 1 || state == 5 || state == 3){
+        EVENTS.directEmmit('youtube-new-video-loaded');
+    }    
 }
 
 const API = 'AIzaSyDUjyB82R7zwWccZtIkZUQsVPAI6g_u-4s';
@@ -353,7 +355,26 @@ const YOUTUBE_MANAGER = {
         this.queueIndex = -1;
         this.renderQueueHTML();
     },
+
+    pushQueueData: function(syncData){
+        this.queue = syncData.queue;
+        this.queueIndex = syncData.queueIndex;
+        this.renderQueueHTML();
+        this.setQueueLoop(syncData.queueInLoop);
+    }
+
 };
+
+function getYoutubeSyncData(){
+    const syncData = {};
+    syncData.playerType = 'youtube';
+    syncData.currentTime = VIDEO.__getCurrentTime__();
+    syncData.isPaused = VIDEO.__isPaused__();
+    syncData.queue = YOUTUBE_MANAGER.queue;
+    syncData.queueIndex = YOUTUBE_MANAGER.queueIndex;
+    syncData.queueInLoop = YOUTUBE_MANAGER.queueInLoop();
+    return syncData;
+}
 
 // https://youtu.be/RRsSfR5OCts?si=Qs-fGWhUI2aSxU9n
 

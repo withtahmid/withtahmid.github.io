@@ -178,6 +178,10 @@ class YOUTUBE extends __VIDEO_PLAYER__{
         const state = this.__player__.getPlayerState();
         return state !=  1;
     }
+    __getSyncData__(){
+        return getYoutubeSyncData();
+    }
+
     __loadVideoById(videoId, startSeconds = 0){
         if(this.__player__ === null){
             this.__init__(videoId);

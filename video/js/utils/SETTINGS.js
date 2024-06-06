@@ -8,6 +8,7 @@ let SETTINGS = {
     notificationVolumeIndex: 1,
     allowChatOnFullScreen: true,
     // showAnnounceMents: true,
+    autoSyncRequestOnJoin: true,
     
     set: function(){
         localStorage.setItem(settingsKey, JSON.stringify({
@@ -18,6 +19,7 @@ let SETTINGS = {
             autoJoin: this.autoJoin,
             notificationVolumeIndex: this.notificationVolumeIndex,
             allowChatOnFullScreen: this.allowChatOnFullScreen,
+            autoSyncRequestOnJoin: this.autoSyncRequestOnJoin,
         }));
     },
 
@@ -29,6 +31,7 @@ let SETTINGS = {
         this.autoJoin = saved.autoJoin ?? false;
         this.notificationVolumeIndex = saved.notificationVolumeIndex ?? 1;
         this.allowChatOnFullScreen = saved.allowChatOnFullScreen ?? true;
+        this.autoSyncRequestOnJoin = saved.autoSyncRequestOnJoin ?? true;
     },
     retrive: function(){
         const settings = {};
@@ -44,6 +47,8 @@ let SETTINGS = {
         
         document.getElementById('sync-checkbox-input').checked = settings.inSync;
         document.getElementById('chat-on-viddeo-checkbox-input').checked = settings.allowChatOnFullScreen;
+        document.getElementById('auto-sync-checkbox-input').checked = settings.autoSyncRequestOnJoin;
+        
         SETTINGS.autoJoin = document.getElementById('remember-connection').checked = settings.autoJoin;
         NOTIFICATION_BELL.setIndex(settings.notificationVolumeIndex);
     }
@@ -82,6 +87,12 @@ document.getElementById('chat-on-viddeo-checkbox-input').addEventListener('chang
     SETTINGS.allowChatOnFullScreen = document.getElementById('chat-on-viddeo-checkbox-input').checked;
 })
 
+document.getElementById('auto-sync-checkbox-input').addEventListener('change', ()=>{
+    SETTINGS.autoSyncRequestOnJoin = document.getElementById('auto-sync-checkbox-input').checked;
+})
+
 document.getElementById('remember-connection').addEventListener('change', ()=>{
     SETTINGS.autoJoin = document.getElementById('remember-connection').checked;
 })
+
+

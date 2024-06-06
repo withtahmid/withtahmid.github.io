@@ -170,6 +170,13 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
         return ''
     }
     __isActive__(){return this.title!= null;}
+    __getSyncData__(){
+        const syncData = {};
+        syncData.playerType = 'local';
+        syncData.currentTime = this.__getCurrentTime__();
+        syncData.isPaused = this.__isPaused__();
+        return syncData;
+    }
 }
 
 // will work later

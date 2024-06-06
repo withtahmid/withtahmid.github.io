@@ -188,9 +188,35 @@ const VIDEO = {
         return this.__player__.__isActive__();
     },
 
+    __getSyncData__: function(){
+        try {
+            return this.__player__.__getSyncData__();
+        } catch (error) {
+            console.error(error);
+        }
+        return null;
+    },
     __addToQueue__: function(video){
         try {
             this.__player__.__addToQueue__(video);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    beLocal: function(){
+        console.log('[CALLED] beLocal')
+        try {
+            if(this.__player__.__getSourceType__() != 'local'){
+                this.__destroy__();
+            }
+        } catch (error) {
+            console.error(error)
+        }
+        try {
+            this.playerType = 'local';
+            this.__player__ = this.players[this.playerType];
+            this.__player__.__init__();
         } catch (error) {
             console.error(error);
         }

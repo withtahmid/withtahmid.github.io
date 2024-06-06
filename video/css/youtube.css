@@ -177,6 +177,7 @@
     flex-direction: column;
     gap: 0.4rem;
     padding: 0 0.3rem;
+    /* border: 1px solid red; */
 }
 
 .youtube-queue-item-title{
@@ -207,23 +208,27 @@
   font-size: small;
   opacity: 0.6;
   gap: 2rem;
+  
 }
 .youtube-queue-item-chanleTitle{
     flex-grow: 1;
     white-space: nowrap;         
     overflow: hidden;            
     text-overflow: ellipsis;     
-    width: 100px;
+    /* width: 100px; */
     margin: 0;
     padding: 0;
+    /* border: 1px solid white; */
 }
 .youtube-queue-item-addedBy{
   white-space: nowrap;         
     overflow: hidden;            
     text-overflow: ellipsis;     
-    width: 100px;  
+    text-align: right;
+    max-width: 100px;  
     margin: 0; 
     padding: 0;   
+    /* border: 1px solid yellow; */
 }
 
 .youtube-queue-item-button-box{
