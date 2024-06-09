@@ -76,6 +76,13 @@
   color: #aaa;
   letter-spacing: .1em;
   flex-grow: 1;
+  max-width: 95%;
+  /* border: 1px solid red; */
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .video-title button{
   color: #ccc;

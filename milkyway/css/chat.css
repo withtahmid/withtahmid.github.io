@@ -5,7 +5,7 @@
 .chat-box{
     /* border: 1px solid red; */
     width: 100%;
-    bottom: 7%;
+    bottom: 8%;
     position: absolute;
     /* max-height: 400px; */
     height: auto;
@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    /* scroll-behavior: smooth; */
+    scroll-behavior: smooth;
   }
   .message-container{
     margin: 0.7rem 0;
@@ -84,11 +84,11 @@
   }
   .message-container.you .messege-delivery-info{
     flex-direction: row-reverse;
-    padding-right: 1.5rem;
+    /* padding-right: 1.5rem; */
   }
   .message-container.you  .messege-sent-info-sender{
     text-align: right;
-    padding-right: 2rem;
+    padding-right: 0.5rem ;
   }
   .message-container.you .message-body{
     background-color: rgba(46,44,37,255);

@@ -13,11 +13,16 @@ const HYPERPARAMETER = {
     showWarningNotificationFor: 5000,
     clearNotificationAfter: 500,
 
-    mediaMissMatchTol: 8,
+    mediaMissMatchTol: 5,
     ignoreMediaMessegeTime: 5,
 
     disconnectTime : 20,
     lateTime : 10,
     eliminateTime: 60,
     
+    existingMessegeGap: 10,
+
+    videoBeginningEndingTol: 3,
+    existingPauseForAWhile: 3,
+    existinfMessegeValidTill: 2,
 }

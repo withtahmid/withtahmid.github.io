@@ -20,6 +20,7 @@ const MEDIA_MESSEGE = {
             clearTimeout(this.emmitTimeOutId);
         }
         this.emmitTimeOutId = setTimeout(()=>{
+            EXISTING_MESSEGE.pauseForAWhile();
             MESSEGE_EMMITTER.__emmit__(this.messegeInEmmitQueue);
             this.messegeInEmmitQueue  = null;
         }, HYPERPARAMETER.mediaMessegeEmmitDelay);

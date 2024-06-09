@@ -16,12 +16,22 @@ const EXISTING_NOTIFICATION = {
         notification.__title__ = ' WARNING !!!';
         notification.__icon__ = `<i class="fa-solid fa-triangle-exclamation"></i>`;
         
-        // if(messege.identity != VIDEO.__getIdentity__()){
-        //     notification.__disabled__ = false;
-        //     notification.__currentTime__ = null;
-        //     notification.__text__ = `${messege.__sender__} is playing differetn Video !!! ${messege.identity}`
-        // }
-        // else 
+        const myVideoEnding = ()=>{
+            return Math.abs(VIDEO.__getDuration__() - VIDEO.__getCurrentTime__()) <= HYPERPARAMETER.videoBeginningEndingTol;
+        };
+        const myVideStarting = ()=>{
+            return (VIDEO.__getCurrentTime__() <= HYPERPARAMETER.videoBeginningEndingTol) && (!VIDEO.__isPaused__());
+        };
+        const theirVideoStarting = ()=>{
+            return messege.currentTime <= HYPERPARAMETER.videoBeginningEndingTol;
+        };
+        const beginningOrEnding = ()=>{
+            return (myVideStarting() || (theirVideoStarting() && myVideoEnding())) && (messege.identity != VIDEO.__getIdentity__());
+        }
+        if(beginningOrEnding()){
+            console.log(`[IGNORED WARNIGN]`);
+            return notification;
+        }
 
         if(diffState /*|| pauseState*/ && (lastMediaOccured > HYPERPARAMETER.mediaMissMatchTol)){
 
@@ -29,8 +39,8 @@ const EXISTING_NOTIFICATION = {
             notification.__css__ = 'warning';
             notification.__bell__ = 'warning';
             notification.__stayTime__ = HYPERPARAMETER.showWarningNotificationFor;
-            notification.__text__= `${messege.__sender__} is ${`${messege.isPaused ? 'paused' : 'playing'}`} and ${diff < 0 ? 'behind': 'ahead'} by`
-            notification.__duration__  = `${FORMATOR.formatDuration(Math.abs(diff))}`;
+            notification.__text__= `${messege.__sender__} is ${`${messege.isPaused ? 'paused' : 'playing'}`} and ${ diff < 0 ? 'behind': 'ahead' } by`
+            notification.__duration__  = `${ FORMATOR.formatDuration(Math.abs(diff)) }`;
         }
         return notification;
     }

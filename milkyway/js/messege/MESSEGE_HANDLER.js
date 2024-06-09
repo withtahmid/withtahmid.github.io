@@ -26,57 +26,9 @@ const MESSEGE_HANDLER = {
                 console.error(error);
             }
         }
+        if(HYPERPARAMETER.existingMessegeGap < TIME.sAgo(EXISTING_MESSEGE.lastTime)){
+            EXISTING_MESSEGE.__emmit__();
+            console.log('\n[TRIGGERED EXISTING_MESSEGE explicitly]')
+        }
     },
-
-    emmit: async function(messegeObj){
-        
-        // if(!ROOM.isJoined() || !MQTT.isConnected()){
-        //     messegeObj.__roomIsJoined__ = ROOM.isJoined();
-        //     messegeObj.__mqttIsConnected__ = MQTT.isConnected();
-        //     this.handlers[messegeObj.__type__].__onFail__(messegeObj);
-        //     return;
-        // }
-
-        // let messegeJSON;
-        // try {
-        //     messegeJSON = JSON.stringify(messegeObj);
-        // } catch (error) {
-        //     console.error(error);
-        //     console.error('Cannot stringify');
-        //     return;
-        // }
-
-
-        // let publishStatus;
-
-        // // publishing the messege string
-        // try {
-        //     publishStatus = await MQTT.publish(ROOM.getTopic(), messegeJSON);
-        // } catch (error) {
-        //     console.error(error);
-        // }
-
-        // // attach the status to the messege itself to check further
-        // messegeObj.publishStatus = publishStatus;
-
-        // if(!publishStatus.published){
-        //     // handle if the messege is failed to sent
-        //     try {
-        //         this.handlers[messegeObj.__type__].__onFail__(messegeObj);
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // }else{
-        //     // handle if the messege is sent
-        //     try {
-        //         this.handlers[messegeObj.__type__].__onSent__(messegeObj);
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // }
-        throw new error('MESSEGE_Handler.emmit is depricated');
-    },
-    __emmit__: function(MESSEGE_OBJECT, messegeObj){
-        throw new error('__emmit__ is depricated');
-    }
 };

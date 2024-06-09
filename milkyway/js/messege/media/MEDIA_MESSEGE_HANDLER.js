@@ -52,6 +52,13 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
         }else{
             this.handler.playVideo(messege.currentTime)
         }
+
+        //DEBUGGING
+        const playTimeGap = Math.abs(VIDEO.__getCurrentTime__() - messege.currentTime);
+        const myVideoPaused = VIDEO.__isPaused__();
+        console.log(`[ MEDIA EXECUTED] myVideoPaused: ${VIDEO.__isPaused__()}\nmessege.isPaused: ${messege.isPaused}\nplayTimeGap: ${playTimeGap}`);
+        //  
+
     }
     __isFor__(messege){
         return messege.__sender__ != ROOM.getUsername();

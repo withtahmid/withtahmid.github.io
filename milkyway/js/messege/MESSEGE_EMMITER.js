@@ -1,5 +1,9 @@
 const MESSEGE_EMMITTER = {
     __emmit__: async function(messegeObj){
+        if(messegeObj.__dontEmmit__){
+            console.log(`\nIGNORED MESSGE OF TYPE ${messegeObj.__type__} becase '__dontEmmit__' flag is set`);
+            return;
+        }
         let messegeJSON;
         try {
             messegeJSON = JSON.stringify(messegeObj);

@@ -13,19 +13,20 @@ function appendMessege(message){
     if(message.__sender__ === ROOM.getUsername()){
         div.classList.add('you');
     }
-
-    const sender = document.createElement('p');
-    sender.classList.add('messege-sent-info-sender');
-    sender.textContent = message.__sender__ ?? 'unknown';
-    div.appendChild(sender);
-
+    if(message.__sender__ != ROOM.getUsername()){
+        const sender = document.createElement('p');
+        sender.classList.add('messege-sent-info-sender');
+        sender.textContent = message.__sender__ ?? 'unknown';
+        div.appendChild(sender);
+    }
+    
     const mainBody = document.createElement('div');
     mainBody.classList.add('messege-main-body');
 
-        const sentStatus = document.createElement('div');
-        sentStatus.classList.add('sent-status');
+        // const sentStatus = document.createElement('div');
+        // sentStatus.classList.add('sent-status');
 
-        mainBody.appendChild(sentStatus);
+        // mainBody.appendChild(sentStatus);
 
         const messegeBody = document.createElement('div');
         messegeBody.classList.add('message-body');

@@ -1,5 +1,7 @@
 
 const EXISTING_MESSEGE = {
+    lastTime: 0,
+    pauseFlag: false,
     __get__: function(){
         const messege =  __MESSEGE_ABSTRACT__.get('existing', 'all');
         messege.isOnSync = SETTINGS.inSync;
@@ -12,6 +14,7 @@ const EXISTING_MESSEGE = {
         messege.inTab = userOnThisTab();
         messege.caption = VIDEO.__isCaptioning__();
         messege.videoIsActive = VIDEO.__isActive__();
+        messege.__dontEmmit__ = this.pauseFlag;
         return messege;
     },
     
@@ -19,6 +22,10 @@ const EXISTING_MESSEGE = {
         const messege = this.__get__();
         MESSEGE_EMMITTER.__emmit__(messege);
     },
+    pauseForAWhile:function(){
+        this.pauseFlag = true;
+        setTimeout(()=> this.pauseFlag = false, HYPERPARAMETER.existingPauseForAWhile);
+    }
 }
 
 EVENTS.platform.addEventListener('room-joined', (e)=>{
