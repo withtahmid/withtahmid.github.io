@@ -469,7 +469,7 @@ function createQueueItemDiv (video, current = false, first, last){
 
                 const addedBy = document.createElement('p');
                 addedBy.classList.add('youtube-queue-item-addedBy');
-                addedBy.textContent = video.addedBy;
+                addedBy.textContent = video.addedBy == ROOM.getUsername() ? 'You' : video.addedBy;
                 additionalInfo.appendChild(addedBy);
 
             infoBox.appendChild(additionalInfo);

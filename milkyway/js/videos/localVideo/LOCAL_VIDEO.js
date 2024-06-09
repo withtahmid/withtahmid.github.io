@@ -12,7 +12,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
      __init__(){
         console.log(`__init__ LOCAL_VIDEO called`)
         try {
-            document.querySelector('.video-container').classList.remove('display-none');
+            document.getElementById('video-section').classList.add('local-video-player');
             this.__player__ = document.getElementById('videoPlayer');
             this.__player__.addEventListener('play', VIDEO.onPlay.bind(VIDEO));
             this.__player__.addEventListener('pause', VIDEO.onPause.bind(VIDEO));
@@ -23,7 +23,7 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
      }
      __destroy__(){
         try {
-            document.querySelector('.video-container').classList.add('display-none');
+            document.getElementById('video-section').classList.remove('local-video-player');
             document.getElementById('video-filename-tab').textContent = '';
             document.getElementById('video-filename-title').textContent = '';
             this.__player__.pause();
@@ -59,7 +59,6 @@ class LOCAL_VIDEO extends __VIDEO_PLAYER__{
         }
         try{
             console.log(`LOCAL_VIDEO __cueVideo__ : ${file.name}`);
-            document.querySelector('.video-container').classList.remove('display-none');
             this.source_html.src = URL.createObjectURL(file);
             this.__resetCaption()
             this.__player__.load();
@@ -184,8 +183,13 @@ const videoFileInput = document.getElementById('video-file-input');
 videoFileInput.addEventListener('change', ()=> {
     const file = videoFileInput.files[0];
     try {
+        VIDEO.beLocal();
+    } catch (error) {
+        console,error(error);
+    }
+    try {
         VIDEO.playLocal(file);
     } catch (error) {
-        
+        console,error(error);
     }
 });

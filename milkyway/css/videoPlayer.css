@@ -2,7 +2,7 @@
   .video-container {
     position: relative;
     width: 100%;
-    min-height: 70%;
+    min-height: 100%;
     display: flex;
     justify-content: center;
     margin-inline: auto;
@@ -263,7 +263,6 @@
 .video-container:not(.full-screen){
     /* padding-bottom: 4%; */
     /* background-color: gray; */
-    border-radius: 15px;
     overflow: hidden;
 }
 .video-container:not(.full-screen) .video-controls-container{
@@ -289,21 +288,32 @@
   accent-color: rgba(255,200,48,1);
 }
 
-/* .no-cursor{
-  cursor: none;
-} */
 
+.video-section{
+  width: 100%;
+  min-height: 70%;
+  background-color: #000;
+  border-radius: 20px;
+  overflow: hidden;
+  background-image: url('./milkyway.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat;
+}
 
+.video-section:not(.local-video-player) .video-container,
+.video-section:not(.youtube-player) .yt-player-container
+{
+  display: none;
+}
 
 .yt-player-container{
   position: relative;
   width: 100%;
-  min-height: 70%;
+  min-height: 100%;
   display: flex;
   justify-content: center;
   margin-inline: auto;
-  background-color: black;
-  /* cursor: none;  */
 }
 .yt-video-player{
   display: flex;

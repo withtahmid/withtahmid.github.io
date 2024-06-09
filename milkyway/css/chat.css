@@ -3,7 +3,8 @@
 
 
 .chat-box{
-    /* border: 1px solid red; */
+    border: 1px solid red;
+
     width: 100%;
     bottom: 8%;
     position: absolute;

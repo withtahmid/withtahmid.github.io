@@ -11,7 +11,8 @@ class __VIDEO_PLAYER__{
     __init__(){}
     __destroy__(){
         try {
-            document.querySelector('.video-container').classList.add('display-none');
+            document.getElementById('video-section').classList.remove('local-video-player');
+           
             this.__emmitDestroyEvent__();
             this.__player__ = null;
 
@@ -19,7 +20,7 @@ class __VIDEO_PLAYER__{
             console.error(error);
         }
         try{
-            document.querySelector('.yt-player-container').classList.add('display-none');
+            document.getElementById('video-section').classList.remove('youtube-player');
             this.__player__ = null;
             this.__emmitDestroyEvent__();
         }catch( error ){

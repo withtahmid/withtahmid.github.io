@@ -8,7 +8,7 @@ class YOUTUBE extends __VIDEO_PLAYER__{
      __init__(videoId){
         console.log(`__init__ YOUTUBE called`)
         try {
-            document.querySelector('.yt-player-container').classList.remove('display-none');
+            document.getElementById('video-section').classList.add('youtube-player');
             this.__player__ = new YT.Player('yt-video-player', {
                 height: document.querySelector('.yt-player-container').offsetHeight.toString(),
                 width: document.querySelector('.yt-player-container').offsetWidth.toString(),
@@ -30,7 +30,7 @@ class YOUTUBE extends __VIDEO_PLAYER__{
      }
      __destroy__(){
         try{
-            document.querySelector('.yt-player-container').classList.add('display-none');
+            document.getElementById('video-section').classList.remove('youtube-player');
             this.__player__.destroy();
             this.__player__ = null;
             this.__emmitDestroyEvent__();

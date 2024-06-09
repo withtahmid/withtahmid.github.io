@@ -1,13 +1,11 @@
 .tab-panel.youtube-tab{
   margin: 0;
   padding: 0;
-  /* border: 1px solid red; */
 }
 
 
 .youtube-tab{
   max-height: 100%;
-  /* padding: 2rem 0; */
   overflow: scroll;
 }
 
@@ -28,17 +26,14 @@
   font-family: 'Como';
   background-color: var(--youtube-black);
   padding: 1rem;
-  /* border: 1px solid yellow; */
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
 .youtube-queue-head-top{
-  /* border: 1px solid white; */
   display: flex;
   align-items: center;
-  /* padding: 1rem; */
   gap: 1rem 0.7rem;
   
 }
@@ -147,21 +142,26 @@
     /* border: 1px solid red; */
     cursor: pointer;
     /* border-radius: 0; */
-    border-radius: 0px;
+    /* border-radius: 0px; */
 }
 .youtube-queue-item-left-icon{
   /* border: 1px solid red; */
   /* width: 1rem; */
   /* font-size: small; */
-  padding: 0.2rem;
+  /* height: 2rem; */
+  /* width: 2rem; */
   border: none;
   outline: none;
   background-color: transparent;
   color: inherit;
   cursor: pointer;
   font-size: medium;
+  opacity: 0.5;
   /* padding-right: 0.5rem; */
   /* border: 1px solid red; */
+}
+.youtube-queue-item-left-icon:hover{
+  opacity: 1;
 }
 
 .youtube-queue-item-thumbnail{
@@ -200,6 +200,7 @@
 .youtube-queue-item-additional-info{
   /* border: 1px solid white; */
   padding-bottom: 0.3rem;
+  /* padding-right: 1rem; */
   /* padding: 0.4rem; */
 
   margin-top: auto;
@@ -224,7 +225,7 @@
   white-space: nowrap;         
     overflow: hidden;            
     text-overflow: ellipsis;     
-    text-align: right;
+    /* text-align: center; */
     max-width: 100px;  
     margin: 0; 
     padding: 0;   
@@ -238,15 +239,24 @@
 }
 
 .youtube-queue-item-btn{
-    color: var(--yellow-primary);
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    outline: none;
-    font-size: x-large;
-    cursor: pointer;
-    opacity: 0.7;
-    color: transparent;
+  height: 2rem;
+  width: 2rem;
+  color: var(--yellow-primary);
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  outline: none;
+  font-size: larger;
+  cursor: pointer;
+  opacity: 0.7;
+  color: transparent;
+  /* border: 1px solid red; */
+  transition: font-size 100ms ease-in-out;
+}
+
+.youtube-queue-item-btn:hover{
+  transition: font-size 100ms ease-in-out;
+  font-size: x-large;
 }
 
 .youtube-queue-currenty-playing, .youtube-queue-item:hover{
