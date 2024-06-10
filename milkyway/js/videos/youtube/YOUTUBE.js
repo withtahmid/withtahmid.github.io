@@ -52,13 +52,13 @@ class YOUTUBE extends __VIDEO_PLAYER__{
 
        // launch new video
     __cueVideo__(mediaContentUrl, startSeconds = 0){
-        try {
-            this.__cueVideoById(this.__urlToId(mediaContentUrl), startSeconds);
-            console.log(`YOUTUBE __cueVideo__ : ${mediaContentUrl}`);
-        } catch (error) {
-            console.error( error );
-        }
-        
+        // try {
+        //     this.__cueVideoById(this.__urlToId(mediaContentUrl), startSeconds);
+        //     console.log(`YOUTUBE __cueVideo__ : ${mediaContentUrl}`);
+        // } catch (error) {
+        //     console.error( error );
+        // }
+        throw new Error('__cueVideo__ of Youtube should not be called');
         
     }
     __isCaptioning__(){

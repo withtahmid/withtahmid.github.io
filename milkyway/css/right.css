@@ -242,7 +242,7 @@
   font-family: 'Como';
   font-weight: 700;
   padding: 0.6rem 1rem;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .connected-tab-top-btn:active{
   font-size: larger;
@@ -394,10 +394,9 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   border-radius: 15px;
   margin-bottom: 1rem;
-  /* border: 1px solid red; */
   background-color: rgba(46,44,37,255);
   flex-wrap: wrap;
 }
@@ -536,6 +535,7 @@
   width: 100%;
   flex-grow: 1;
 }
+
 .one-info{
   display: flex;
   gap: 1rem;

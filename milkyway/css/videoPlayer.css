@@ -292,13 +292,14 @@
 .video-section{
   width: 100%;
   min-height: 70%;
-  background-color: #000;
   border-radius: 20px;
   overflow: hidden;
+  background-color: var(--yellow-primary);
   background-image: url('./milkyway.jpg'); 
   background-size: cover; 
   background-position: center; 
   background-repeat: no-repeat;
+  background-blend-mode: multiply;
 }
 
 .video-section:not(.local-video-player) .video-container,

@@ -95,7 +95,7 @@
 
 .video-title.connected-title button .fa-spin{
   display: inline-block;
-  color: rgba(255,200,48, 1);
+  color: var(--yellow-primary);
   font-size: xx-large;
 }
 .video-title.connected-title button :not(.fa-spin){

@@ -76,10 +76,10 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
     },
 
     updateTimeAgo: function(username, time_gap){
-        const timeAgoDiv = document.getElementById(`${username}-timeAgo-info`);
-        if(timeAgoDiv){
-            timeAgoDiv.textContent = `${FORMATOR.secondToMS(time_gap)}`;
-        }
+        // const timeAgoDiv = document.getElementById(`${username}-timeAgo-info`);
+        // if(timeAgoDiv){
+        //     timeAgoDiv.textContent = `${FORMATOR.secondToMS(time_gap)}`;
+        // }
     },
 
     calculateMediaError: function(message){
@@ -206,11 +206,11 @@ function createOnePeopleDiv(messege){
         div.appendChild(iconDiv);
 
         // image
-        const img = document.createElement('img');
-        img.setAttribute('height', '30');
-        img.setAttribute('width', '30');
-        img.setAttribute('src', './elements/img/avaters/avater-1.png');
-        div.appendChild(img);
+        // const img = document.createElement('img');
+        // img.setAttribute('height', '30');
+        // img.setAttribute('width', '30');
+        // img.setAttribute('src', './elements/img/avaters/avater-1.png');
+        // div.appendChild(img);
 
         // name
         const name = document.createElement('p');
@@ -283,20 +283,20 @@ function createOnePeopleDiv(messege){
             moreInfo.appendChild(videoTitle);
 
             // Time ago
-            const timeAgo = document.createElement('div');
-            timeAgo.classList.add('one-info');
-                // timeago icon 
-                const timeAgoIcon = document.createElement('p');
-                timeAgoIcon.classList.add('icon');
-                timeAgoIcon.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i>`;
-                timeAgo.appendChild(timeAgoIcon);
-                // timeago text
-                const timeAgoText = document.createElement('p');
-                timeAgoText.setAttribute('id', `${messege.__sender__}-timeAgo-info`)
-                timeAgoText.textContent = '...'
-                timeAgo.appendChild(timeAgoText);
+            // const timeAgo = document.createElement('div');
+            // timeAgo.classList.add('one-info');
+            //     // timeago icon 
+            //     const timeAgoIcon = document.createElement('p');
+            //     timeAgoIcon.classList.add('icon');
+            //     timeAgoIcon.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i>`;
+            //     timeAgo.appendChild(timeAgoIcon);
+            //     // timeago text
+            //     const timeAgoText = document.createElement('p');
+            //     timeAgoText.setAttribute('id', `${messege.__sender__}-timeAgo-info`)
+            //     timeAgoText.textContent = '...'
+            //     timeAgo.appendChild(timeAgoText);
             
-            moreInfo.appendChild(timeAgo);
+            // moreInfo.appendChild(timeAgo);
 
             // mediaErrorBar
             const mediaErrorBar = document.createElement('div');
