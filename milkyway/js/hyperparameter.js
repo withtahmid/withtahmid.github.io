@@ -24,5 +24,5 @@ const HYPERPARAMETER = {
 
     videoBeginningEndingTol: 3,
     existingPauseForAWhile: 3,
-    existinfMessegeValidTill: 2,
+    existinfMessegeValidTill: 5,
 }
