@@ -81,7 +81,7 @@ const YOUTUBE_MANAGER = {
     
     createVideoObj: async function(url){
         const videoId = youtubeURLtoId(url);
-        if(!video){
+        if(!videoId){
             return;
         }
         let youtubeInfo;
