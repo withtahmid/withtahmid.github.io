@@ -14,7 +14,7 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
         const transmissionTime = TIME.sAgo(messege.__emmitTime__);
         if( transmissionTime >= 2){
             ret.ignore = true;
-            ret.messege `transmissionTime: ${transmissionTime}`;
+            ret.messege = `transmissionTime: ${transmissionTime}`;
             return ret;
         }
         if(!SETTINGS.inSync){
