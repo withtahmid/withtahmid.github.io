@@ -20,3 +20,5 @@ EVENTS.platform.addEventListener('mqtt-first-connect', (e)=>{
 EVENTS.platform.addEventListener('mqtt-ended', (e)=>{
     EVENTS.directEmmit('room-leaved');
 });
+
+

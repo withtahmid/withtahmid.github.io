@@ -91,6 +91,6 @@ const ROOM = {
 };
 
 
-EVENTS.platform.addEventListener('room-joined', (e)=> ROOM.intervalId = setInterval(ROOM.refreshPeopleList.bind(ROOM),10000));
+EVENTS.platform.addEventListener('room-joined', (e)=> ROOM.intervalId = setInterval(ROOM.refreshPeopleList.bind(ROOM),5000));
 
 EVENTS.platform.addEventListener('room-leaved', ROOM.destroy.bind(ROOM));

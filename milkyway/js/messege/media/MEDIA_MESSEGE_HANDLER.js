@@ -12,7 +12,7 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
     canIgnore(messege){
         const ret = {ignore: false};
         const transmissionTime = TIME.sAgo(messege.__emmitTime__);
-        if( transmissionTime >= 2){
+        if( transmissionTime >= HYPERPARAMETER.mediaMessegeIgnore){
             ret.ignore = true;
             ret.messege = `transmissionTime: ${transmissionTime}`;
             return ret;
@@ -39,7 +39,11 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
         return ret;
     }
     execute(messege){
-        EXISTING_MESSEGE_HTML_MANAGER.updateMediaErrorBar(messege);
+        try {
+            EXISTING_MESSEGE_HTML_MANAGER.updateMediaErrorIndicator(messege);
+        } catch (error) {
+            console.error(error);
+        }
         const ignoreStatus = this.canIgnore(messege);
         if(ignoreStatus.ignore){
             console.log(`\n[MEDIA MESSEGE IGNORED] from ${messege.__sender__}`);
@@ -54,11 +58,11 @@ class MEDIA_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
         }
 
         //DEBUGGING
-        const playTimeGap = Math.abs(VIDEO.__getCurrentTime__() - messege.currentTime);
-        const myVideoPaused = VIDEO.__isPaused__();
-        console.log(`[ MEDIA EXECUTED] myVideoPaused: ${VIDEO.__isPaused__()}\nmessege.isPaused: ${messege.isPaused}\nplayTimeGap: ${playTimeGap}`);
+        // const playTimeGap = Math.abs(VIDEO.__getCurrentTime__() - messege.currentTime);
+        // const myVideoPaused = VIDEO.__isPaused__();
+        // console.log(`[ MEDIA EXECUTED] myVideoPaused: ${VIDEO.__isPaused__()}\nmessege.isPaused: ${messege.isPaused}\nplayTimeGap: ${playTimeGap}`);
         //  
-
+        EXISTING_MESSEGE.__emmit__();
     }
     __isFor__(messege){
         return messege.__sender__ != ROOM.getUsername();

@@ -18,11 +18,12 @@ const HYPERPARAMETER = {
 
     disconnectTime : 20,
     lateTime : 10,
-    eliminateTime: 60,
+    eliminateTime: 600,
     
     existingMessegeGap: 10,
 
     videoBeginningEndingTol: 3,
     existingPauseForAWhile: 3,
     existinfMessegeValidTill: 5,
+    mediaMessegeIgnore: 5,
 }

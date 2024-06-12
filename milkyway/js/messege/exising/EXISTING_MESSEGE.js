@@ -29,7 +29,6 @@ const EXISTING_MESSEGE = {
 }
 
 EVENTS.platform.addEventListener('room-joined', (e)=>{
-    EXISTING_MESSEGE.__emmit__();
     EXISTING_MESSEGE.intervalId = setInterval(()=>{
         EXISTING_MESSEGE.__emmit__();
     },10000)

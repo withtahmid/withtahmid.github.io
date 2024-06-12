@@ -58,7 +58,7 @@ class __VIDEO_PLAYER__{
         event.data = {};
         event.data.__sourceType__ = this.__sourceType__;
         event.data.__time__ = TIME.now();
-        console.log('emmit called');
+        console.log('[__emmitCuedEvent__ on BASTRACT called]');
         EVENTS.emmit(event);
     }
 

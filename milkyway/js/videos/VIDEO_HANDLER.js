@@ -48,23 +48,23 @@ const VIDEO = {
     },
 
     __handleCuedByMessege__: function(messege){
-        try {
-            if(this.__getSourceType__() != messege.sourceType){
-                this.__destroy__();
-            }
-        } catch (error) {
-            console.error(error)
-        }
-        try {
-            this.__player__ = this.players[messege.sourceType];
-        } catch (error) {
-            console.error(error)
-        }
-        try {
-            this.__player__.__handleCuedByMessege__(messege);
-        } catch (error) {
-            console.error(error)
-        }
+        // try {
+        //     if(this.__getSourceType__() != messege.sourceType){
+        //         this.__destroy__();
+        //     }
+        // } catch (error) {
+        //     console.error(error)
+        // }
+        // try {
+        //     this.__player__ = this.players[messege.sourceType];
+        // } catch (error) {
+        //     console.error(error)
+        // }
+        // try {
+        //     this.__player__.__handleCuedByMessege__(messege);
+        // } catch (error) {
+        //     console.error(error)
+        // }
     },
 
     __emmitCuedEvent__: function(){

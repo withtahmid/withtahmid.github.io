@@ -19,9 +19,9 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
             return;
         }
         const div = this.peopleDivs.get(username);
-        div.classList.remove('people-disconnect');
-        div.classList.remove('people-late');
-        div.classList.add('people-active');
+        // div.classList.remove('people-disconnect');
+        // div.classList.remove('people-late');
+        // div.classList.add('people-active');
         EVENTS.emmit({
             name: 'people-active',
             data: {
@@ -50,9 +50,9 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
             return;
         }
         const div = this.peopleDivs.get(username);
-        div.classList.remove('people-active');
-        div.classList.remove('people-late');
-        div.classList.add('people-disconnect');
+        // div.classList.remove('people-active');
+        // div.classList.remove('people-late');
+        // div.classList.add('people-disconnect');
         
         EVENTS.emmit({
             name: 'people-disconnected',
@@ -85,17 +85,37 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
     calculateMediaError: function(message){
         const transmissionTime = (TIME.msAgo(message.__emmitTime__)) / 1000;
         const currentTime = message.currentTime + (message.isPaused ? 0 : transmissionTime);
-        const diff = VIDEO.__getCurrentTime__() - currentTime;
-        return ` ${diff <= 0 ? '+' : '-'}${FORMATOR.formatDuration(Math.abs(diff))}`;
+        const diff =  currentTime - VIDEO.__getCurrentTime__();
+        // return ` ${diff <= 0 ? '+' : '-'}${FORMATOR.formatDuration(Math.abs(diff))}`;
+        return diff;
     },
 
-    updateMediaErrorBar: function(messege){
-        const mediaError = this.calculateMediaError(messege);
-        const mediaErrorBar = document.getElementById(`${messege.__sender__}-mediaErrorBar-info`);
-        if(mediaErrorBar){
-            mediaErrorBar.textContent = `${mediaError}`;
+    calculateLeftValueFromError: function(value){
+        const offset = HYPERPARAMETER.mediaMissMatchTol;
+        value = Math.min(Math.max(-offset, value), +offset) + offset;
+        const left = value * (6 / (offset * 2));
+        return left.toFixed(2);
+    },
+
+    updateMediaErrorIndicator: function(messege){
+        const errorValue = this.calculateMediaError(messege);
+        const mediaErrorSlider = document.getElementById(`${messege.__sender__}-media-error-slider`);
+        if(mediaErrorSlider){
+            const left = this.calculateLeftValueFromError(errorValue);
+            mediaErrorSlider.style.left = `${left}rem`;
+        }
+        const valueNormalized = -5 <= errorValue && errorValue <= +5 ? Math.abs(errorValue.toFixed(1)) : 'oo';
+        const mediaErrorValue = document.getElementById(`${messege.__sender__}-media-error-value`);
+        if(mediaErrorValue){
+            mediaErrorValue.textContent = `${valueNormalized}`
         }
     },
+    
+    statusColor: function(time_gap){
+        const percent = 100 - (Math.min(HYPERPARAMETER.disconnectTime, Math.max(time_gap, 0)) * (100.0 / HYPERPARAMETER.disconnectTime));
+        return getColor(percent);
+    },
+
 
     refreshPeopleStatus: function(username){
         const time_gap = ROOM.timeAgo(username);
@@ -111,6 +131,7 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
         }else{
             console.error('sould not reach this portion');
         }
+        this.peopleDivs.get(username).getElementsByClassName('status-icon')[0].style.color = `${this.statusColor(time_gap)}`;
         this.updateTimeAgo(username, time_gap);
     },
 
@@ -127,7 +148,7 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
         }
         updateOnePeopleDiv(messege);
         this.refreshPeopleStatus(messege.__sender__);
-        this.updateMediaErrorBar(messege);
+        this.updateMediaErrorIndicator(messege);
     },
     sourceTypeIcons: {
         youtube: '<i class="fa-brands fa-youtube"></i>',
@@ -171,6 +192,8 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
     `${messege.__sender__}-Videotitle-info`
     `${messege.__sender__}-timeAgo-info`
     `${messege.__sender__}-mediaErrorBar-info`
+    `${messege.__sender__}-media-error-slider`
+    `${messege.__sender__}-media-error-value`
 
 */
 
@@ -202,7 +225,7 @@ function createOnePeopleDiv(messege){
     
         // set icon
         const iconDiv = document.createElement('div');
-        iconDiv.innerHTML = `<i class="fa-solid fa-signal status-icon"></i>`;
+        iconDiv.innerHTML = `<i class="fa-solid fa-wifi status-icon"></i>`;
         div.appendChild(iconDiv);
 
         // image
@@ -217,6 +240,27 @@ function createOnePeopleDiv(messege){
         name.textContent = messege.__sender__;
         name.style.flexGrow = '1'; // need to fix XSS
         div.appendChild(name);
+
+
+        const mediaErrorIndicator = document.createElement('div');
+        mediaErrorIndicator.classList.add('media-error-indicator');
+
+        
+            const theGrid = document.createElement('div');
+            theGrid.classList.add('media-error-indicator-grid');
+                const mediaErrorValue = document.createElement('span');
+                mediaErrorValue.setAttribute('id', `${messege.__sender__}-media-error-value`)
+                theGrid.appendChild(mediaErrorValue);
+            mediaErrorIndicator.appendChild(theGrid);
+
+            const theSlider = document.createElement('div');
+            theSlider.classList.add('media-error-indicator-slider');
+            theSlider.setAttribute('id', `${messege.__sender__}-media-error-slider`)
+            
+            mediaErrorIndicator.appendChild(theSlider);
+
+        div.appendChild(mediaErrorIndicator);
+
 
         const videoSourceDiv = document.createElement('div');
         videoSourceDiv.setAttribute('id', `${messege.__sender__}-sourceType-icon`);
@@ -299,20 +343,20 @@ function createOnePeopleDiv(messege){
             // moreInfo.appendChild(timeAgo);
 
             // mediaErrorBar
-            const mediaErrorBar = document.createElement('div');
-            mediaErrorBar.classList.add('one-info');
-                // mediaErrorBar icon 
-                const mediaErrorBarIcon = document.createElement('p');
-                mediaErrorBarIcon.classList.add('icon');
-                mediaErrorBarIcon.innerHTML = `<i class="fa-solid fa-bug"></i>`;
-                mediaErrorBar.appendChild(mediaErrorBarIcon);
-                // mediaErrorBar text
-                const mediaErrorBarText = document.createElement('p');
-                mediaErrorBarText.setAttribute('id', `${messege.__sender__}-mediaErrorBar-info`)
-                mediaErrorBarText.textContent = '...'
-                mediaErrorBar.appendChild(mediaErrorBarText);
+            // const mediaErrorBar = document.createElement('div');
+            // mediaErrorBar.classList.add('one-info');
+            //     // mediaErrorBar icon 
+            //     const mediaErrorBarIcon = document.createElement('p');
+            //     mediaErrorBarIcon.classList.add('icon');
+            //     mediaErrorBarIcon.innerHTML = `<i class="fa-solid fa-bug"></i>`;
+            //     mediaErrorBar.appendChild(mediaErrorBarIcon);
+            //     // mediaErrorBar text
+            //     const mediaErrorBarText = document.createElement('p');
+            //     mediaErrorBarText.setAttribute('id', `${messege.__sender__}-mediaErrorBar-info`)
+            //     mediaErrorBarText.textContent = '...'
+            //     mediaErrorBar.appendChild(mediaErrorBarText);
             
-            moreInfo.appendChild(mediaErrorBar);
+            // moreInfo.appendChild(mediaErrorBar);
 
 
             // add more info .......
@@ -322,3 +366,21 @@ function createOnePeopleDiv(messege){
     return div;
 }
 
+
+
+
+function getColor(percent) {
+	percent = Math.min(100, Math.max(0, percent));
+	var red = percent < 50 ? 255 : Math.round(255 - (percent - 50) * 5.1);
+	var green = percent > 50 ? 255 : Math.round((percent * 5.1));
+    const color = `rgb(${red}, ${green}, ${255 - (red / 2)})`;
+	return color;
+}
+
+function getColorMatte(percent) {
+	percent = Math.min(100, Math.max(0, percent));
+	var red = percent < 50 ? 255 : Math.round(255 - (percent - 50) * 5.1);
+	var green = percent > 50 ? 255 : Math.round((percent * 5.1));
+	var color = 'rgba(' + red + ',' + green + ',0, 0.3)';
+	return color;
+}
