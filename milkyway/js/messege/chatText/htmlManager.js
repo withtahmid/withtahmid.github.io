@@ -52,6 +52,10 @@ function appendMessege(message){
     chatBox.appendChild(div);
 
     chatBox.scrollTop = chatBox.scrollHeight;
+
+    if(VIDEO.__fullscreen__() && VIDEO.allowChatOnFullScreen){
+        document.querySelector(".video-container").classList.add('on-video-chat');
+    }
 }
 
 

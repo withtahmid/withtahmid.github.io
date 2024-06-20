@@ -10,6 +10,6 @@ const JOIN_MESSEGE = {
 }
 
 EVENTS.platform.addEventListener('room-joined', (e) => {
-    EXISTING_MESSEGE.__emmit__();
+    JOIN_MESSEGE.__emmit__();
     setTimeout(()=> EXISTING_MESSEGE.__emmit__(), 100);
 });

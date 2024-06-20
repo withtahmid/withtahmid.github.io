@@ -74,6 +74,7 @@ EVENTS.platform.addEventListener('room-joined', (e)=>{
 
 EVENTS.platform.addEventListener('room-leaved', (e)=>{
     ROOM_HTML_MANAGER.onLeave();
+    EXISTING_MESSEGE_HTML_MANAGER.people_html.innerHTML = '';
 });
 
 EVENTS.platform.addEventListener('mqtt-connected', (e)=>{

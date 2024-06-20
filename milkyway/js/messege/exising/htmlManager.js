@@ -34,9 +34,9 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
             return;
         }
         const div = this.peopleDivs.get(username);
-        div.classList.remove('people-active');
-        div.classList.remove('people-disconnect');
-        div.classList.add('people-late');
+        // div.classList.remove('people-active');
+        // div.classList.remove('people-disconnect');
+        // div.classList.add('people-late');
         EVENTS.emmit({
             name: 'people-late',
             data: {

@@ -23,7 +23,7 @@ const HYPERPARAMETER = {
     existingMessegeGap: 10,
 
     videoBeginningEndingTol: 3,
-    existingPauseForAWhile: 3,
+    existingPauseForAWhile: 1,
     existinfMessegeValidTill: 5,
     mediaMessegeIgnore: 5,
 }

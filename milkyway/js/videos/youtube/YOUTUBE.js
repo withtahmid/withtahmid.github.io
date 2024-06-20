@@ -5,7 +5,7 @@ class YOUTUBE extends __VIDEO_PLAYER__{
 
     }
      // abstract methods
-     __init__(videoId){
+     __init__(videoId = null){
         console.log(`__init__ YOUTUBE called`)
         try {
             document.getElementById('video-section').classList.add('youtube-player');

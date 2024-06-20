@@ -25,7 +25,6 @@ function onYTPlayerStateChange(event){
         EXISTING_MESSEGE.__emmit__();
     }else if(state === -1){
         EXISTING_MESSEGE.__emmit__();
-        
     }else if(state === 0){
         YOUTUBE_MANAGER.playNextInQueue();
     }
@@ -75,10 +74,7 @@ const YOUTUBE_MANAGER = {
     queue: [],
     
     infoCache: new Map(),
-    // queueItemDivCache: new Map(), 
-    queueIndex: -1,
-    // queueIsActive
-    
+    queueIndex: -1,    
     createVideoObj: async function(url){
         const videoId = youtubeURLtoId(url);
         if(!videoId){
@@ -386,8 +382,6 @@ function getYoutubeSyncData(){
     syncData.queueInLoop = YOUTUBE_MANAGER.queueInLoop();
     return syncData;
 }
-
-// https://youtu.be/RRsSfR5OCts?si=Qs-fGWhUI2aSxU9n
 
 function playYoutubeById(){
     const input = document.getElementById('youtube-url-input');
