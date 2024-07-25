@@ -282,7 +282,10 @@
 .video-container:not(.full-screen) .video-chat-box{
   display: none;
 }
-
+.video-chat-box{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 
 .video-controls-container input[type = "range"]{
   accent-color: rgba(255,200,48,1);

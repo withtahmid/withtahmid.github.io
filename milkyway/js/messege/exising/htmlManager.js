@@ -146,7 +146,11 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
         if(!this.peopleDivs.has(messege.__sender__)){
             this.createNewPeople(messege);
         }
-        updateOnePeopleDiv(messege);
+        try {
+            updateOnePeopleDiv(messege);
+        } catch (error) {
+            console.error('Failed to update onePeopleDiv');
+        }
         this.refreshPeopleStatus(messege.__sender__);
         this.updateMediaErrorIndicator(messege);
     },
