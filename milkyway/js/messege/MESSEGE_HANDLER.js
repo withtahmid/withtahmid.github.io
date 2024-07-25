@@ -14,9 +14,19 @@ const MESSEGE_HANDLER = {
 
     },
 
-    onMessege: function(json){
-        
-        const messege = JSON.parse(json);
+    onMessege: async function(encryptedString){
+        try {
+            decryptedString = decryptString(encryptedString)
+        } catch (error) {
+            console.error('Failed to decrypt string');
+            return;
+        }
+        try {
+            var messege = JSON.parse(decryptedString);
+        } catch (error) {
+            console.error('Failed to parse json');
+            return;
+        }
         ROOM.registerPresence(messege.__sender__);
         const handler = this.handlers[messege.__type__];
         if(handler.__isFor__(messege)){

@@ -4,9 +4,8 @@ const MESSEGE_EMMITTER = {
             console.log(`\nIGNORED MESSGE OF TYPE ${messegeObj.__type__} becase '__dontEmmit__' flag is set`);
             return;
         }
-        let messegeJSON;
         try {
-            messegeJSON = JSON.stringify(messegeObj);
+            var messegeJSON = JSON.stringify(messegeObj);
         } catch (error) {
             console.error(error);
             console.error('Cannot stringify');
@@ -14,11 +13,18 @@ const MESSEGE_EMMITTER = {
         }
 
 
-        let publishStatus;
+        // encrypting
+        try {
+            var encryptedString = encryptString(messegeJSON)
+        } catch (error) {
+            console.error(error);
+            console.error('Cannot encrypt');
+            return;
+        }
 
         // publishing the messege string
         try {
-            publishStatus = await MQTT.publish(ROOM.getTopic(), messegeJSON);
+            var publishStatus = await MQTT.publish(ROOM.getTopic(), encryptedString);
         } catch (error) {
             console.error(error);
         }
