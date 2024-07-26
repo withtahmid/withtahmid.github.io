@@ -7,9 +7,8 @@ const MEDIA_MESSEGE = {
         const messege =  __MESSEGE_ABSTRACT__.get('media', 'all');
         messege.currentTime = VIDEO.__getCurrentTime__();
         messege.isPaused = VIDEO.__isPaused__();
-        // messege.__dontEmmit__ = !SETTINGS.inSync;
+        messege.__dontEmmit__ = SETTINGS.inSync ? false : true;
         return messege;
-
     },
     __emmit__: function(){
         const messege = this.__get__();
