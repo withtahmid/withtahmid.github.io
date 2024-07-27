@@ -11,6 +11,9 @@ const MESSEGE_HANDLER = {
         chatDelivery: new CHAT_DELIVERY_MESSEGE_HANDLER(),
         mediaRequest: new MEDIA_REQUEST_MESSEGE_HANDLER(),
         mediaResponse: new MEDIA_RESPONSE_MESSEGE_HANDLER(),
+        handshakeRequest: new HANDSHAKE_REQUEST_MESSAGE_HANDLER(),
+        handshakeResponse: new HANDSHAKE_RESPONSE_MESSEGE_HANDLER(),
+        handshakeAcknowledge: new HANDSHAKE_ACKNOWLEDGE_MESSEGE_HANDLER(),
 
     },
 

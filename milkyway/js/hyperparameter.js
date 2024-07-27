@@ -26,4 +26,6 @@ const HYPERPARAMETER = {
     existingPauseForAWhile: 1,
     existinfMessegeValidTill: 5,
     mediaMessegeIgnore: 5,
+
+    handshakeWaitTime: 7000,
 }

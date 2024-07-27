@@ -1,6 +1,10 @@
 CHAT_MESSEGE_HTML_MANAGER = {
-    manageText: function(message){
-        appendMessege(message);
+    manageText: async function(message){
+        try {
+            appendMessege(message);
+        } catch (error) {
+            console.error('[Failed] to append message');
+        }
     }
 };
 

@@ -9,22 +9,32 @@ let SETTINGS = {
     allowChatOnFullScreen: true,
     // showAnnounceMents: true,
     autoSyncRequestOnJoin: true,
-    
+
+    // Encryption
+    AES: null,
+    rsaPrivateKey: null,
+    rsaPublicKey: null,
+    RSA: null,
+
     set: function(){
         localStorage.setItem(settingsKey, JSON.stringify({
             inSync: this.inSync,
-            // chatOnFullScreen: this.chatOnFullScreen,
             username: this.username,
             roomId: this.roomId,
             autoJoin: this.autoJoin,
             notificationVolumeIndex: this.notificationVolumeIndex,
             allowChatOnFullScreen: this.allowChatOnFullScreen,
             autoSyncRequestOnJoin: this.autoSyncRequestOnJoin,
+
+            AES: this.AES,
+            RSA: this.RSA,
+            rsaPrivateKey: this.rsaPrivateKey,
+            rsaPublicKey: this.rsaPublicKey,
         }));
     },
 
-    get: function(){
-        const saved = JSON.parse(localStorage.getItem(settingsKey)) || {};
+    get: async function(){
+        const saved = await JSON.parse(localStorage.getItem(settingsKey)) || {};
         this.inSync = saved.inSync ?? true;
         this.username = saved.username ?? '';
         this.roomId = saved.roomId ?? '';
@@ -32,6 +42,11 @@ let SETTINGS = {
         this.notificationVolumeIndex = saved.notificationVolumeIndex ?? 1;
         this.allowChatOnFullScreen = saved.allowChatOnFullScreen ?? true;
         this.autoSyncRequestOnJoin = saved.autoSyncRequestOnJoin ?? true;
+
+        this.AES = saved.AES ?? null;
+        this.RSA = saved.RSA ?? null;
+        this.rsaPrivateKey = saved.rsaPrivateKey ?? null;
+        this.rsaPublicKey = saved.rsaPublicKey ?? null;
     },
     retrive: function(){
         const settings = {};

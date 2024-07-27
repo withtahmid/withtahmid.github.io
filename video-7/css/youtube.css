@@ -1,0 +1,304 @@
+.tab-panel.youtube-tab{
+  margin: 0;
+  padding: 0;
+}
+
+
+.youtube-tab{
+  max-height: 100%;
+  overflow: scroll;
+}
+
+
+.youtube-queue-whole-container{
+  height: 100%;
+  border: 5px solid var(--youtube-black);
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  margin: o;
+  padding: 0;
+}
+
+
+.youtube-queue-head{
+  color: var(--yellow-primary);
+  font-family: 'Como';
+  background-color: var(--youtube-black);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.youtube-queue-head-top{
+  display: flex;
+  align-items: center;
+  gap: 1rem 0.7rem;
+  
+}
+
+.youtube-queue-head-top-header{
+  margin: 0;
+  padding: 0;
+  font-size: x-large;
+  font-weight: bolder;
+  min-width: 6rem;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  line-height: 2rem;
+  max-height: 2rem;
+  overflow: hidden;
+}
+
+.youtube-queue-head-top-cnt{
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+.youtube-queue-head-top-input{
+  flex-grow: 1;
+}
+
+
+
+.youtube-queue-head-media-buttons{
+  color: var(--yellow-primary);
+  display: flex;
+  gap: 0.2rem;
+}
+
+
+.youtube-queue-head-media-btn{
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  color: var(--yellow-primary);
+  border: none;
+  outline: none;
+  background-color: transparent;
+  transition: background-color 100ms ease-in-out;
+  background: transparent;
+  font-size: larger;
+  cursor: pointer;
+  /* border: 1px solid yellow; */
+}
+
+.youtube-queue-head-media-btn:hover,
+.youtube-queue-head-media-btn.youtube-media-button-active
+{
+  background-color: var(--yellow-primary);
+  transition: background-color 100ms ease-in-out;
+  color: black;
+}
+.youtube-queue-head-media-btn:active{
+  font-size: x-large;
+  /* transition: font-size 100ms ease-in-out; */
+}
+
+
+.youtube-queue-list{
+    scrollbar-width: thin;
+    scrollbar-color: var(--yellow-primary) transparent;
+    height: 100%;
+    flex-grow: 1;
+    font-family: 'Como';
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    color: var(--yellow-primary);
+    /* border-radius: 15px; */
+    /* border: 5px dashed var(--yellow-background); */
+    padding: 0;
+    /* background-color: rgba(40,41,45,255); */
+}
+
+.youtube-queue-list::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .youtube-queue-list::-webkit-scrollbar-thumb {
+    /* background-color: rgba(255,200,48,0.3); */
+    
+    border-radius: 5px;
+  }
+  
+  .youtube-queue-list::-webkit-scrollbar-thumb:hover {
+    background-color:  var(--yellow-primary);
+  }
+  
+
+.youtube-queue-item{
+    height: 6rem;
+    padding: 1rem 0.5rem;
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    /* background-color: var(--yellow-background-half); */
+    background-color: rgba(33,34,36, 0.4);
+    /* border-radius: 10px; */
+    /* margin-bottom: 0.5rem; */
+    /* border: 1px solid red; */
+    cursor: pointer;
+    /* border-radius: 0; */
+    /* border-radius: 0px; */
+}
+.youtube-queue-item-left-icon{
+  /* border: 1px solid red; */
+  /* width: 1rem; */
+  /* font-size: small; */
+  /* height: 2rem; */
+  /* width: 2rem; */
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: medium;
+  opacity: 0.5;
+  /* padding-right: 0.5rem; */
+  /* border: 1px solid red; */
+}
+.youtube-queue-item-left-icon:hover{
+  opacity: 1;
+}
+
+.youtube-queue-item-thumbnail{
+    height: 100%;
+    border-radius: 5px;
+    background: transparent;
+    background-color: transparent;
+}
+.youtube-queue-item-info-box{
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0 0.3rem;
+    /* border: 1px solid red; */
+}
+
+.youtube-queue-item-title{
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-weight: 700;
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  margin: 0;
+  line-height: 1; 
+  max-height: 2rem;
+  padding: 0;
+  font-size: large;
+}
+
+.youtube-queue-item-additional-info{
+  /* border: 1px solid white; */
+  padding-bottom: 0.3rem;
+  /* padding-right: 1rem; */
+  /* padding: 0.4rem; */
+
+  margin-top: auto;
+  display: flex;
+  font-weight: bold;
+  font-size: small;
+  opacity: 0.6;
+  gap: 2rem;
+  
+}
+.youtube-queue-item-chanleTitle{
+    flex-grow: 1;
+    white-space: nowrap;         
+    overflow: hidden;            
+    text-overflow: ellipsis;     
+    /* width: 100px; */
+    margin: 0;
+    padding: 0;
+    /* border: 1px solid white; */
+}
+.youtube-queue-item-addedBy{
+  white-space: nowrap;         
+    overflow: hidden;            
+    text-overflow: ellipsis;     
+    /* text-align: center; */
+    max-width: 100px;  
+    margin: 0; 
+    padding: 0;   
+    /* border: 1px solid yellow; */
+}
+
+.youtube-queue-item-button-box{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.youtube-queue-item-btn{
+  height: 2rem;
+  width: 2rem;
+  color: var(--yellow-primary);
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  outline: none;
+  font-size: larger;
+  cursor: pointer;
+  opacity: 0.7;
+  color: transparent;
+  /* border: 1px solid red; */
+  transition: font-size 100ms ease-in-out;
+}
+
+.youtube-queue-item-btn:hover{
+  transition: font-size 100ms ease-in-out;
+  font-size: x-large;
+}
+
+.youtube-queue-currenty-playing, .youtube-queue-item:hover{
+  background-color: var(--youtube-black);
+  /* border: 1px solid var(--yellow-primary-half); */
+}
+.youtube-queue-currenty-playing .youtube-queue-item-title{
+  opacity: 1;
+  font-weight: 800;
+}
+
+.youtube-queue-currenty-playing .youtube-queue-item-additional-info
+{
+  opacity: 1;
+  /* font-weight: 500; */
+}
+
+.youtube-queue-item:hover .youtube-queue-item-btn{
+  color: inherit;
+}
+
+
+
+/*  */
+
+
+.youtube-tab input[type="text"]{
+  background-color: var(--yellow-background);
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  color: rgba(255,200,48,255);
+  text-align: center;
+  font-family: 'Como';
+  font-style: normal;
+  padding: 0.6rem;
+  font-size: large;
+}
+
+/* .youtube-tab input[type="text"]:active,
+.youtube-tab input[type="text"]:focus,
+.youtube-tab input[type="text"]:hover{
+  
+} */

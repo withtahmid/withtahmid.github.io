@@ -26,7 +26,7 @@
                 <img  src="./elements/img/milkyway-icon.png" height="40" widtd="40" alt="">
                 <div>
                     <h1>Milkyway</h1>
-                    <a href="https://github.com/withtahmid" target="_blank">withtahmid | v7.0.3</a>
+                    <a href="https://github.com/withtahmid" target="_blank">withtahmid | v8.0.0</a>
                 </div>
                 <button class="donate-btn ease-btn">About</button>
                 <button class="about-btn ease-btn">Manual</button>
@@ -105,7 +105,7 @@
         <div class="right">
             <div class="tabs">
                 <!-- CHat -->
-                <input class=tab-input name="tabs" type="radio" id="tab-1"/>
+                <input class=tab-input name="tabs" type="radio" id="tab-1" checked="checked"/>
                 <label class="tab-label ease-btn" for="tab-1"><i class="fa-solid fa-message"></i> <span>Chat</span> </label>
                 <div class="tab-panel off-video-chat-box" style="position: relative;">
                     <div id="chat-full-container" style="height: 100%; position: relative;">
@@ -126,11 +126,16 @@
                                 
                                 <div class="messege-delivery-info">
                                     <p class="messege-delivery-info-name">Tahmid</p>
-                                    <p class="messege-delivery-info-name">Joynob</p>
                                     <p class="messege-delivery-info-name">Shanto</p>
                                 </div>
                                 
                             </div>
+                            
+                            <div class="chat-box-info">
+                                <i class="fa-solid fa-lock"></i>
+                                <span> end-to-end encryption established with Tahmid</span>
+                            </div>
+
                             <div class="message-container">
                                 
                                 <p class="messege-sent-info-sender">Tahmid Ahmed</p>
@@ -147,8 +152,6 @@
                                 
                                 <div class="messege-delivery-info">
                                     <p class="messege-delivery-info-name">Tahmid</p>
-                                    <p class="messege-delivery-info-name">Joynob</p>
-                                    <p class="messege-delivery-info-name">Shanto</p>
                                 </div>
                                 
                             </div>
@@ -169,7 +172,6 @@
                                 
                                 <div class="messege-delivery-info">
                                     <p class="messege-delivery-info-name">Tahmid</p>
-                                    <p class="messege-delivery-info-name">Joynob</p>
                                     <p class="messege-delivery-info-name">Shanto</p>
                                 </div>
                                 
@@ -189,7 +191,7 @@
                     </div>
                 </div>
                 <!-- Room -->
-                <input class=tab-input name="tabs" type="radio" id="tab-2" checked="checked"/>
+                <input class=tab-input name="tabs" type="radio" id="tab-2" />
                 <label class="tab-label ease-btn" for="tab-2"><i class="fa-solid fa-people-roof"></i> <span> Room</span></label>
                 <div id="connection-tab" class="tab-panel room-tab no-connect">
                     
@@ -550,10 +552,19 @@
 <!-- Scripts -->
     <script src="./js/utils/TIME.js"></script>
     <!-- utils -->
-    <script src="./js/hyperparameter.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="./js/utils/encryption.js"></script>
+        <script src="./js/hyperparameter.js"></script>
+        <!-- Symetric Encrypting -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <!-- RSA Encryption -->
+        <script src="https://cdn.jsdelivr.net/npm/node-forge/dist/forge.min.js"></script>
+        <!-- UUID -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script> -->
     
+        <script src="./js/utils/encryption/symetricEncryption.js"></script>
+        <!-- AES -->
+         <script src="./js/utils/encryption/AES.js"></script>
+         <script src="./js/utils/encryption/RSA.js"></script>
+
     <!-- hyperperameters -->
     <script src="./js/utils/FORMATOR.js"></script>
 
@@ -609,6 +620,24 @@
         <!-- cuedVideo -->
         <script src="./js/messege/cueVideo/CuedVIDEO_MESSEGE.js"></script>
         <script src="./js/messege/cueVideo/CuedVIDEO_MESSEGE_HANDLER.js"></script>
+
+        
+        <!-- Handshake -->
+            <!-- Request -->
+            <script src="./js/messege/handshake/request/HANDSHAKE_REQUEST_MESSEGE.js"></script>
+            <script src="./js/messege/handshake/request/HANDSHAKE_REQUEST_MESSAGE_HANDLER.js"></script>
+
+            <!-- Response -->
+            <script src="./js/messege/handshake/response/HANDSHAKE_RESPONSE_MESSEGE.js.js"></script>
+            <script src="./js/messege/handshake/response/HANDSHAKE_RESPONSE_MESSEGE_HANDLER.js"></script>
+
+            <!-- Acknowledge -->
+            <script src="./js/messege/handshake/aknowledge/HANDSHAKE_AKNOWLEDGE_MESSEGE.js"></script>
+            <script src="./js/messege/handshake/aknowledge/HANDSHAKE_AKNOWLEDGE_MESSEGE_HANDLER.js"></script>
+
+        <script src="./js//messege/handshake/handshakeRequest.js"></script>
+        <script src="./js/messege/handshake/handshakeresponse.js"></script>
+        <script src="./js/messege/handshake/eventListeners.js"></script>
 
         <!-- chat Delivery -->
         <script src="./js/messege/chatDelivery/CHAT_DELIVERY_MESSEGE.js"></script>

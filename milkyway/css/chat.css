@@ -229,3 +229,15 @@
     color: #ccc;
     cursor: pointer;
   }
+  .chat-box-info{
+    font-family: 'Como';
+    color: var(--yellow-primary);
+    /* border: 1px solid red; */
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    align-items: center;
+    font-size: small;
+    font-style: italic;
+    padding: 1rem;
+  }

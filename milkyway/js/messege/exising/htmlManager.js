@@ -150,6 +150,7 @@ const EXISTING_MESSEGE_HTML_MANAGER = {
             updateOnePeopleDiv(messege);
         } catch (error) {
             console.error('Failed to update onePeopleDiv');
+            console.error(error);
         }
         this.refreshPeopleStatus(messege.__sender__);
         this.updateMediaErrorIndicator(messege);
@@ -225,7 +226,6 @@ function createOnePeopleDiv(messege){
     const div = document.createElement('div');
     div.classList.add('one-people');
     div.setAttribute('id', `${messege.__sender__}-one-people-div`);
-
     
         // set icon
         const iconDiv = document.createElement('div');
