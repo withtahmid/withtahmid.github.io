@@ -28,8 +28,6 @@ let SETTINGS = {
 
             AES: this.AES,
             RSA: this.RSA,
-            rsaPrivateKey: this.rsaPrivateKey,
-            rsaPublicKey: this.rsaPublicKey,
         }));
     },
 
@@ -45,8 +43,6 @@ let SETTINGS = {
 
         this.AES = saved.AES ?? null;
         this.RSA = saved.RSA ?? null;
-        this.rsaPrivateKey = saved.rsaPrivateKey ?? null;
-        this.rsaPublicKey = saved.rsaPublicKey ?? null;
     },
     retrive: function(){
         const settings = {};

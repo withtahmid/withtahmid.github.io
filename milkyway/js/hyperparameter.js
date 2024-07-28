@@ -28,4 +28,7 @@ const HYPERPARAMETER = {
     mediaMessegeIgnore: 5,
 
     handshakeWaitTime: 7000,
+
+    aesExpiresAt: 12 * 60 * 60 * 1000,
+    rsaExpiresAt: 7 * 24 * 60 * 60 * 1000,
 }

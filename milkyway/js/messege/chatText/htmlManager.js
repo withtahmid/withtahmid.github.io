@@ -55,12 +55,48 @@ function appendMessege(message){
     
     chatBox.appendChild(div);
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+    theFullScreenChatThing();
 
-    if(VIDEO.__fullscreen__() && VIDEO.allowChatOnFullScreen){
-        document.querySelector(".video-container").classList.add('on-video-chat');
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+let fullscreenTimeoutId; 
+let userInteractedWithFullScreenChatBox = false;
+function theFullScreenChatThing(){
+    const autodown = ()=> {
+        if(fullscreenTimeoutId){
+            clearTimeout(fullscreenTimeoutId);
+        }
+        fullscreenTimeoutId = setTimeout(()=>{
+            document.querySelector(".video-container").classList.remove('on-video-chat');
+            userInteractedWithFullScreenChatBox = false;
+        }, 5000);
+    };
+    const visible = document.querySelector(".video-container").classList.contains('on-video-chat');
+    if(VIDEO.__fullscreen__() && SETTINGS.allowChatOnFullScreen){
+        if(!visible){
+            userInteractedWithFullScreenChatBox = false;
+            document.querySelector(".video-container").classList.add('on-video-chat');
+        }
+        if(!userInteractedWithFullScreenChatBox){
+            autodown();
+        }
     }
 }
+document.querySelector(".video-container").addEventListener('mousemove', (event)=>{
+    if(!fullscreenTimeoutId){
+        return;
+    }
+    clearTimeout(fullscreenTimeoutId);
+    userInteractedWithFullScreenChatBox = true;
+});
+document.addEventListener('keydown', (event)=>{
+    if(!fullscreenTimeoutId){
+        return;
+    }
+    clearTimeout(fullscreenTimeoutId);
+    userInteractedWithFullScreenChatBox = true;
+});
 
 
 function sendTextMessage(inputFiledId){

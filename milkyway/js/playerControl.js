@@ -7,7 +7,7 @@ const captionsBtn = document.querySelector(".captions-btn")
 // const speedBtn = document.querySelector(".speed-btn")
 const currentTimeElem = document.querySelector(".current-time")
 const totalTimeElem = document.querySelector(".total-time")
-// const previewImg = document.querySelector(".preview-img")
+const previewImg = document.querySelector(".preview-img")
 // const thumbnailImg = document.querySelector(".thumbnail-img")
 const volumeSlider = document.querySelector(".volume-slider")
 const videoContainer = document.querySelector(".video-container")
@@ -91,10 +91,11 @@ function toggleScrubbing(e) {
 function handleTimelineUpdate(e) {
   const rect = timelineContainer.getBoundingClientRect()
   const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width
-  const previewImgNumber = Math.max(
-    1,
-    Math.floor((percent * video.duration) / 10)
-  )
+  // const previewImgNumber = Math.max(
+  //   1,
+  //   Math.floor((percent * video.duration) / 10)
+  // )
+  previewImg.textContent = formatDuration(Math.floor(percent * video.duration))
   // const previewImgSrc = `assets/previewImgs/preview${previewImgNumber}.jpg`
   // previewImg.src = previewImgSrc
   timelineContainer.style.setProperty("--preview-position", percent)

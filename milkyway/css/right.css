@@ -496,6 +496,8 @@
 }
 
 .video-chat-box{
+  /* opacity: 1;
+  transition: opacity 1000ms ease-in-out; */
   position: absolute;
   bottom: 60px;
   right: 1rem;
@@ -515,7 +517,8 @@
 
 .video-container:not(.on-video-chat) .video-chat-box{
   display: none;
-  transition: display 150ms ease-in-out;
+  /* opacity: 0;
+  transition: opacity 1000ms ease-in-out; */
 }
 
 .video-container.on-video-chat .chat-btn-onvideo{
