@@ -18,21 +18,27 @@ class CHAT_TEXT_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
 }
 
 async function handleChatTextMessege(message){
-    if(!AES.peoplesKey.has(message.__sender__)){
-        const result = await makeHandshakeWIth(message.__sender__);
-    }
-    const aesKey = await AES.peoplesKey.get(message.__sender__);
-    if(!aesKey){
-        console.error('[AES ERROR]: aesKey not exist on the Map');
-        return;
+    try {
+        var aesKey = await AES.getKeyWithUsername(message.__sender__);
+    } catch (error) {
+        console.error(error);   
     }
     try {
         var decryptedText = await AES.decrypt(aesKey, message.text);
     } catch (error) {
         console.error('[AES ERROR] Failed to decrypt');
         console.error(error);
-        makeHandshakeWIth(message.__sender__);
-        return;
+        await makeHandshakeWIth(message.__sender__);
+        try {
+            var aesKey = await AES.getKeyWithUsername(message.__sender__);
+        } catch (error) {
+            console.error(error);   
+        }
+        try {
+            decryptedText = await AES.decrypt(aesKey, message.text);
+        } catch (error) {
+            console.error(error);
+        }
     }
     message.text = decryptedText;
     try {

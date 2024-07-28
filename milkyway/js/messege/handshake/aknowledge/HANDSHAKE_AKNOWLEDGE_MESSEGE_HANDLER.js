@@ -12,10 +12,10 @@ class HANDSHAKE_ACKNOWLEDGE_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
 async function handlehandshakeAcknowledge(message){
     const encryptedAESKey = message.aesKey;
     const decryptedAesKey = RSA.decrypt(encryptedAESKey);
-    const aesKey = AES.importKey(decryptedAesKey);
+    const aesKey = decryptedAesKey
     let ignoreAcknowledege = false;
-    if(AES.peoplesKey.has(message.__sender__)){
-        const previousKey = await AES.peoplesKey.get(message.__sender__);
+    if(AES.hasKeyOfUser(message.__sender__)){
+        const previousKey = AES.getKeyWithUsername(message.__sender__);
         const keySrt = decryptedAesKey;
         const previousKeyStr = await AES.exportKey(previousKey);
         if(keySrt === previousKeyStr){
@@ -23,14 +23,14 @@ async function handlehandshakeAcknowledge(message){
         }
     }
     if(ignoreAcknowledege){
-        console.log('[AES KEY IGNORED]: recieved key and previous kes are same');
+        console.error('[AES Error]: recieved key and previous kes are same!');
         return;
     }
-    AES.peoplesKey.set(message.__sender__, aesKey);
     EVENTS.emmit({
         name: 'handshakeAcknowledged',
         data: {
-            handshakeId: message.handshakeId
+            handshakeId: message.handshakeId,
+            aesKey: aesKey
         }
     })
 }

@@ -6,14 +6,16 @@ async function makeHandshakeResponse(message){
         const stringAesKey = await AES.exportKey(aesKey);
         encryptedAESKey = RSA.encrypt(message.publicKey, stringAesKey);
         HANDSHAKE_RESPONSE_MESSAGE.__emmit__(encryptedAESKey, message);
-        EVENTS.platform.addEventListener('handshakeAcknowledged', (e)=>{
+        EVENTS.platform.addEventListener('handshakeAcknowledged', async (e)=>{
             const timerId = setTimeout(()=>{
                 reject({success: false});
             }, HYPERPARAMETER.handshakeWaitTime)
             const handshakeIdReturned = e.detail.handshakeId;
             if(handshakeIdReturned == handshakeId){
                 clearTimeout(timerId);
+                await AES.setKeyWithUsername(username,  e.detail.aesKey);
                 resolve({success: true});
+                
             }
         });
     });

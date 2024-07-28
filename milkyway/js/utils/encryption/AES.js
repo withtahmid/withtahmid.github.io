@@ -19,7 +19,10 @@ function base64ToArrayBuffer(base64) {
 }
 
 const AES = {
-	peoplesKey: new Map(),
+	peoplesKey: {},
+	myKey: {
+		key: null, expiresAt: 0,
+	},
 	generateKey: async function() {
 		console.log('[AES] generated new key');
 		const newKey = await crypto.subtle.generateKey({
@@ -29,23 +32,55 @@ const AES = {
 			true,
 			["encrypt", "decrypt"]
 		);
-		SETTINGS.AES = {
-			key: await this.exportKey(newKey),
+		this.myKey = {
+			key: newKey,
 			expiresAt: new Date(Date.now() + (HYPERPARAMETER.aesExpiresAt)),
 		};
+		SETTINGS.AES = {
+			key: await this.exportKey(newKey),
+			expiresAt: this.myKey.expiresAt,
+		}
 	},
+	
+	setKeyWithUsername: async function(username, key){
+		const updated = SETTINGS.aesKeys;
+		updated[username] = key;
+		SETTINGS.aesKeys = updated;
+		this.peoplesKey[username] = await this.importKey(key);
+	},
+	getKeyWithUsername: async function(username){
+		if(this.peoplesKey[username]){
+			return this.peoplesKey[username];
+		}
+		if(SETTINGS.aesKeys[username]){
+			return this.peoplesKey[username] = await this.importKey(SETTINGS.aesKeys[username]);
+		}
+		await makeHandshakeWIth(username);
+		return this.peoplesKey[username];
+	},
+	hasKeyOfUser: function(username){
+		return this.peoplesKey[username] || SETTINGS.aesKeys[username];
+	},
+
 	getKey: async function() {
+		if(this.myKey.key &&  TIME.now() < this.myKey.expiresAt){
+			return this.myKey.key;
+		}
+		if (SETTINGS.AES !== null && TIME.now() < SETTINGS.AES.expiresAt) {
+			this.myKey = {
+				key: this.importKey(SETTINGS.AES.key),
+				expiresAt: SETTINGS.expiresAt,
+			};
+			return this.myKey.key;
+		}
 		if (SETTINGS.AES === null || TIME.now() >= SETTINGS.AES.expiresAt) {
 			await this.generateKey();
 		}
-		try {
-			var key = await this.importKey(SETTINGS.AES.key);
-		} catch (error) {
-			console.error(error);
-			await this.generateKey();
-			key = await this.importKey(SETTINGS.AES.key);
-		}
-		return key;
+		this.myKey = {
+			key: this.importKey(SETTINGS.AES.key),
+			expiresAt: SETTINGS.expiresAt,
+		};
+		return this.myKey.key;
 	},
 
 	encrypt: async function(data) {

@@ -29,6 +29,6 @@ const HYPERPARAMETER = {
 
     handshakeWaitTime: 7000,
 
-    aesExpiresAt: 12 * 60 * 60 * 1000,
-    rsaExpiresAt: 7 * 24 * 60 * 60 * 1000,
+    aesExpiresAt: 7 * 24 * 60 * 60 * 1000,
+    rsaExpiresAt: 30 * 24 * 60 * 60 * 1000,
 }

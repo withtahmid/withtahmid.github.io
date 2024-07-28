@@ -3,7 +3,7 @@ EVENTS.platform.addEventListener('successful-handshake', (e)=>{
     div.classList.add('chat-box-info');
     div.innerHTML = `
                 <i class="fa-solid fa-lock"></i>
-                <span> end-to-end encryption established with <strong>${e.detail.username}</strong></span>
+                <span>encryption key changed for <strong>${e.detail.username}</strong></span>
                 `;
     document.getElementById('chat-box-container').appendChild(div);
 });

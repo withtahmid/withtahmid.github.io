@@ -13,12 +13,12 @@ class HANDSHAKE_RESPONSE_MESSEGE_HANDLER extends MESSEGE_HANDLER_ABSTRACT{
 async function handleHandshakeResponse(message){
     const encryptedAESKey = message.aesKey;
     const decryptedAesKey = RSA.decrypt(encryptedAESKey);
-    const aesKey = AES.importKey(decryptedAesKey);
-    AES.peoplesKey.set(message.__sender__, aesKey);
+    const aesKey = decryptedAesKey
     EVENTS.emmit({
         name: 'handshakeResponsed',
         data: {
-            handshakeId: message.handshakeId
+            handshakeId: message.handshakeId,
+            aesKey: aesKey,
         }
     });
     acknowledgeThisResponse(message);

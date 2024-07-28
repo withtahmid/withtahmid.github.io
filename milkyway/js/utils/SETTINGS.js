@@ -12,9 +12,9 @@ let SETTINGS = {
 
     // Encryption
     AES: null,
-    rsaPrivateKey: null,
-    rsaPublicKey: null,
     RSA: null,
+
+    aesKeys: {},
 
     set: function(){
         localStorage.setItem(settingsKey, JSON.stringify({
@@ -28,6 +28,8 @@ let SETTINGS = {
 
             AES: this.AES,
             RSA: this.RSA,
+
+            aesKeys: this.aesKeys,
         }));
     },
 
@@ -43,6 +45,8 @@ let SETTINGS = {
 
         this.AES = saved.AES ?? null;
         this.RSA = saved.RSA ?? null;
+        this.aesKeys = saved.aesKeys ?? {};
+
     },
     retrive: function(){
         const settings = {};
