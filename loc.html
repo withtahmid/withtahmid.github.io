@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Tracker</title>
+</head>
+<body>
+    <h1>Current Speed Tracker</h1>
+    <p id="speed">Calculating...</p>
+
+    <script>
+        let lastPosition = null;
+        const updateInterval = 1000; // 1 second
+
+        // Function to calculate distance between two coordinates using the Haversine formula
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3; // Radius of the Earth in meters
+            const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
+            const φ2 = lat2 * Math.PI / 180;
+            const Δφ = (lat2 - lat1) * Math.PI / 180;
+            const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            return R * c; // Distance in meters
+        }
+
+        // Function to update the speed
+        function updateSpeed(position) {
+            if (lastPosition) {
+                const distance = calculateDistance(
+                    lastPosition.coords.latitude,
+                    lastPosition.coords.longitude,
+                    position.coords.latitude,
+                    position.coords.longitude
+                );
+
+                // Calculate speed in km/h
+                const speedKmph = (distance / 1000) / (updateInterval / 3600000);
+                document.getElementById("speed").textContent = `Current Speed: ${speedKmph.toFixed(2)} km/h`;
+            }
+
+            // Update last position
+            lastPosition = position;
+        }
+
+        // Error handling for geolocation access
+        function handleError(error) {
+            console.error(`Error Code = ${error.code} - ${error.message}`);
+            document.getElementById("speed").textContent = "Unable to retrieve location.";
+        }
+
+        // Initialize the location tracking
+        if ("geolocation" in navigator) {
+            navigator.geolocation.watchPosition(updateSpeed, handleError, {
+                enableHighAccuracy: true,
+                maximumAge: 1000,
+                timeout: 5000
+            });
+        } else {
+            document.getElementById("speed").textContent = "Geolocation is not supported by this browser.";
+        }
+    </script>
+</body>
+</html>
