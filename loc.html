@@ -3,16 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        body{
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: xx-large;
+            justify-items: center;
+            height: 100vh;
+
+        }
+        h1{
+            color: #999;
+            font-size: 150px;
+        }
+    </style>
     <title>Speed Tracker</title>
 </head>
 <body>
-    <h1>Current Speed Tracker</h1>
-    <p id="speed">Calculating...</p>
+    <h1 id="speed">...</h1>
 
     <script>
         let lastPosition = null;
         const updateInterval = 1000; // 1 second
+        let globalArray = [];
 
+        function processNumber(num) {
+            // Add the number to the global array
+            globalArray.push(num);
+
+            // Ensure the array size does not exceed 10
+            if (globalArray.length > 5) {
+                globalArray.shift(); // Remove the first element
+            }
+
+            // Check if the array is sorted in ascending order
+            const isAscending = globalArray.every((val, i, arr) => i === 0 || arr[i - 1] <= val);
+
+            // Check if the array is sorted in descending order
+            const isDescending = globalArray.every((val, i, arr) => i === 0 || arr[i - 1] >= val);
+
+            if (isAscending || isDescending) {
+                // Return the last number if the array is sorted
+                return globalArray[globalArray.length - 1];
+            } else {
+                // Calculate and return the average if the array is not sorted
+                const sum = globalArray.reduce((acc, val) => acc + val, 0);
+                return sum / globalArray.length;
+            }
+        }
         // Function to calculate distance between two coordinates using the Haversine formula
         function calculateDistance(lat1, lon1, lat2, lon2) {
             const R = 6371e3; // Radius of the Earth in meters
@@ -40,7 +80,8 @@
                 );
 
                 // Calculate speed in km/h
-                const speedKmph = (distance / 1000) / (updateInterval / 3600000);
+                const speedKmph = processNumber((distance / 1000) / (updateInterval / 3600000));
+
                 document.getElementById("speed").textContent = `Current Speed: ${speedKmph.toFixed(2)} km/h`;
             }
 
@@ -51,7 +92,7 @@
         // Error handling for geolocation access
         function handleError(error) {
             console.error(`Error Code = ${error.code} - ${error.message}`);
-            document.getElementById("speed").textContent = "Unable to retrieve location.";
+            document.getElementById("speed").textContent = "!!!";
         }
 
         // Initialize the location tracking
