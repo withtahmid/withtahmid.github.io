@@ -16,7 +16,8 @@
         }
         h1{
             color: #999;
-            font-size: 150px;
+            font-size: 100px;
+            text-align: center;
         }
     </style>
     <title>Speed Tracker</title>
@@ -82,7 +83,7 @@
                 // Calculate speed in km/h
                 const speedKmph = processNumber((distance / 1000) / (updateInterval / 3600000));
 
-                document.getElementById("speed").textContent = `Current Speed: ${speedKmph.toFixed(2)} km/h`;
+                document.getElementById("speed").textContent = `${speedKmph.toFixed(2)}`;
             }
 
             // Update last position
