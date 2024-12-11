@@ -30,6 +30,8 @@
         const updateInterval = 1000; // 1 second
         let globalArray = [];
 
+        
+        
         function processNumber(num) {
             // Add the number to the global array
             globalArray.push(num);
@@ -81,9 +83,9 @@
                 );
 
                 // Calculate speed in km/h
-                const speedKmph = processNumber((distance / 1000) / (updateInterval / 3600000));
+                // const speedKmph = processNumber((distance / 1000) / (updateInterval / 3600000));
 
-                // const speedKmph = (distance / 1000) / (updateInterval / 3600000);
+                const speedKmph = (distance / 1000) / (updateInterval / 3600000);
 
                 document.getElementById("speed").textContent = `${speedKmph.toFixed(2)}`;
             }
