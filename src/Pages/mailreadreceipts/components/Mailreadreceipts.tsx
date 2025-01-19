@@ -1,0 +1,53 @@
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import EmailPreview from "./EmailPreview";
+import { mailreadreceipts_createEmailModalId } from "../../../configs/mailreadreceipts";
+import { FaPlus } from "react-icons/fa6";
+import ReceiptEmails from "./ReceiptEmails";
+import CreateEmailModal from "./CreateEmailModal";
+import { addToast } from "../../../store/toastSlice";
+import DeleteModal from "./DeleteModal";
+const MailReadReceipts = () => {
+    const message = useAppSelector(state => state.mailredreceipts.message);
+    const error = useAppSelector(state => state.mailredreceipts.error); 
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        if(error){
+            dispatch(addToast({ mesaage: error, type: "error" }));
+        }
+    }, [error]);
+    useEffect(() => {
+        if(message){
+            dispatch(addToast({ mesaage: message, type: "success" }));
+        }
+    }, [message]);
+
+    const addEmailBtn = () => {
+        const addEmailModal = document.getElementById(mailreadreceipts_createEmailModalId) as HTMLDialogElement;
+        if(addEmailModal) {
+            addEmailModal.showModal();
+        }
+    }
+    return (
+        <div className="w-full h-full flex flex-col">
+            <div className="p-2 flex justify-end">
+                <button onClick={addEmailBtn} className="btn text-3xl btn-circle btn-secondary">
+                    <FaPlus />
+                </button>
+            </div>
+            <div className="grow">
+                <ReceiptEmails />
+            </div>
+            <CreateEmailModal />
+            <EmailPreview />
+            <DeleteModal />
+        </div>
+    )
+    
+   
+
+}
+export default MailReadReceipts;
+
+
+

@@ -1,15 +1,14 @@
 import { Document, Schema, Types } from "mongoose";
-export interface VerificationUtilSchema {
-    currecntVerification: "account-recovery" | "account-verification" | "nothing";
+export type VerificationType = "account-recovery" | "account-verification" | "nothing";
+export interface AccountVerificationUtilSchema {
+    verificationType: VerificationType;
     verificationCode: string;
     expiresAt: number;
-    canResendAt: number;
 }
 export type UserType = "admin" | "regular" | "premium";
 export interface UserSchema {
     _id: string;
     email: string;
-    isVerified: boolean;
     name: string;
     username: string;
     userType: UserType;
@@ -17,7 +16,8 @@ export interface UserSchema {
 export interface UserModelSchema extends Omit<UserSchema, "_id">, Document {
     _id: Types.ObjectId;
     password: string;
-    verificationUtil: VerificationUtilSchema;
+    verificationUtil: AccountVerificationUtilSchema;
+    isVerified: boolean;
 }
 declare const User: import("mongoose").Model<UserModelSchema, {}, {}, {}, Document<unknown, {}, UserModelSchema> & UserModelSchema & Required<{
     _id: Types.ObjectId;

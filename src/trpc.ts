@@ -1,7 +1,8 @@
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 // import {  AppRouter } from "../../cas-backend/src/routes/z";
-import { AppRouter } from "./types/backend/routes/z";
-import { authTokenKey, baseBackendURI } from "./config";
+import { AppRouter } from "./types/backend/routes/index";
+import { authTokenKey } from "./config";
+import { baseBackendURI } from "./configs/urls";
 const getToken = ()=>{
     const token = localStorage.getItem(authTokenKey) ?? null;
     return token;

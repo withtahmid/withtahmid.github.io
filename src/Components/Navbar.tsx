@@ -1,6 +1,6 @@
 import { useAppDispatch } from "../store";
-import { clearToken } from "../store/coreSlice";
-import { logoutUser } from "../store/userSlice";
+import { clearToken } from "../store/auth/tokenSlice";
+import { logoutUser } from "../store/user/userSlice";
 
 const Navbar = () => {
     const dispatch = useAppDispatch();
@@ -10,7 +10,7 @@ const Navbar = () => {
     }
 
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-base-300">
             <div className="flex-1">
                 <a className="btn btn-ghost text-xl">daisyUI</a>
             </div>

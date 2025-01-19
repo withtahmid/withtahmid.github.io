@@ -1,22 +1,19 @@
 import {  configureStore} from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { loginReducer } from "./loginSlice";
-import coreReducer from "./coreSlice";
-import signupReducer from "./signupSlice";
+import { loginReducer } from "./auth/loginSlice";
+import signupReducer from "./auth/signupSlice";
 import toastReducer from "./toastSlice";
-import userReducer from "./userSlice";
-import verifyAccountReducer from "./verifyAccountSlice";
-import recoverAccountReducer from "./recoverAccountSlice";
-
+import userReducer from "./user/userSlice";
+import tokenReducer from "./auth/tokenSlice";
+import mailreadreceiptsReducer from "./mailreadreceipts";
 export const store = configureStore({
     reducer: {
         login: loginReducer,
         signup: signupReducer,
-        core: coreReducer,
+        token: tokenReducer,
         toast: toastReducer,
         user: userReducer,
-        verifyAccount: verifyAccountReducer,
-        recoverAccount: recoverAccountReducer,
+        mailredreceipts: mailreadreceiptsReducer,
     }
 });
 export type RootState = ReturnType<typeof store.getState>;
