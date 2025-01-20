@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbox</title>
+ <style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.chat-container {
+  width: 90%;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.message.left {
+  justify-content: flex-start;
+}
+
+.message.right {
+  justify-content: flex-end;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.message-content {
+  max-width: 75%;
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.message.left .message-content {
+  background-color: #e1ffc7;
+  border-bottom-left-radius: 0;
+}
+
+.message.right .message-content {
+  background-color: #dcf8c6;
+  border-bottom-right-radius: 0;
+}
+
+.message.left .message-content::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: -15px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent #e1ffc7 transparent transparent;
+}
+
+.message.right .message-content::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: -15px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent #dcf8c6;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.time {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.message-text {
+  word-wrap: break-word;
+}
+
+.seen-avatar {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  border: 2px solid #dcf8c6;
+}
+
+
+ </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="message left">
+      <img src="avatar1.png" alt="Avatar" class="avatar">
+      <div class="message-content">
+        <div class="message-header">
+          <span class="username">John Doe</span>
+          <span class="time">10:30 AM</span>
+        </div>
+        <div class="message-text">
+          Hello, how are you?
+        </div>
+      </div>
+    </div>
+    <div class="message right">
+      <img src="avatar2.png" alt="Avatar" class="avatar">
+      <div class="message-content">
+        <div class="message-header">
+          <span class="username">You</span>
+          <span class="time">10:31 AM</span>
+        </div>
+        <div class="message-text">
+          I'm good, thanks! How about you?
+        </div>
+        <div class="seen-avatars">
+          <img src="avatar1.png" alt="Seen Avatar" class="seen-avatar">
+          <img src="avatar3.png" alt="Seen Avatar" class="seen-avatar">
+        </div>
+      </div>
+    </div>
+    <div class="message right">
+        <img src="avatar2.png" alt="Avatar" class="avatar">
+        <div class="message-content">
+          <div class="message-header">
+            <span class="username">You</span>
+            <span class="time">10:31 AM</span>
+          </div>
+          <div class="message-text">
+            I'm good, thanks! How about you?
+          </div>
+          <div class="seen-avatars">
+            <img src="avatar1.png" alt="Seen Avatar" class="seen-avatar">
+            <img src="avatar3.png" alt="Seen Avatar" class="seen-avatar">
+          </div>
+        </div>
+      </div>
+      <div class="message left">
+        <img src="avatar1.png" alt="Avatar" class="avatar">
+        <div class="message-content">
+          <div class="message-header">
+            <span class="username">John Doe</span>
+            <span class="time">10:30 AM</span>
+          </div>
+          <div class="message-text">
+            Hello, how are you?
+          </div>
+        </div>
+        <div class="seen-avatars">
+            <img src="avatar1.png" alt="Seen Avatar" class="seen-avatar">
+            <img src="avatar3.png" alt="Seen Avatar" class="seen-avatar">
+          </div>
+      </div>
+  </div>
+</body>
+</html>

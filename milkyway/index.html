@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="widtd=device-widtd, initial-scale=1.0">
+        <meta property="og:image" content="./elements/img/milkyway.jpg">
+        <meta property="og:image:secure_url" content="./elements/img/milkyway.jpg">
+        <meta property="og:image:widtd" content="1920">
+        <meta property="og:image:height" content="1080">
+        <!-- <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" /> -->
+        <link rel="stylesheet" href="./css/variables.css">
+        <link rel="stylesheet" href="./elements/como-font/stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Megrim" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="css/videoPlayer.css">
+        <link rel="stylesheet" href="css/global.css">
+        <link rel="stylesheet" href="css/right.css">
+        <link rel="stylesheet" href="./css/notification/notification.css">
+        <link rel="stylesheet" href="./css/chat.css">
+        <link rel="stylesheet" href="./css/youtube.css">
+        <link rel="stylesheet" href="./css/existing.css">
+        <title>Milkyway</title>
+    </head>
+    <body>
+        <div class="left">
+            <div class="headding-milkyway">
+                <img style="height: 40px;" src="./elements/img/milkyway-icon.png" height="40" widtd="40" alt="">
+                <div>
+                    <h1>Milkyway</h1>
+                    <a href="https://github.com/withtahmid" target="_blank">withtahmid | v8.1.0</a>
+                </div>
+                <button class="donate-btn ease-btn">About</button>
+                <button class="about-btn ease-btn">Manual</button>
+            </div>
+            <div id="video-title-id" class="video-title">
+                <img style="height: 30px;" src="./elements/img/movie-icon.png" height="30" widtd="30">
+                <!-- <i class="fa-solid fa-film"></i> -->
+                <h3 id = "video-filename-title" >...</h3>
+                <button>
+                    <i class="fa-brands fa-connectdevelop fa-spin"></i>
+                    <i class="fa-brands fa-connectdevelop"></i>
+                </button>
+            </div>
+        <section id="video-section" class="video-section">
+            <div class="yt-player-container">
+                <div id="yt-video-player"></div>
+            </div>
+            <div class="video-container paused" data-volume-level="high">
+                <!-- <img class="tdumbnail-img"> -->
+                <div class="video-chat-box" id="on-video-chat-container">
+                    <!-- chat box will be appended here -->
+                </div>
+
+                <div class="video-controls-container">
+                    <div class="timeline-container">
+                        <div class="timeline">
+                            <!-- <img class="preview-img"> -->
+                            <div class="preview-img">
+                                2:20:33
+                            </div>
+                            <div class="tdumb-indicator"></div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <button class="play-pause-btn">
+                        <i class="fa-solid fa-play play-icon"></i>
+                        <i class="fa-solid fa-pause pause-icon"></i>
+                        </button>
+                        <div class="volume-container">
+                            <button class="mute-btn" style="text-align: left;">
+                            <i class="fa-solid fa-volume-high volume-high-icon"></i>
+                            <i class="fa-solid fa-volume-low volume-low-icon"></i>
+                            <i class="fa-solid fa-volume-xmark volume-muted-icon"></i>
+                            </button>
+                            <input class="volume-slider" type="range" min="0" max="1" step="any" value="1">
+                        </div>
+                        <div class="duration-container">
+                            <div class="current-time">0:00</div>
+                            /
+                            <div class="total-time">0:00</div>
+                        </div>
+                        <button class="captions-btn">
+                        <i class="fa-solid fa-closed-captioning"></i>
+                        </button>
+                        <!-- <button class="speed-btn wide-btn">
+                            1x
+                            </button> -->
+                        <!-- <button>
+                        <i class="fa-solid fa-gear"></i>
+                        </button> -->
+                        <button class="chat-btn-onvideo">
+                            <i class="fa-solid fa-message"></i>
+                        </button>
+                        <button class="mini-player-btn">
+                        <i class="fa-solid fa-display"></i>
+                        </button>
+                        <button class="full-screen-btn">
+                        <i class="fa-solid fa-expand open"></i>
+                        <i class="fa-solid fa-compress close"></i>
+                        </button>
+                    </div>
+                </div>
+                <video id="videoPlayer">
+                    <source id="videoSource"  src="" type="video/mp4">
+                    <track id="subtitlesTrack" kind="captions" srclang="en" label="English" default>
+                </video>
+            </div>
+        </section>
+        </div>
+        <div class="right">
+            <div class="right-tabs">
+                <!-- CHat -->
+                <input class="tab-input" name="tabs" type="radio" id="tab-1" checked="checked"/>
+                <label class="tab-label ease-btn" for="tab-1"><i class="fa-solid fa-message"></i> <span>Chat</span> </label>
+                <div class="right-tab-panel off-video-chat-box" style="position: relative;">
+                    <div id="chat-full-container" style="height: 100%; position: relative;">
+                        <div id="chat-box-container" class="chat-box">
+                            <!--  -->
+                            <!-- <div class="message-container you">
+                                <p class="messege-sent-info-sender">Tahmid Ahmed</p>
+                                <div class="messege-main-body">
+
+                                    <div class="message-body">
+                                        <p class="message-body-text">
+                                            hia skdhawe qwd hqwedh qweirhwe ihqwoid hqw;oid ase;idh ae;irhqweo ihrwe dwe weihew doqwey weofyheo fuwe 
+                                        </p>
+                                        
+                                    </div>
+                                    <p class="messege-sent-info-time">12:69</p>
+                                </div>
+                                
+                                <div class="messege-delivery-info">
+                                    <p class="messege-delivery-info-name">Tahmid</p>
+                                    <p class="messege-delivery-info-name">Shanto</p>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="chat-box-info">
+                                <i class="fa-solid fa-lock"></i>
+                                <span> end-to-end encryption established with Tahmid</span>
+                            </div>
+
+                            <div class="message-container">
+                                
+                                <p class="messege-sent-info-sender">Tahmid Ahmed</p>
+                                <div class="messege-main-body">
+       
+                                    <div class="message-body">
+                                        <p class="message-body-text">
+                                            hia e[poaeru to'erut ;oeirut;eori utertuwer poituerpot iheoperu to;eriu;eroi u;aerotuaerw;ojtear;oitjerp;g er;ihaewrt ;oiaerw]
+                                        </p>
+                                        
+                                    </div>
+                                    <p class="messege-sent-info-time">12:69</p>
+                                </div>
+                                
+                                <div class="messege-delivery-info">
+                                    <p class="messege-delivery-info-name">Tahmid</p>
+                                </div>
+                                
+                            </div>
+
+                            
+                            <div class="message-container you failed">
+                                <p class="messege-sent-info-sender">Tahmid Ahmed</p>
+                                <div class="messege-main-body">
+
+                                    <div class="message-body">
+                                        <p class="message-body-text">
+                                            hia skdhawe qwd hqwedh qweirhwe ihqwoid hqw;oid ase;idh ae;irhqweo ihrwe dwe weihew doqwey weofyheo fuwe 
+                                        </p>
+                                        
+                                    </div>
+                                    <p class="messege-sent-info-time">12:69</p>
+                                </div>
+                                
+                                <div class="messege-delivery-info">
+                                    <p class="messege-delivery-info-name">Tahmid</p>
+                                    <p class="messege-delivery-info-name">Shanto</p>
+                                </div>
+                                
+                            </div> -->
+                        
+                        </div>
+                        <div class="emoji-box hidden">
+                            <emoji-picker class="dark"></emoji-picker>
+                        </div>
+                        <div class="message-send-box">
+                            <button id ="chatVolumeBtn" onclick="NOTIFICATION_BELL.toggleVolume()"><i class="fa-solid fa-volume-high"></i></button>
+                            <input id="chat-input-field" placeholder="Type Message" type="text">
+                            <button onclick="sendTextMessage('chat-input-field')" class="ease-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                            <button onclick="document.querySelector('.emoji-box').classList.toggle('hidden')" class="ease-btn" style="color: rgba(255,200,48,1);"><i class="fa-regular fa-face-grin"></i></button>           
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- Room -->
+                <input class="tab-input" name="tabs" type="radio" id="tab-2" />
+                <label class="tab-label ease-btn" for="tab-2"><i class="fa-solid fa-people-roof"></i> <span> Room</span></label>
+                <div id="connection-tab" class="right-tab-panel room-tab no-connect">
+                    
+                    <div class="connected-tab">
+
+                        <div class="connected-tab-top-buttons">
+                            <button class="connected-tab-top-btn ease-btn" onclick="MEDIA_REQUEST_MESSEGE.__emmit__()">Sync with others</button>
+                            <button style="margin-left: auto;" class="connected-tab-top-btn ease-btn" onclick="ROOM.leave()" >Leave room <i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                        </div>
+                        <!-- <div class="logout">
+                            
+                        </div>
+    
+                        <div class="logout">
+                            
+                        </div> -->
+                        <div class="user-info">
+                            <i class="fa-solid fa-user"></i>
+                            <p id="username-label-tab" >Username</p>
+                        </div>
+                        <div class="user-info">
+                            <i class="fa-solid fa-house"></i>
+                            <p id="roomid-label-tab" >Room Id</p>
+                        </div>
+                        <div id="connected-people-list" class="connected-peoples">
+                            <!-- people List -->
+                            <!--  -->
+                            <!-- <div class="one-people people-active">
+                                <div>
+                                  <i class="fa-solid fa-signal status-icon"></i>
+                                </div>
+                                <p style="flex-grow: 1;">okbai</p>
+                                
+                                
+                                <div class="media-error-indicator media-error-indicator-out-of-bound">
+                                    <div class="media-error-indicator-slider"></div>
+                                    <div class="media-error-indicator-grid">
+                                        <span>4.6</span>
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                                
+                                <div id="okbai-sourceType-icon">
+                                  <i class="fa-solid fa-xmark"></i>
+                                </div>
+                                <div id="okbai-caption-icon">
+                                  <i class="fa-regular fa-closed-captioning"></i>
+                                </div>
+                                <div id="okbai-fullscreen-icon">
+                                  <i class="fa-solid fa-compress"></i>
+                                </div>
+                                <div id="okbai-inTab-icon">
+                                  <i class="fa-solid fa-t"></i>
+                                </div>
+                                <div id="okbai-isOnSync-icon">
+                                  <i class="fa-solid fa-rotate fa-spin"></i>
+                                </div>
+                                <input type="checkbox" id="okbai-info-checkbox" class="accordion-checkbox" checked="checked">
+                                <label class="accordion-header" for="okbai-info-checkbox">
+                                  <i class="fa-solid fa-circle-info"></i>
+                                </label>
+                                <div class="accordion-content one-people-info">
+                                  <div class="one-info">
+                                    <p class="icon">
+                                      <i class="fa-solid fa-braille"></i>
+                                    </p>
+                                    <p id="okbai-Videotitle-info"></p>
+                                  </div>
+                                  <div class="one-info">
+                                    <p class="icon">
+                                      <i class="fa-solid fa-bug"></i>
+                                    </p>
+                                    <p id="okbai-mediaErrorBar-info"> +00:00:0</p>
+                                  </div>
+                                </div>
+                              </div> -->
+                            <!--  -->
+                        </div>
+                    </div>
+                    <div class="connecting-tab">
+                        <div class="lds-roller">
+                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        </div>
+                    </div>
+                    <div class="conncetion-form">
+                        <span><i class="fa-brands fa-connectdevelop fa-spin"></i></span>
+                        <input id="username-input" placeholder="Enter Username" type="text">
+                        <input id="roomid-input" placeholder="Enter Room ID" type="text">
+                        <div class="remember-connection">
+                            <input type="checkbox" id="remember-connection" checked = "checked">
+                            <label class="custom" for="remember-connection"><i class="fa-solid fa-check"></i></label> <label>Auto Join</label>
+                        </div>
+                        <button onclick="ROOM_HTML_MANAGER.joinRoom()" class="ease-btn">Join Room <i class="fa-solid fa-arrow-right-to-bracket"></i></button>
+                    </div>
+                </div>
+                <!-- Media -->
+                <input class="tab-input" name="tabs" type="radio" id="tab-3" />
+                <label class="tab-label ease-btn" for="tab-3"><i class="fa-solid fa-file-video"></i> <span>Media</span></label>
+                <div class="right-tab-panel media-tab">
+
+                    <!-- <div class="file-input-divs">
+                        <label onclick="MEDIA_REQUEST_MESSEGE.__emmit__()" class="ease-btn">Request Sync</label>
+                    </div> -->
+
+
+                    <div class="now-playing">
+                        <i class="fa-solid fa-file-video"></i>
+                        <p id="video-filename-tab"> No video is added</p>
+                    </div>
+                    <div class="now-playing">
+                        <i class="fa-solid fa-closed-captioning"></i>
+                        <p id="subtile-filename-tab"> No subtitle is added</p>
+                    </div>
+                    <div class="file-input-divs">
+                        <input type="file" id="video-file-input" class="file-input">
+                        <label for="video-file-input" class="ease-btn">Open File From Device</label>
+                    </div>
+                    <div class="file-input-divs">
+                        <input type="file" id="subtitle-file-input" class="file-input">
+                        <label for="subtitle-file-input" class="ease-btn">Open Subtitle From Device</label>
+                    </div>
+
+                   <!-- Direct URL -->
+                    <div class="file-input-divs" style="display: flex; gap: 1rem;">
+                        <label><i class="fa-solid fa-link"></i></label>
+                        <input style="flex-grow: 1;" type="text" placeholder="Enter Direct URL" id="direct-url-input">
+                        <label onclick="VIDEO.playVideo(document.getElementById('direct-url-input').value, 'Playing Direct URL', 1);" for="direct-url-input"  class="ease-btn">Play</label>
+                    </div>
+                    <!-- One Drive URL -->
+                    <div class="file-input-divs" style="display: flex; gap: 1rem;">
+                        <label><i class="fa-solid fa-cloud"></i></label>
+                        <input style="flex-grow: 1;" type="text" placeholder="Enter One-Drive URL" id="one-drive-url-input">
+                        <label onclick="noReady()" for="one-drive-url-input"  class="ease-btn">Play</label>
+                    </div>
+                    <!-- Google Drive URL -->
+                    <div class="file-input-divs" style="display: flex; gap: 1rem;">
+                        <label><i class="fa-brands fa-google-drive"></i></label>
+                        <input style="flex-grow: 1;" type="text" placeholder="Enter G-Drive URL" id="g-drive-url-input">
+                        <label onclick="noReady()" for="g-drive-url-input"  class="ease-btn">Play</label>
+                    </div>
+                </div>
+
+                 <!-- Youtube -->
+                 <input class="tab-input" name="tabs" type="radio" id="tab-7"/>
+                 <label class="tab-label ease-btn" for="tab-7"><i class="fa-brands fa-youtube"></i></i> <span>YouTube</span></label>
+                 <div class="right-tab-panel youtube-tab">
+                    <section class="youtube-queue-whole-container">
+                        <div class="youtube-queue-head">
+                            <div class="youtube-queue-head-top">
+                                <p id="youtube-queue-serial-info" class="youtube-queue-head-top-header">0/0</p>
+                                <input class="youtube-queue-head-top-input" type="text" placeholder="URL" id="youtube-url-input">
+                                <button title="Play" onclick="playYoutubeById()" for="youtube-queue-input"  class="youtube-queue-head-media-btn"><i class="fa-solid fa-play"></i></button>
+                                <button title="add to queue" onclick="addToYouTubeQueue()" for="youtube-queue-input"  class="youtube-queue-head-media-btn"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+
+                            <div class="youtube-queue-head-media-buttons">
+                                <!-- youtube-media-button-active -->
+                                <button id="youtube-loop-queue-btn" onclick="YOUTUBE_MANAGER.toggleLoopQueue()" title="loop" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-repeat"></i></button>
+                                <button title="shuffle" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-shuffle"></i></button>
+                                <button title="calibrate queue" style="margin-left: auto;" class="youtube-queue-head-media-btn ease-btn"><i class="fa-solid fa-handshake"></i></button>
+                            </div>
+                            
+                        </div>
+                        <div id="youtube-queue-container" class="youtube-queue-list">
+
+                            <!-- <div class="youtube-queue-item ">
+                                <button class="youtube-queue-item-left-icon">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <img class="youtube-queue-item-thumbnail" src="./elements/youtube/dummy-thumbnail.png" alt="">
+                                <div class="youtube-queue-item-info-box">
+                                    <p class="youtube-queue-item-title">Porter Robinson & Madeon - Shelter (Official Audio) kudy eoweiu weh hw wehi  o wieurw </p>
+                                    <div class="youtube-queue-item-additional-info">
+                                        <p class="youtube-queue-item-chanleTitle">Tahmid Ahmed Tahmid Ahmed </p>
+                                        <p class="youtube-queue-item-addedBy">Tahmid Ahmed Tahmid Ahmed</p>
+                                    </div>
+                                    
+                                </div>
+                                <div class="youtube-queue-item-button-box">
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                                </div>
+                            </div>
+                            <div class="youtube-queue-item youtube-queue-currenty-playing">
+                                <button class="youtube-queue-item-left-icon">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <img class="youtube-queue-item-thumbnail" src="./elements/youtube/dummy-thumbnail.png" alt="">
+                                <div class="youtube-queue-item-info-box">
+                                    <p class="youtube-queue-item-title">Porter Robinson & Madeon - Shelter (Official Audio) kudy eoweiu weh hw wehi  o wieurw </p>
+                                    <div class="youtube-queue-item-additional-info">
+                                        <p class="youtube-queue-item-chanleTitle">Tahmid Ahmed Tahmid Ahmed </p>
+                                        <p class="youtube-queue-item-addedBy">Tahmid Ahmed Tahmid Ahmed</p>
+                                    </div>
+                                    
+                                </div>
+                                <div class="youtube-queue-item-button-box">
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                                </div>
+                            </div>
+                            <div class="youtube-queue-item">
+                                <button class="youtube-queue-item-left-icon">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <img class="youtube-queue-item-thumbnail" src="./elements/youtube/dummy-thumbnail.png" alt="">
+                                <div class="youtube-queue-item-info-box">
+                                    <p class="youtube-queue-item-title">Porter Robinson & Madeon - Shelter (Official Audio) kudy eoweiu weh hw wehi  o wieurw </p>
+                                    <div class="youtube-queue-item-additional-info">
+                                        <p class="youtube-queue-item-chanleTitle">Tahmid Ahmed Tahmid Ahmed </p>
+                                        <p class="youtube-queue-item-addedBy">Tahmid Ahmed Tahmid Ahmed</p>
+                                    </div>
+                                    
+                                </div>
+                                <div class="youtube-queue-item-button-box">
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-up"></i></button>
+                                    <button class="youtube-queue-item-btn ease-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                                </div> 
+                            </div> -->
+                        </div>
+                    </section>
+                 </div>
+
+                <!-- Utils -->
+                <input class="tab-input" name="tabs" type="radio" id="tab-4" />
+                <label class="tab-label ease-btn" for="tab-4">
+                <i class="fa-solid fa-gear"></i> <span>Settings</span></label>
+                <div class="right-tab-panel setting-tab">
+                    <div class="one-setting">
+                        <div class="setting-left">
+                            <div class="settings-name">Keep in Sync</div><label class="switch" for="sync-checkbox-input">
+                                <input type="checkbox" id="sync-checkbox-input" checked />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                        <div class="settings-text">
+                            Turining this off will shtut down media event communication witd tde room. Your media events will not affect otders and otder's media event will not affect you.
+                            Switching on after off will try to sync media witd people joined.
+                        </div>
+                    </div>
+                    <div class="one-setting">
+                        <div class="setting-left">
+                            <div class="settings-name">Chat on full screen</div>
+                            <label class="switch" for="chat-on-viddeo-checkbox-input">
+                                <input type="checkbox" id="chat-on-viddeo-checkbox-input" checked />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                        <div class="settings-text">
+                            Turinig this off will stop chat box popping up when you are in full screen mode. you can manually view chat box using <i style="font-size: small;" class="fa-solid fa-message"></i> button
+                        </div>
+                    </div>
+                    <div class="one-setting">
+                        <div class="setting-left">
+                            <div class="settings-name">Auto Sync</div>
+                            <label class="switch" for="auto-sync-checkbox-input">
+                                <input type="checkbox" id="auto-sync-checkbox-input" checked />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                        <div class="settings-text">
+                            Keeping this on will try to sync with others as soon as the connection is made.
+                        </div>
+                    </div>
+                </div>
+                <!-- Subtitle -->
+                <input class="tab-input" name="tabs" type="radio" id="tab-5"/>
+                <label class="tab-label ease-btn" for="tab-5"><i class="fa-solid fa-closed-captioning"></i> <span>Subtitle</span></label>
+                <div class="right-tab-panel media-tab">
+                    <div class="inform-text">
+                        <p>This application supports external captions <span class="bold">only in <span class="imp">.vtt</span></span> format due to browser support, even tdough subtitles are commonly used in <span class="imp bold">.srt </span>file format. </p>
+                        <p><span class="bold">1.</span> Click tde <span class="bold">Open</span> button below to open desired *.srt file.</p>
+                        <p><span class="bold">2.</span> If tde subtitle you have does not match tde video, put a decimal number offset ( <span class="imp bold">+/-</span> in seconds) in tde input field to adjust tde timing of tde subtitle. <span class="bold">[ Leave it 0 if no change is needed ]</span></p>
+                        <p style="padding-left: 1rem;">Positive offset - plays late</p>
+                        <p style="padding-left: 1rem;">Negative offset - plays early</p>
+                        <p><span class="bold">3.</span> Click on tde <i class="fa-solid fa-download"></i> button to tde right to save tde <span class="bold">converted  <span class="imp">.vtt</span></span> on your device.</p>
+
+                        <p><span class="bold">4.</span> Add tde newly saved file from tde <span class="bold">Media</span> tab</p>
+                    </div>
+                    <br>
+                    <!--  -->
+                    <div class="file-input-divs" style="display: flex; gap: 1rem;">
+                        <label for="caption-convert-file-input"  class="ease-btn">Open</label>
+                        <input type="file" id="caption-convert-file-input" accept=".srt">
+                        <input id="caption-convert-offset-input" style="flex-grow: 1;" type="number" step="0.1" value="0.0" min="-20" max="+20" placeholder="-/+ S">
+                        <label onclick="convertToVTT()"><i class="fa-solid fa-download"></i></label>
+                    </div>
+                    <!--  -->
+                
+                </div>
+                <!-- Log -->
+                <!-- <input class="tab-input" name="tabs" type="radio" id="tab-6"/>
+                <label class="tab-label ease-btn" for="tab-6"><i class="fa-solid fa-clock-rotate-left"></i> <span>Log</span></label>
+                <div class="right-tab-panel logs">
+                    <div class="logout">
+                        <button onclick="clearLog()" class="ease-btn">Clear Log <i class="fa-solid fa-broom"></i></button>
+                    </div>
+                    <table class="log-table">
+                            <tr>
+                                <td>User</td>
+                                <td>Type</td>
+                                <td>Event</td>
+                                <td>Play</td>
+                                <td>Time</td>
+                            </tr>
+                        </table>
+                </div> -->
+            </div>
+        </div>
+        <div  class="hidden">
+            <audio style="display:none; z-index: -1;" id="media-sound" src="./Audio/text.mp3"></audio>
+            <audio style="display:none; z-index: -1;" id="chatText-sound" src="./Audio/chatText.mp3"></audio>
+            <audio style="display:none; z-index: -1;" id="join-sound" src="./Audio/join.mp3"></audio>
+            <audio style="display:none; z-index: -1;" id="warning-sound" src="./Audio/warning.mp3"></audio>
+            <audio style="display:none; z-index: -1;" id="chatSent-sound" src="./Audio/textSent.mp3"></audio>
+            
+        </div>
+        <div class="notification-box" >
+             <!-- <div class="notification leaveRoom-notification">
+                <div class="notification-icon">
+                    <i class="fa-solid fa-door-open"></i>
+                </div>
+                <p class="notification-title">Tahmid</p>
+                <p class="notification-text">Paused at</p>
+                <p class="notification-duration">1:30:11</p>
+            </div>  -->
+            <!-- notifications pops here -->
+        </div>
+        <div id="error-box-container" class="error-box-container hidden">
+            <div class="error-box">
+                <div class="error-top">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="error-bottom">
+                    <h1 id="screen-error-heading"></h1>
+                    <p style="padding: 0 2rem; text-align: center;" id="screen-error-text"></p>
+                    <button onclick="document.getElementById('error-box-container').classList.add('hidden')" class="ease-btn"><i class="fa-regular fa-circle-xmark"></i></button>
+                </div>
+            </div>
+        </div>
+        <div id="announcement-box-container" class="error-box-container hidden">
+            <div class="error-box">
+                <div class="error-top">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <div class="error-bottom">
+                    <h1 id="screen-announcement-heading"></h1>
+                    <p style="padding: 0 2rem; text-align: center;" id="screen-announcement-text"></p>
+                    <button onclick="document.getElementById('announcement-box-container').classList.add('hidden')" class="ease-btn"><i class="fa-solid fa-circle-check"></i></button>
+                </div>
+            </div>
+        </div>
+        <div id="events-platform" class="display-none"></div>
+    </body>
+
+<!-- Scripts -->
+    <!-- handlebars -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+    <script src="./js/utils/TIME.js"></script>
+    <!-- utils -->
+        <script src="./js/hyperparameter.js"></script>
+
+        <script src="./js/utils/handlebars.js"></script>
+
+        <!-- Symetric Encrypting -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <!-- RSA Encryption -->
+        <script src="https://cdn.jsdelivr.net/npm/node-forge/dist/forge.min.js"></script>
+        <!-- UUID -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script> -->
+    
+        <script src="./js/utils/encryption/symetricEncryption.js"></script>
+        <!-- AES -->
+         <script src="./js/utils/encryption/AES.js"></script>
+         <script src="./js/utils/encryption/RSA.js"></script>
+
+    <!-- hyperperameters -->
+    <script src="./js/utils/FORMATOR.js"></script>
+
+    <!-- settings -->
+    <script src="./js/utils/SETTINGS.js"></script>
+
+    <!-- bell -->
+
+    <script src="./js/notification/NOTRIFICATION_BELL.js"></script>
+    <!-- extarnal libraries -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+    <script src = "https://www.youtube.com/iframe_api"></script>
+    
+    <script src="./js/EVENT.js"></script>
+
+    <script src="./js/MQTT/MQTT_CLIENT.js"></script>
+   
+     <!-- video Controlers -->
+     <!-- <script src="./js/vars.js"></script> -->
+     <!-- absract -->
+     <script src="./js/videos/VIDEO_PLAYER.js"></script>
+     
+        <!-- LOCAL -->
+        <script src="./js/videos/localVideo/LOCAL_VIDEO.js"></script>
+        <script src="./js/videos/localVideo/caption.js"></script>
+        
+        <!-- YOUTUBE -->
+        
+        <script src="./js/videos/youtube/YOUTUBE.js"></script>
+        <script src="./js/videos/youtube/YOUTUBE_VIDEO_ITEM.js"></script>
+        <script src="./js/videos/youtube/YOUTUBE_MANAGER.js"></script>
+        <script src="./js/videos/youtube/htmlManager.js"></script>
+
+     <script src="./js/videos/VIDEO_HANDLER.js"></script>
+
+    <!-- messege -->
+    <script src="./js/messege/MESSEGE_ABSTRACT.js"></script>
+   
+    <script src="./js/messege/MESSEGE_EMMITER.js"></script>
+    <script src="./js/messege/MESSEGE_HANDLER_ABSTRACT.js"></script>
+    
+
+        <!-- existing -->
+        <script src="./js/messege/exising/EXISTING_MESSEGE.js"></script>
+        <script src="./js/messege/exising/htmlManager.js"></script>
+        <script src="./js/messege/exising/EXISTING MESSEGE_HANDLER.js"></script>
+
+        <!-- media -->
+        <script src="./js/messege/media/MEDIA_MESSEGE.js"></script>
+        <script src="./js/messege/media/MEDIA_MESSEGE_HANDLER.js"></script>
+
+        <!-- cuedVideo -->
+        <script src="./js/messege/cueVideo/CuedVIDEO_MESSEGE.js"></script>
+        <script src="./js/messege/cueVideo/CuedVIDEO_MESSEGE_HANDLER.js"></script>
+
+        
+        <!-- Handshake -->
+            <!-- Request -->
+            <script src="./js/messege/handshake/request/HANDSHAKE_REQUEST_MESSEGE.js"></script>
+            <script src="./js/messege/handshake/request/HANDSHAKE_REQUEST_MESSAGE_HANDLER.js"></script>
+
+            <!-- Response -->
+            <script src="./js/messege/handshake/response/HANDSHAKE_RESPONSE_MESSEGE.js.js"></script>
+            <script src="./js/messege/handshake/response/HANDSHAKE_RESPONSE_MESSEGE_HANDLER.js"></script>
+
+            <!-- Acknowledge -->
+            <script src="./js/messege/handshake/aknowledge/HANDSHAKE_AKNOWLEDGE_MESSEGE.js"></script>
+            <script src="./js/messege/handshake/aknowledge/HANDSHAKE_AKNOWLEDGE_MESSEGE_HANDLER.js"></script>
+
+        <script src="./js//messege/handshake/handshakeRequest.js"></script>
+        <script src="./js/messege/handshake/handshakeresponse.js"></script>
+        <script src="./js/messege/handshake/eventListeners.js"></script>
+
+        <!-- chat Delivery -->
+        <script src="./js/messege/chatDelivery/CHAT_DELIVERY_MESSEGE.js"></script>
+        <script src="./js/messege/chatDelivery/CHAT_DELIVERY_MESSEGE_HANDLER.js"></script>
+        <!-- chat -->
+        <script src="./js/messege/chatText/CHAT_TEXT_MESSEGE.js"></script>
+        <script src="./js/messege/chatText/CHAT_STATUS_HANDLER.js"></script>
+        <script src="./js/messege/chatText/htmlManager.js"></script>
+        <script src="./js/messege/chatText/CHAT_TEXT_MESSEHE_HANDLER.js"></script>
+        
+        <!-- join -->
+        <script src="./js/messege/join/JOIN_MESSEGE.js" ></script>
+        <script src="./js/messege/join/JOIN_MESSEGE_HANDLER.js"></script>
+
+        <!-- Leave room -->
+        <script src="./js/messege/leaveRoom/LEAVE_ROOM_MESSEGE.js"></script>
+        <script src="./js/messege/leaveRoom/LEAVE_ROOM_MESSEGE_HANDLER.js"></script>
+        <!-- youtube -->
+        <script src="./js/messege/youtube/YOUTUBE_MESSEGE.js"></script>
+        <script src="./js/messege/youtube/YOUTUBE_MESSEGE_HANDLER.js"></script>
+    
+        <!-- media Request -->
+        <script src="./js/messege/mediaRequest/MEDIA_REQUEST_MESEGE.js"></script>
+        <script src="./js/messege/mediaRequest/MEDIA_REQUEST_MESSEGE_HANDLER.js"></script>
+       
+        <!-- media response -->
+        <script src="./js/messege/mediaResponse/MEDIA_RESPONSE_MESSEGE.js"></script>
+        <script src="./js/messege/mediaResponse/MEDIA_RESPONSE_MESSEGE_HANDLER.js"></script>
+     
+     <!-- Messege Handler  -->
+    <script src="./js/messege/MESSEGE_HANDLER.js"></script>
+    <!-- ROOOM --> 
+
+    <script src="./js/room/ROOM.js"></script>
+    <script src="./js/room/htmlManager.js"></script>
+    <script src="./js/room/eventListeners.js"></script>
+    
+   
+    <!-- Notification -->
+        
+        <!-- media -->
+        <script src="./js/notification/MEDIA_NOTIFICATION.js"></script>
+        <!-- cued Video -->
+        <script src="./js/notification/CuedVIDEO_NOTIFICATION.js"></script>
+
+        <!-- Join -->
+        <script src="./js/notification/JOIN_NOTIFICATION.js"></script>
+        
+        <!-- leave room -->
+        <script src="./js/notification/LEAVE_ROOM.NOTIFICATION.js"></script>
+        <!-- existing -->
+        <script src="./js/notification/EXISTING_NOTIFICATION.js"></script>
+        
+        <!-- people -->
+        <script src="./js/notification/PEOPLE_NOTIFICATION.js"></script>
+
+    <script src="./js/notification/NOTIFICATION_MANAGER.js"></script>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/playerControl.js"></script>
+
+    <script src="./js/ZZ_ONLOAD.js"></script>
+
+    <!-- <script src="./js/videoPlayer.js"></script> -->
+    <!-- <script src="./js/connection.js"></script> -->
+    <!-- <script src="./js/message.js"></script> -->
+    <!-- <script src="./js/youtubeControls.js"></script> -->
+
+
+</html>
