@@ -15,6 +15,11 @@ const DeleteModal = () => {
             if(modal){
                 modal.showModal();
             }
+        }else{
+            const modal = document.getElementById(mailreadreceipts_deleteEmailModalId) as HTMLDialogElement;
+            if(modal){
+                modal.close();
+            }
         }   
     }, [_id]);
 
