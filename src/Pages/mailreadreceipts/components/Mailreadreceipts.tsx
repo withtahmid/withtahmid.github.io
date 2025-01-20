@@ -7,6 +7,7 @@ import ReceiptEmails from "./ReceiptEmails";
 import CreateEmailModal from "./CreateEmailModal";
 import { addToast } from "../../../store/toastSlice";
 import DeleteModal from "./DeleteModal";
+import { IoExtensionPuzzle } from "react-icons/io5";
 const MailReadReceipts = () => {
     const message = useAppSelector(state => state.mailredreceipts.message);
     const error = useAppSelector(state => state.mailredreceipts.error); 
@@ -30,8 +31,11 @@ const MailReadReceipts = () => {
     }
     return (
         <div className="w-full h-full flex flex-col">
-            <div className="p-2 flex justify-end">
-                <button onClick={addEmailBtn} className="btn text-3xl btn-circle btn-secondary">
+            <div className="p-2 flex justify-end gap-3">
+                <button className="btn btn-primary btn-circle text-2xl">
+                <IoExtensionPuzzle />
+                </button>
+                <button onClick={addEmailBtn} className="btn text-2xl btn-circle btn-primary">
                     <FaPlus />
                 </button>
             </div>

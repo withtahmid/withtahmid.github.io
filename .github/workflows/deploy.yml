@@ -11,22 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      # Step 2: Setup Node.js
       - name: Setup Node
         uses: actions/setup-node@v3
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
+      # Step 4: Build the existing project
       - name: Build project
         run: npm run build
 
+      # Step 5: Upload production-ready build files
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
-          name: production-files
+          name: root-production-files
           path: ./dist
 
   deploy:
@@ -36,14 +41,32 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Download artifact
+      # Step 1: Checkout repository
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # Step 2: Download the root build artifact
+      - name: Download root build artifact
         uses: actions/download-artifact@v3
         with:
-          name: production-files
-          path: ./dist
+          name: root-production-files
+          path: ./root-dist
 
+      # Step 3: Copy files for the root project
+      - name: Copy root project to the correct location
+        run: |
+          mkdir -p public/root
+          cp -R ./root-dist/* ./public
+
+      # Step 4: Copy the "milkyway" project (manual deployment)
+      - name: Copy subpath project to the correct location
+        run: |
+          mkdir -p public/milkyway
+          cp -R ./milkyway-project/* ./public/milkyway
+
+      # Step 5: Deploy everything to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./public
