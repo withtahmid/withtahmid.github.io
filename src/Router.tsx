@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from "react-router-dom"
+import { HashRouter, Route, Routes} from "react-router-dom"
 import NotLoggedInRoute from "./Pages/notLoggedIn"
 import PublicRoute from "./Pages/public"
 import Login from "./Pages/notLoggedIn/auth/Login"
@@ -11,12 +11,13 @@ import ForgotPassword from "./Pages/notLoggedIn/auth/ForgotPassword"
 import NotFound from "./Pages/error/NotFound"
 import Home from "./Pages/public/Home"
 import MailReadReceipts from "./Pages/mailreadreceipts/components/Mailreadreceipts"
-
+import GoHome from "./Components/GoHome"
+import Milkyway from "./Pages/protected/milkyway/Milkyway"
 const Router = () => {
     return (
         <HashRouter >
             <Routes>
-                
+
                 <Route element = {<NotLoggedInRoute></NotLoggedInRoute>}>
                     <Route path="/login" element={<Login />}/>
                     <Route path="/signup" element={<Signup />}/>
@@ -27,12 +28,14 @@ const Router = () => {
                 <Route element={<ProtectedRoute></ProtectedRoute>}>
                     <Route path="/profile" element = {<Profile />}/>
                     <Route path="/mailreadreceipts" element={<MailReadReceipts />}/>
+                    <Route path="/milkyway" element={<Milkyway />} />
                 </Route>
 
                 <Route element = {<PublicRoute></PublicRoute>}>
                     <Route path="/verify-account/:urlParam" element={<VerifyAccount />}/>
-                    <Route index element={<Home />}/>
+                    <Route path="/home" element={<Home />}/>
                 </Route>
+                <Route  path="/" element= { < GoHome/>}  />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </HashRouter>

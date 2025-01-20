@@ -6,6 +6,7 @@ import EmailCard from "./EmailCard";
 const ReceiptEmails = () => {
     const emails = useAppSelector(state => state.mailredreceipts.emails);
     const status = useAppSelector(state => state.mailredreceipts.status);
+    const error = useAppSelector(state => state.mailredreceipts.error)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -17,12 +18,20 @@ const ReceiptEmails = () => {
     }
 
     return (
-        <div className='px-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
-            { 
-                status === "success" ? emails.slice().sort((a, b) => b.createTime - a.createTime).map(e => <EmailCard key={e._id} _id={e._id} />) :
-                status === "error" ? <>Something went wrong</>  : <></>
-            }
+        <div className="p-5">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          { 
+            status === "success" 
+              ? emails.slice().sort((a, b) => b.createTime - a.createTime).map(e => (
+                  <EmailCard key={e._id} _id={e._id} />
+                )) 
+              : status === "error" 
+              ? <>{ error && error}</>
+              : <>Something went wrong</> 
+          }
         </div>
+      </div>
+      
     )
 }
 

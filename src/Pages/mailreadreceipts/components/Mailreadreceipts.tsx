@@ -29,29 +29,34 @@ const MailReadReceipts = () => {
             addEmailModal.showModal();
         }
     }
+
+    const redirectToExtentionpage = () => {
+        window.open("https://chromewebstore.google.com/detail/htmail-insert-html-into-g/omojcahabhafmagldeheegggbakefhlh", "_blank");
+    }
+
     return (
         <div className="w-full h-full flex flex-col">
             <div className="p-2 flex justify-end gap-3">
-                <button className="btn btn-primary btn-circle text-2xl">
-                <IoExtensionPuzzle />
+                <button
+                title="Extension" 
+                onClick={redirectToExtentionpage} 
+                className="btn btn-primary btn-circle text-2xl">
+                    <IoExtensionPuzzle />
                 </button>
-                <button onClick={addEmailBtn} className="btn text-2xl btn-circle btn-primary">
+                <button
+                    title="Add new"
+                    onClick={addEmailBtn} 
+                    className="btn text-2xl btn-circle btn-primary">
                     <FaPlus />
                 </button>
             </div>
             <div className="grow">
                 <ReceiptEmails />
             </div>
-            <CreateEmailModal />
+            <CreateEmailModal />    
             <EmailPreview />
             <DeleteModal />
         </div>
     )
-    
-   
-
 }
 export default MailReadReceipts;
-
-
-

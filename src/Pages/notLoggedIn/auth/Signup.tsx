@@ -146,8 +146,7 @@ const Signup = ():React.ReactNode => {
             <div className="text-center lg:text-left">
                 <h1 className="text-5xl font-bold">Signup now!</h1>
                 <p className="py-6">
-                Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                quasi. In deleniti eaque aut repudiandae et a id nisi.
+                Hey there, ready to join the fun? Sign up and let’s make some magic happen together. 'The best way to predict the future is to create it.' — ChatGPT
                 </p>
             </div>
             <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">

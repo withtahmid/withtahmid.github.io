@@ -7,6 +7,7 @@ import ErrorMessage from "../../../Components/ErrorMessage";
 import { addToast } from "../../../store/toastSlice";
 import { LoginSchema } from "../../../validators/zod";
 import CustomNavLink from "../../../Components/CustomNavLink";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = (): React.ReactNode => {
 
@@ -17,6 +18,12 @@ const Login = (): React.ReactNode => {
     const state = useAppSelector(state => state.login.state);
     const showPassword = useAppSelector(state => state.login.showPassword);
     const token = useAppSelector(state => state.token.token);
+    
+    
+    const location = useLocation();
+    const navigate = useNavigate();
+
+
     const dispatch = useAppDispatch();
 
     const setShowPassword = (value: boolean) => {
@@ -59,7 +66,11 @@ const Login = (): React.ReactNode => {
             dispatch(setMessageLogin("Invalid Credintials"));
             return;
         }
-        dispatch(loginAsync({ emailOrUsername, password, dispatch }));
+        const from = location.state?.from?.pathname || "/home";
+        const res = (await dispatch(loginAsync({ emailOrUsername, password, dispatch }))).payload;
+        if(typeof res === "object" && res.success){
+            navigate(from, { replace: true });
+        }
     }
 
     return (
@@ -68,8 +79,7 @@ const Login = (): React.ReactNode => {
             <div className="text-center lg:text-left">
                 <h1 className="text-5xl font-bold">Login now!</h1>
                 <p className="py-6">
-                Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                quasi. In deleniti eaque aut repudiandae et a id nisi.
+                Take a deep breath, log in, and step into a space where your ideas can run wild and free. Welcome back! --ChatGPT
                 </p>
             </div>
             <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">

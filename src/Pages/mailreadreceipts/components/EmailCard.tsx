@@ -12,7 +12,7 @@ const EmailCard = ({ _id }: {_id: string}) => {
     }
     const email = useAppSelector(state => state.mailredreceipts.emails).find(e => e._id === _id) as ReceiptEmailSchema;
     return(
-        <div className="indicator m-5">
+        <div className="indicator">
             {email.newInvokeCount>0&&(<span className="indicator-item badge badge-primary text-lg font-bold">{email.newInvokeCount}</span>)}
             <div className="card bg-base-200 w-96 shadow-xl">
                 <div className="card-body">
