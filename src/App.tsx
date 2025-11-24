@@ -1,12 +1,6 @@
-import ToastProvider from "./Components/ToastProvider";
-import Router from "./Router";
+import Portfolio from "./Pages/Prortfolio";
 
 const App = () => {
-  return (
-    <ToastProvider>
-      <Router /> 
-    </ToastProvider>
-  )
-  
-}
+    return <Portfolio />;
+};
 export default App;
