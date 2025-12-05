@@ -1,5 +1,5 @@
 import ToastProvider from "./Components/ToastProvider";
-import Portfolio from "./Pages/Prortfolio";
+// import Portfolio from "./Pages/Prortfolio";
 import Router from "./Router";
 
 const App = () => {
